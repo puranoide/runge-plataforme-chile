@@ -57,11 +57,64 @@ function actualizarCamion($con, $id, $descripcioncamion, $placa, $cubicaje, $est
     }
 }
 
+function eliminadoLogicoCamion($con, $id)
+{
+    $mensaje = '';
+    $sqlEliminadoLogicoCamiones = "UPDATE camion SET estado=2
+    WHERE camionId=$id;";
+
+    $ejecutar = mysqli_query($con, $sqlEliminadoLogicoCamiones);
+
+    if ($ejecutar) {
+
+        $mensaje = 'camion eliminado con exito,ID del camion eliminado es : ' . $id;
+        return $mensaje;
+    } else {
+        $mensaje = 'camion no se pudo eliminar,intentelo de nuevo o contacte con soporte';
+        return $mensaje;
+    }
+}
+
 function listarCamionesPorId($con,$id)
 {
     $mensaje = "no hay camiones que coinciden con este id: ".$id;
     $camiones = [];
     $sqlCamiones = "SELECT* from camion WHERE camionId=$id;";
+    $resultcamiones = $con->query($sqlCamiones);
+
+    if ($resultcamiones->num_rows > 0) {
+        while ($rowCamiones = $resultcamiones->fetch_assoc()) {
+            $camiones[] = $rowCamiones;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $camiones;
+}
+function listarCamionesActivos($con)
+{
+    $mensaje = "Actualmente no hay camiones activos";
+    $camiones = [];
+    $sqlCamiones = "SELECT* from camion WHERE estado=1;";
+    $resultcamiones = $con->query($sqlCamiones);
+
+    if ($resultcamiones->num_rows > 0) {
+        while ($rowCamiones = $resultcamiones->fetch_assoc()) {
+            $camiones[] = $rowCamiones;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $camiones;
+}
+
+function listarCamionesinActivos($con)
+{
+    $mensaje = "Actualmente no hay camiones activos";
+    $camiones = [];
+    $sqlCamiones = "SELECT* from camion WHERE estado=2;";
     $resultcamiones = $con->query($sqlCamiones);
 
     if ($resultcamiones->num_rows > 0) {
@@ -97,5 +150,24 @@ echo $camionagreagdo;
 
 $camionagreagdo=actualizarCamion($conexion,1,'prueba de ingreso por funcion-actualizada','L1234',30,2);
 echo $camionagreagdo;
+
+$camionagreagdo=agregarCamion($conexion,'prueba de ingreso por funcion-2','L4321',50);
+echo $camionagreagdo;
+
+$camionagreagdo=eliminadoLogicoCamion($conexion,1);
+echo $camionagreagdo;
+
+$resultado=listarCamionesActivos($conexion);
+
+echo '<pre>';
+print_r ($resultado);
+echo '</pre>';
+
+
+$resultado=listarCamionesinActivos($conexion);
+
+echo '<pre>';
+print_r ($resultado);
+echo '</pre>';
 
 */
