@@ -41,24 +41,53 @@ function agregarConductores($con, $completename, $iduser)
     }
 }
 
+function actualizarConductores($con,$id,$completename){
+    $mensaje = '';
+    $sqlupdateConductor ="UPDATE conductor SET completenameconductor='$completename'
+     WHERE idconductor=$id;";
+
+    $ejecutar = mysqli_query($con, $sqlupdateConductor);
+
+    if ($ejecutar) {
+        $mensaje = 'conductor actualizado con exito,ID del conductor actualizado: ' . $id;
+        return $mensaje;
+    } else {
+        $mensaje = 'conductor no se pudo actualizar,intentelo de nuevo o contacte con soporte';
+        return $mensaje;
+    }
+}
+
+function listarconductoresPorId($con,$id){
+    $mensaje = "no hay conductores registrados con el id :".$id;
+    $usuarios = [];
+    $sqlUsarios = "SELECT* from conductor WHERE idconductor=$id;";
+    $resultUsuarios = $con->query($sqlUsarios);
+
+    if ($resultUsuarios->num_rows > 0) {
+        while ($rowUsuarios = $resultUsuarios->fetch_assoc()) {
+            $usuarios[] = $rowUsuarios;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $usuarios;
+}
+
+
+
+
+/* 
+
 $resultados=listarconductores($conexion);
 
 echo '<pre>';
 print_r ($resultados);
 echo '</pre>';
 
-/* 
 
-$resultados=listarUsuarios($conexion);
-
-echo '<pre>';
-print_r ($resultados);
-echo '</pre>';
-
-
-
-$resultados=listarUsuariosporid($conexion,1);
-
+$resultados=listarconductoresPorId($conexion,6);
+echo gettype($resultados);
 echo '<pre>';
 print_r ($resultados);
 echo '</pre>';
@@ -67,7 +96,7 @@ $resultado=agregarConductores($conexion,'edgar macedo',2);
 echo $resultado;
 
 
-$resultado=actualizarUsuario($conexion,3,'pruebaconfuncion@gmail.com','pruebafuncion1234',2,'pruebaFuncionactualizada','');
+$resultado=actualizarConductores($conexion,5,'edgar actualizado');
 echo $resultado;
 
 */
