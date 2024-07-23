@@ -72,7 +72,11 @@ function actualizarUsuario($con,$id, $correo, $userpass, $rol,$username,$fotorut
 }
 
 
+$resultados=listarUsuariosporid($conexion,2);
 
+echo '<pre>';
+print_r ($resultados);
+echo '</pre>';
 
 
 /* 
