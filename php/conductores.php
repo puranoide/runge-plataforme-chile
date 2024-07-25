@@ -100,3 +100,4 @@ $resultado=actualizarConductores($conexion,5,'edgar actualizado');
 echo $resultado;
 
 */
+?>
