@@ -1,6 +1,6 @@
 <?php
 
-include_once('conection.php');
+
 
 function listarUsuarios($con){
     $mensaje = "no hay usuarios registrados";

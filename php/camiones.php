@@ -1,5 +1,5 @@
 <?php
-include_once('conection.php');
+
 
 
 function listarCamiones($con)

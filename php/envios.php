@@ -1,0 +1,86 @@
+<?php
+include_once('conection.php');
+
+function listEnvios($con){
+    $mensaje = "no hay envios registrados";
+    $gestores = [];
+    $sqlconductores = "SELECT * from envios";
+    $resultConductores = $con->query($sqlconductores);
+
+    if ($resultConductores->num_rows > 0) {
+        while ($rowConductores = $resultConductores->fetch_assoc()) {
+            $gestores[] = $rowConductores;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $gestores;
+}
+
+function listarEnvioPorId($con,$id){
+    $mensaje = "no hay envios registrados con el id :".$id;
+    $usuarios = [];
+    $sqlUsarios = "SELECT* from envios WHERE idEnvio=$id;";
+    $resultUsuarios = $con->query($sqlUsarios);
+
+    if ($resultUsuarios->num_rows > 0) {
+        while ($rowUsuarios = $resultUsuarios->fetch_assoc()) {
+            $usuarios[] = $rowUsuarios;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $usuarios;
+
+}
+
+function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente)
+{
+    $date = new DateTime();
+    $date->modify('-7 hours');
+    $dateFormat = $date->format('Y-m-d H:i:s');
+    $mensaje = '';
+    $sqlAddenvios = "INSERT INTO envios (fechaRegistrada,estadoEnvio,idConductorFk,idCamionFk,idClienteFk)
+                    VALUES('$dateFormat',1,'$conductor','$idCamion','$idCliente')";
+    $ejecutar = mysqli_query($con, $sqlAddenvios);
+
+    if ($ejecutar) {
+        $idconductor = mysqli_insert_id($con);
+        $mensaje = 'gestor agregado con exito,ID del gestor agregado: ' . $idconductor;
+        return $idconductor;
+    } else {
+        $mensaje = 'gestor no se pudo agregar,intentelo de nuevo o contacte con soporte';
+        return $mensaje;
+    }
+}
+
+
+
+
+/*
+
+
+$resultados=listEnvios($conexion);
+
+echo '<pre>';
+print_r ($resultados);
+echo '</pre>';
+
+$resultado=agregarEnviosParteUno($conexion,4,1,1);
+echo gettype($resultado);
+echo $resultado;
+
+
+$resultados=listarEnvioPorId($conexion,8);
+
+echo '<pre>';
+print_r ($resultados);
+echo '</pre>';
+
+*/
+
+
+?>
+
