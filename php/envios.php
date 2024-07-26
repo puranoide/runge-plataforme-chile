@@ -56,6 +56,46 @@ function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente)
     }
 }
 
+function ActualizarEnvios($con,$id, $conductor, $idCamion, $idCliente,$estadoEnvio,$comentario,$rutaFotoEnvio){
+    if($estadoEnvio==2){
+        $date = new DateTime();
+        $date->modify('-7 hours');
+        $dateFormat = $date->format('Y-m-d H:i:s');
+        $mensaje = '';
+        $sqlupdateConductor ="UPDATE envios SET idConductorFk='$conductor',idCamionFk='$idCamion',idClienteFk='$idCliente',fechaInicio='$dateFormat',estadoEnvio='$estadoEnvio',comentarioEnvio='$comentario',rutaFotoEnvio='$rutaFotoEnvio'
+         WHERE idEnvio=$id;";
+    
+        $ejecutar = mysqli_query($con, $sqlupdateConductor);
+    
+        if ($ejecutar) {
+            $mensaje = 'gestor actualizado con exito,ID del gestor actualizado: ' . $id;
+            return $mensaje;
+        } else {
+            $mensaje = 'gestor no se pudo actualizar,intentelo de nuevo o contacte con soporte';
+            return $mensaje;
+        }
+    }else if($estadoEnvio==3){
+        $date = new DateTime();
+        $date->modify('-7 hours');
+        $dateFormat = $date->format('Y-m-d H:i:s');
+        $mensaje = '';
+        $sqlupdateConductor ="UPDATE envios SET idConductorFk='$conductor',idCamionFk='$idCamion',idClienteFk='$idCliente',fechaFinal='$dateFormat',estadoEnvio='$estadoEnvio',comentarioEnvio='$comentario',rutaFotoEnvio='$rutaFotoEnvio'
+         WHERE idEnvio=$id;";
+    
+        $ejecutar = mysqli_query($con, $sqlupdateConductor);
+    
+        if ($ejecutar) {
+            $mensaje = 'gestor actualizado con exito,ID del gestor actualizado: ' . $id;
+            return $mensaje;
+        } else {
+            $mensaje = 'gestor no se pudo actualizar,intentelo de nuevo o contacte con soporte';
+            return $mensaje;
+        }
+    }
+
+   
+
+}
 
 
 
@@ -79,7 +119,12 @@ echo '<pre>';
 print_r ($resultados);
 echo '</pre>';
 
+$resultado=ActualizarEnvios($conexion,4,4,1,1,2,'prueba Comentario','');
+echo gettype($resultado);
+echo $resultado;
 */
+
+
 
 
 ?>
