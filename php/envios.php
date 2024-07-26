@@ -97,12 +97,85 @@ function ActualizarEnvios($con,$id, $conductor, $idCamion, $idCliente,$estadoEnv
 
 }
 
+function listEnviosActivos($con){
+    $mensaje = "no hay envios activos";
+    $gestores = [];
+    $sqlconductores = "SELECT * from envios WHERE estadoEnvio=1";
+    $resultConductores = $con->query($sqlconductores);
+
+    if ($resultConductores->num_rows > 0) {
+        while ($rowConductores = $resultConductores->fetch_assoc()) {
+            $gestores[] = $rowConductores;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $gestores;
+}
+
+function listEnviosIniciados($con){
+    $mensaje = "no hay envios activos";
+    $gestores = [];
+    $sqlconductores = "SELECT * from envios WHERE estadoEnvio=2";
+    $resultConductores = $con->query($sqlconductores);
+
+    if ($resultConductores->num_rows > 0) {
+        while ($rowConductores = $resultConductores->fetch_assoc()) {
+            $gestores[] = $rowConductores;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $gestores;
+}
+
+function listEnviosTerminado($con){
+    $mensaje = "no hay envios activos";
+    $gestores = [];
+    $sqlconductores = "SELECT * from envios WHERE estadoEnvio=3";
+    $resultConductores = $con->query($sqlconductores);
+
+    if ($resultConductores->num_rows > 0) {
+        while ($rowConductores = $resultConductores->fetch_assoc()) {
+            $gestores[] = $rowConductores;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $gestores;
+}
+
+
+
 
 
 /*
 
 
 $resultados=listEnvios($conexion);
+
+echo '<pre>';
+print_r ($resultados);
+echo '</pre>';
+
+
+$resultados=listEnviosActivos($conexion);
+
+echo '<pre>';
+print_r ($resultados);
+echo '</pre>';
+
+$resultados=listEnviosIniciados($conexion);
+
+echo '<pre>';
+print_r ($resultados);
+echo '</pre>';
+
+
+$resultados=listEnviosTerminado($conexion);
 
 echo '<pre>';
 print_r ($resultados);
