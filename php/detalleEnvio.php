@@ -1,11 +1,15 @@
 <?php
 
+$idEnvio=$_POST['idEnvio'];
+
 include_once('conection.php');
 include_once('camiones.php');
 include_once('envios.php');
 include_once('conductores.php');
 include_once('clientes.php');
-$envios=listEnvios($conexion);
+include_once('sucursalesSubclientes.php');
+$envios=listarEnvioPorId($conexion,$idEnvio);
+$listadosucursalesporenvio=listarSubSucursalPorIdEnvio($conexion,$idEnvio);
 
 ?>
 
@@ -186,7 +190,8 @@ $envios=listEnvios($conexion);
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <table class="table">
+                <h1>Pedido:</h1>
+                <table class="table">
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
@@ -253,15 +258,63 @@ $envios=listEnvios($conexion);
                             }}else if($tipodeRespuesta=='string'){
                                 echo $subSucursales;
                             }
-                          
+                            
                         
                             
                             ?>
                         
                          
                         </tbody>
-                    </table>
+                </table>
+                
+                <h1>Sucursales de subclientes para envio:</h1>
+                
+                <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">nombre subcliente</th>
+                                <th scope="col">direccion</th>
+                                <th scope="col">cliente principal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                                
+                                $tipodeRespuestasubsucursal=gettype($listadosucursalesporenvio);
+                                if($tipodeRespuestasubsucursal =='array'){
+                                foreach ($listadosucursalesporenvio as $subsucursallist) {
 
+                                $cliente=listarClientesPorId($conexion,$subsucursallist['idClienteFk']);
+                                echo '
+                                
+                                <tr>
+                                <th scope="row">'.$subsucursallist['idSucusalesSubClientes'].'</th>
+                                <td>'.$subsucursallist['nombreSubcliente'].'</td>
+                                <td>'.$subsucursallist['direccionSubCliente'].'</td>
+                                <td>'.$cliente[0]['nombreCliente'].'</td>
+                                <td>
+                                <form action="detalleEnvio" method="POST">
+                                <input type="hidden" id="linkFoto" name="idEnvio" value="'.$envio['idEnvio'].'" />
+                                <button type="submit" class="btn btn-success">Detalles</button>
+                                </form>
+                                </td>
+                                 </tr>
+                                
+                                ';
+                            }}else if($tipodeRespuestasubsucursal=='string'){
+                                echo $listadosucursalesporenvio;
+                            }
+                            
+                        
+                            
+                            ?>
+                        
+                         
+                        </tbody>
+                </table>
+                
+                
                 </div>
                 <!-- /.container-fluid -->
 
