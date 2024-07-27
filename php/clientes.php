@@ -1,7 +1,6 @@
 <?php
 
 
-include_once('conection.php');
 
 function listarClientes($con){
 

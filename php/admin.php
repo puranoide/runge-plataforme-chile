@@ -74,7 +74,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">manejo de envios</h6>
                         <a class="collapse-item" href="login.html">Ver envios</a>
-                        <a class="collapse-item" href="AgregarEnvioView">Agregar envio</a>
+                        <a class="collapse-item" href="viewAgregarEnvio">Agregar envio</a>
                         <a class="collapse-item" href="forgot-password.html">editar envio</a>
                     </div>
                 </div>

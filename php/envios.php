@@ -1,5 +1,5 @@
 <?php
-include_once('conection.php');
+
 
 function listEnvios($con){
     $mensaje = "no hay envios registrados";
@@ -36,14 +36,14 @@ function listarEnvioPorId($con,$id){
 
 }
 
-function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente)
+function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente,$codigoEnvio)
 {
     $date = new DateTime();
     $date->modify('-7 hours');
     $dateFormat = $date->format('Y-m-d H:i:s');
     $mensaje = '';
-    $sqlAddenvios = "INSERT INTO envios (fechaRegistrada,estadoEnvio,idConductorFk,idCamionFk,idClienteFk)
-                    VALUES('$dateFormat',1,'$conductor','$idCamion','$idCliente')";
+    $sqlAddenvios = "INSERT INTO envios (fechaRegistrada,estadoEnvio,idConductorFk,idCamionFk,idClienteFk,codigoEnvio)
+                    VALUES('$dateFormat',1,'$conductor','$idCamion','$idCliente','$codigoEnvio')";
     $ejecutar = mysqli_query($con, $sqlAddenvios);
 
     if ($ejecutar) {
