@@ -1,15 +1,20 @@
 <?php
-
 include_once('conection.php');
-include_once('camiones.php');
-include_once('envios.php');
 include_once('conductores.php');
 include_once('clientes.php');
-$envios=listEnvios($conexion);
+include_once('camiones.php');
+include_once('envios.php');
 
+$idenvio=$_POST['idEnvio'];
+$envio=listarEnvioPorId($conexion,$idenvio);
+
+$conductorPorId=listarconductoresPorId($conexion,$envio[0]['idConductorFk']);
+$camionPorId=listarCamionesPorId($conexion,$envio[0]['idCamionFk']);
+$clientePorId=listarClientesPorId($conexion,$envio[0]['idClienteFk']);
+$conductores = listarconductores($conexion);
+$camiones = listarCamiones($conexion);
+$clientes = listarClientes($conexion);
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -186,89 +191,54 @@ $envios=listEnvios($conexion);
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">id</th>
-                                <th scope="col">codigo</th>
-                                <th scope="col">camion</th>
-                                <th scope="col">conductor</th>
-                                <th scope="col">cliente</th>
-                                <th scope="col">registrado</th>
-                                <th scope="col">inicio</th>
-                                <th scope="col">final</th>
-                                <th scope="col">estado</th>
-                                <th scope="col">comentario</th>
-                                <th scope="col">foto</th>
-                                <th scope="col">monto</th>
-                                <th scope="col">bono conductor</th>
-                                <th scope="col">bono peoneta</th>
-                                <th scope="col">detalles</th>
-                                <th scope="col">editar</th>
-                            
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                                
-                                $tipodeRespuesta=gettype($envios);
-                                if($tipodeRespuesta =='array'){
-                                foreach ($envios as $envio) {
-                                $estadoString='';
-                                if ($envio['estadoEnvio']==1) {
-                                    $estadoString='Activo';
-                                }else if($envio['estadoEnvio']==2){
-                                    $estadoString='iniciado';
-                                }else if($envio['estadoEnvio']==3){
-                                    $estadoString='terminado';
-                                }
-                                $camion=listarCamionesPorId($conexion,$envio['idCamionFk']);
-                                $conductor=listarconductoresPorId($conexion,$envio['idConductorFk']);
-                                $cliente=listarClientesPorId($conexion,$envio['idClienteFk']);
-                                echo '
-                                
-                                <tr>
-                                <th scope="row">'.$envio['idEnvio'].'</th>
-                                <td>'.$envio['codigoEnvio'].'</td>
-                                <td>'.$camion[0]['placaCamion'].'</td>
-                                <td>'.$conductor[0]['completenameconductor'].'</td>
-                                <td>'.$cliente[0]['nombreCliente'].'</td>
-                                <td>'.$envio['fechaRegistrada'].'</td>
-                                <td>'.$envio['fechaInicio'].'</td>
-                                <td>'.$envio['fechaFinal'].'</td>
-                                <td>'.$estadoString.'</td>
-                                <td>'.$envio['comentarioEnvio'].'</td>
-                                <td>'.$envio['rutaFotoEnvio'].'</td>
-                                <td>'.$envio['montoViaje'].'</td>
-                                <td>'.$envio['bonoConductor'].'</td>
-                                <td>'.$envio['bonoPeoneta'].'</td>
-                                <td>
-                                <form action="detalleEnvio" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="'.$envio['idEnvio'].'" />
-                                <button type="submit" class="btn btn-success">Ver</button>
-                                </form>
-                                </td>
-                                 <td>
-                                <form action="editarEnvioView" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="'.$envio['idEnvio'].'" />
-                                <button type="submit" class="btn btn-warning">editar</button>
-                                </form>
-                                </td>
-                                 </tr>
-                                
-                                ';
-                            }}else if($tipodeRespuesta=='string'){
-                                echo $subSucursales;
-                            }
-                          
-                        
-                            
-                            ?>
-                        
-                         
-                        </tbody>
-                    </table>
 
+                    <form action="ViewAgregarSucursales" method="POST">
+
+
+                        <div data-mdb-input-init class="form-outline form-white mb-4">
+                            <label class="form-label text-dark" for="linkFoto">Codigo de pedido</label>
+                            <input type="text" id="linkFoto" class="form-control form-control-lg" name="codigoEnvio" value="<?php echo $envio[0]['codigoEnvio']?>"  required pattern="\S.*" />
+
+                        </div>
+
+                        <div data-mdb-input-init class="form-outline form-white mb-4">
+                            <label class="form-label text-dark" for="linkFoto">Conductores</label>
+                            <select class="form-select" aria-label="Default select example" name="conductorSeleccionado" required>
+                                <option value="<?php echo $conductorPorId[0]['idconductor']?>" selected><?php echo $conductorPorId[0]['completenameconductor']?> </option>
+                                <?php
+                                foreach ($conductores as $conductor) {
+                                    echo '<option value="' . $conductor['idconductor'] . '">' . $conductor['completenameconductor'] . '</option>';
+                                }
+
+                                ?>
+                            </select>
+                        </div>
+                        <div data-mdb-input-init class="form-outline form-white mb-4">
+                            <label class="form-label text-dark" for="linkFoto">Camiones</label>
+                            <select class="form-select" aria-label="Default select example" name="camionSeleccionado" required>
+                                <option value="<?php echo $camionPorId[0]['camionId']?>" selected><?php echo $camionPorId[0]['placaCamion']?></option>
+                                <?php
+                                foreach ($camiones as $camion) {
+                                    echo '<option value="' . $camion['camionId'] . '">' . $camion['placaCamion'] . '</option>';
+                                }
+
+                                ?>
+                            </select>
+                        </div>
+                        <div data-mdb-input-init class="form-outline form-white mb-4">
+                            <label class="form-label text-dark" for="linkFoto">clientes</label>
+                            <select class="form-select" aria-label="Default select example" name="clienteSeleccionado" required>
+                            <option value="<?php echo $clientePorId[0]['clienteId']?>" selected><?php echo $clientePorId[0]['nombreCliente']?></option>
+                                <?php
+                                foreach ($clientes as $cliente) {
+                                    echo '<option value="' . $cliente['clienteId'] . '">' . $cliente['nombreCliente'] . '</option>';
+                                }
+
+                                ?>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success">Success</button>
+                    </form>
                 </div>
                 <!-- /.container-fluid -->
 
