@@ -5,12 +5,12 @@ include_once('clientes.php');
 include_once('camiones.php');
 include_once('envios.php');
 
-$idenvio=$_POST['idEnvio'];
-$envio=listarEnvioPorId($conexion,$idenvio);
+$idenvio = $_POST['idEnvio'];
+$envio = listarEnvioPorId($conexion, $idenvio);
 
-$conductorPorId=listarconductoresPorId($conexion,$envio[0]['idConductorFk']);
-$camionPorId=listarCamionesPorId($conexion,$envio[0]['idCamionFk']);
-$clientePorId=listarClientesPorId($conexion,$envio[0]['idClienteFk']);
+$conductorPorId = listarconductoresPorId($conexion, $envio[0]['idConductorFk']);
+$camionPorId = listarCamionesPorId($conexion, $envio[0]['idCamionFk']);
+$clientePorId = listarClientesPorId($conexion, $envio[0]['idClienteFk']);
 $conductores = listarconductores($conexion);
 $camiones = listarCamiones($conexion);
 $clientes = listarClientes($conexion);
@@ -194,17 +194,17 @@ $clientes = listarClientes($conexion);
 
                     <form action="ViewAgregarSucursales" method="POST">
 
-
+                    <input type="hidden" id="linkFoto" name="idEnvio" value="<?php echo $idenvio ?>" />
                         <div data-mdb-input-init class="form-outline form-white mb-4">
                             <label class="form-label text-dark" for="linkFoto">Codigo de pedido</label>
-                            <input type="text" id="linkFoto" class="form-control form-control-lg" name="codigoEnvio" value="<?php echo $envio[0]['codigoEnvio']?>"  required pattern="\S.*" />
+                            <input type="text" id="linkFoto" class="form-control form-control-lg" name="codigoEnvio" value="<?php echo $envio[0]['codigoEnvio'] ?>" required pattern="\S.*" />
 
                         </div>
 
                         <div data-mdb-input-init class="form-outline form-white mb-4">
                             <label class="form-label text-dark" for="linkFoto">Conductores</label>
                             <select class="form-select" aria-label="Default select example" name="conductorSeleccionado" required>
-                                <option value="<?php echo $conductorPorId[0]['idconductor']?>" selected><?php echo $conductorPorId[0]['completenameconductor']?> </option>
+                                <option value="<?php echo $conductorPorId[0]['idconductor'] ?>" selected><?php echo $conductorPorId[0]['completenameconductor'] ?> </option>
                                 <?php
                                 foreach ($conductores as $conductor) {
                                     echo '<option value="' . $conductor['idconductor'] . '">' . $conductor['completenameconductor'] . '</option>';
@@ -216,7 +216,7 @@ $clientes = listarClientes($conexion);
                         <div data-mdb-input-init class="form-outline form-white mb-4">
                             <label class="form-label text-dark" for="linkFoto">Camiones</label>
                             <select class="form-select" aria-label="Default select example" name="camionSeleccionado" required>
-                                <option value="<?php echo $camionPorId[0]['camionId']?>" selected><?php echo $camionPorId[0]['placaCamion']?></option>
+                                <option value="<?php echo $camionPorId[0]['camionId'] ?>" selected><?php echo $camionPorId[0]['placaCamion'] ?></option>
                                 <?php
                                 foreach ($camiones as $camion) {
                                     echo '<option value="' . $camion['camionId'] . '">' . $camion['placaCamion'] . '</option>';
@@ -228,7 +228,7 @@ $clientes = listarClientes($conexion);
                         <div data-mdb-input-init class="form-outline form-white mb-4">
                             <label class="form-label text-dark" for="linkFoto">clientes</label>
                             <select class="form-select" aria-label="Default select example" name="clienteSeleccionado" required>
-                            <option value="<?php echo $clientePorId[0]['clienteId']?>" selected><?php echo $clientePorId[0]['nombreCliente']?></option>
+                                <option value="<?php echo $clientePorId[0]['clienteId'] ?>" selected><?php echo $clientePorId[0]['nombreCliente'] ?></option>
                                 <?php
                                 foreach ($clientes as $cliente) {
                                     echo '<option value="' . $cliente['clienteId'] . '">' . $cliente['nombreCliente'] . '</option>';
@@ -236,6 +236,27 @@ $clientes = listarClientes($conexion);
 
                                 ?>
                             </select>
+                        </div>
+                        <div data-mdb-input-init class="form-outline form-white mb-4">
+                        <label class="form-label text-dark" for="linkFoto">estado</label>
+                        <select class="form-select" aria-label="Default select example" name="estadoEnvio" required>
+                        <?php
+                            $estadoString = '';
+                            if ($envio[0]['estadoEnvio'] == 1) {
+                                $estadoString = 'Activo';
+                            } else if ($envio[0]['estadoEnvio'] == 2) {
+                                $estadoString = 'iniciado';
+                            } else if ($envio[0]['estadoEnvio'] == 3) {
+                                $estadoString = 'terminado';
+                            }
+                            echo $estadoString;
+
+                            ?>
+                        <option value="<?php echo $envio[0]['estadoEnvio'] ?>" selected><?php echo $estadoString?></option>
+                        <option value="1" >activo</option>
+                        <option value="2" >iniciado</option>
+                        <option value="3" >terminado</option>
+
                         </div>
                         <button type="submit" class="btn btn-success">Success</button>
                     </form>
