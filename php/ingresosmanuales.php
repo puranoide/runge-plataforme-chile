@@ -1,6 +1,6 @@
 <?php
 
-include_once('conection.php');
+
 
 
 function listaringresosManuales($con){
@@ -40,13 +40,20 @@ function agregarIngresosManuales($con, $descripcion, $monto)
 }
 function sumatoriaIngresosManuales($listaIngresosManuales){
     
-    $resultados=$listaIngresosManuales;
     $total=0;
-    foreach ($resultados as $ingreso) { 
-        # code...
-        $total+=$ingreso['monto'];
-
+    $resultados=$listaIngresosManuales;
+    $tipoderepuesta=gettype($resultados);
+    if($tipoderepuesta=="array"){
+        $total=0;
+        foreach ($resultados as $ingreso) { 
+            # code...
+            $total+=$ingreso['monto'];
+    
+        }
+    }else if($tipoderepuesta=="string"){
+        $total=0;
     }
+   
     return $total;
 
 }

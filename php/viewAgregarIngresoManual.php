@@ -1,12 +1,5 @@
 <?php
-include_once('conection.php');
-include_once('conductores.php');
-include_once('clientes.php');
-include_once('camiones.php');
 
-$conductores = listarconductores($conexion);
-$camiones = listarCamiones($conexion);
-$clientes = listarClientes($conexion);
 ?>
 
 <!DOCTYPE html>
@@ -200,51 +193,20 @@ $clientes = listarClientes($conexion);
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <form action="ViewAgregarSucursales" method="POST">
+                    <form action="agregarRedirectingresomanual" method="POST">
 
 
                         <div data-mdb-input-init class="form-outline form-white mb-4">
-                            <label class="form-label text-dark" for="linkFoto">Codigo de pedido</label>
-                            <input type="text" id="linkFoto" class="form-control form-control-lg" name="codigoEnvio"  required pattern="\S.*" />
+                            <label class="form-label text-dark" for="linkFoto">Descripción del ingreso</label>
+                            <input type="text" id="linkFoto" class="form-control form-control-lg" name="descripcionIngresoManual"  required pattern="\S.*" />
 
-                        </div>
-
-                        <div data-mdb-input-init class="form-outline form-white mb-4">
-                            <label class="form-label text-dark" for="linkFoto">Conductores</label>
-                            <select class="form-select" aria-label="Default select example" name="conductorSeleccionado" required>
-                                <option value="" selected>Selecciona un conductor</option>
-                                <?php
-                                foreach ($conductores as $conductor) {
-                                    echo '<option value="' . $conductor['idconductor'] . '">' . $conductor['completenameconductor'] . '</option>';
-                                }
-
-                                ?>
-                            </select>
                         </div>
                         <div data-mdb-input-init class="form-outline form-white mb-4">
-                            <label class="form-label text-dark" for="linkFoto">Camiones</label>
-                            <select class="form-select" aria-label="Default select example" name="camionSeleccionado" required>
-                                <option value="" selected>Selecciona un camion</option>
-                                <?php
-                                foreach ($camiones as $camion) {
-                                    echo '<option value="' . $camion['camionId'] . '">' . $camion['placaCamion'] . '</option>';
-                                }
+                            <label class="form-label text-dark" for="linkFoto">Monto del ingreso</label>
+                            <input type="number" step=".01"  id="linkFoto" class="form-control form-control-lg" name="montoDescripcionManual"  required pattern="\S.*" />
 
-                                ?>
-                            </select>
                         </div>
-                        <div data-mdb-input-init class="form-outline form-white mb-4">
-                            <label class="form-label text-dark" for="linkFoto">clientes</label>
-                            <select class="form-select" aria-label="Default select example" name="clienteSeleccionado" required>
-                                <option value="" selected>Selecciona un cliente</option>
-                                <?php
-                                foreach ($clientes as $cliente) {
-                                    echo '<option value="' . $cliente['clienteId'] . '">' . $cliente['nombreCliente'] . '</option>';
-                                }
 
-                                ?>
-                            </select>
-                        </div>
                         <button type="submit" class="btn btn-success">Success</button>
                     </form>
                 </div>

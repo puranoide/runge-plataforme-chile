@@ -3,7 +3,7 @@
 include_once('conection.php');
 include_once('ingresosmanuales.php');
 $ingresos=listaringresosManuales($conexion);
-$total=sumatoriaIngresosManuales($ingresos)
+$total=sumatoriaIngresosManuales($ingresos);
 ?>
 
 
@@ -78,6 +78,21 @@ $total=sumatoriaIngresosManuales($ingresos)
                         <a class="collapse-item" href="ViewEnvios">Ver envios</a>
                         <a class="collapse-item" href="viewAgregarEnvio">Agregar envio</a>
                         <a class="collapse-item" href="forgot-password.html">editar envio</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagesingresosManuales"
+                    aria-expanded="true" aria-controls="collapsePagesingresosManuales">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Ingresos</span>
+                </a>
+                <div id="collapsePagesingresosManuales" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">manejo de ingresos</h6>
+                        <a class="collapse-item" href="viewIngresosManuales">Ver ingresos Manuales</a>
+                        <a class="collapse-item" href="viewAgregarIngresoManual">Agregar ingreso manual</a>
+                     
                     </div>
                 </div>
             </li>
@@ -222,7 +237,7 @@ $total=sumatoriaIngresosManuales($ingresos)
                                 
                                 ';
                             }}else if($tipodeRespuesta=='string'){
-                                echo $subSucursales;
+                                echo '<tr><td colspan="5">No se encontraron ingresos manuales.</td></tr>';
                             }
                           
                         
