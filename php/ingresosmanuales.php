@@ -51,16 +51,8 @@ function sumatoriaIngresosManuales($listaIngresosManuales){
 
 }
 
-$resultados=listaringresosManuales($conexion);
 
-echo '<pre>';
-print_r ($resultados);
-echo '</pre>';
 
-$total=sumatoriaIngresosManuales($resultados);
-echo '<pre>';
-print_r ($total);
-echo '</pre>';
 /* 
 
 $resultados=listaringresosManuales($conexion);
@@ -82,6 +74,11 @@ echo $resultado;
 
 $resultado=actualizarConductores($conexion,5,'edgar actualizado');
 echo $resultado;
+
+$total=sumatoriaIngresosManuales($resultados);
+echo '<pre>';
+print_r ($total);
+echo '</pre>';
 
 */
 
