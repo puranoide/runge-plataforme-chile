@@ -1,5 +1,10 @@
 <?php
 
+include_once('conection.php');
+include_once('ingresosmanuales.php');
+$ingresos=listaringresosManuales($conexion);
+$total=sumatoriaIngresosManuales($ingresos);
+
 ?>
 
 <!DOCTYPE html>
@@ -222,7 +227,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Ingresos (Mensuales)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo $total ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -240,7 +245,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Ingresos (anual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo $total?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
