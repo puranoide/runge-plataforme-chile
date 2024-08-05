@@ -1,12 +1,9 @@
 <?php
 
 include_once('conection.php');
-include_once('camiones.php');
-include_once('envios.php');
-include_once('conductores.php');
-include_once('clientes.php');
-$envios=listEnvios($conexion);
-
+include_once('egresosmanuales.php');
+$egresos=listarEgresosManuales($conexion);
+$total=sumatoriaEgresosManuales($egresos);
 ?>
 
 
@@ -114,6 +111,7 @@ $envios=listEnvios($conexion);
                     </div>
                 </div>
             </li>
+        
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagescamiones" aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
@@ -220,19 +218,9 @@ $envios=listEnvios($conexion);
                         <thead>
                             <tr>
                                 <th scope="col">id</th>
-                                <th scope="col">codigo</th>
-                                <th scope="col">camion</th>
-                                <th scope="col">conductor</th>
-                                <th scope="col">cliente</th>
-                                <th scope="col">registrado</th>
-                                <th scope="col">inicio</th>
-                                <th scope="col">final</th>
-                                <th scope="col">estado</th>
-                                <th scope="col">comentario</th>
-                                <th scope="col">foto</th>
+                                <th scope="col">descripcion</th>
                                 <th scope="col">monto</th>
-                                <th scope="col">bono conductor</th>
-                                <th scope="col">bono peoneta</th>
+                                <th scope="col">fechaRegistrada</th>
                                 <th scope="col">detalles</th>
                                 <th scope="col">editar</th>
                             
@@ -240,47 +228,25 @@ $envios=listEnvios($conexion);
                         </thead>
                         <tbody>
                             <?php
-                                
-                                $tipodeRespuesta=gettype($envios);
+                                $tipodeRespuesta=gettype($egresos);
                                 if($tipodeRespuesta =='array'){
-                                foreach ($envios as $envio) {
-                                $estadoString='';
-                                if ($envio['estadoEnvio']==1) {
-                                    $estadoString='Activo';
-                                }else if($envio['estadoEnvio']==2){
-                                    $estadoString='iniciado';
-                                }else if($envio['estadoEnvio']==3){
-                                    $estadoString='terminado';
-                                }
-                                $camion=listarCamionesPorId($conexion,$envio['idCamionFk']);
-                                $conductor=listarconductoresPorId($conexion,$envio['idConductorFk']);
-                                $cliente=listarClientesPorId($conexion,$envio['idClienteFk']);
+                                foreach ($egresos as $egreso) {
                                 echo '
                                 
                                 <tr>
-                                <th scope="row">'.$envio['idEnvio'].'</th>
-                                <td>'.$envio['codigoEnvio'].'</td>
-                                <td>'.$camion[0]['placaCamion'].'</td>
-                                <td>'.$conductor[0]['completenameconductor'].'</td>
-                                <td>'.$cliente[0]['nombreCliente'].'</td>
-                                <td>'.$envio['fechaRegistrada'].'</td>
-                                <td>'.$envio['fechaInicio'].'</td>
-                                <td>'.$envio['fechaFinal'].'</td>
-                                <td>'.$estadoString.'</td>
-                                <td>'.$envio['comentarioEnvio'].'</td>
-                                <td>'.$envio['rutaFotoEnvio'].'</td>
-                                <td>'.$envio['montoViaje'].'</td>
-                                <td>'.$envio['bonoConductor'].'</td>
-                                <td>'.$envio['bonoPeoneta'].'</td>
+                                <th scope="row">'.$egreso['idEgresosManuales'].'</th>
+                                <td>'.$egreso['descripcionEgresosManuales'].'</td>
+                                <td>'.$egreso['montoEgresosManuales'].'</td>
+                                 <td>'.$egreso['fechaRegistrada'].'</td>
                                 <td>
                                 <form action="detalleEnvio" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="'.$envio['idEnvio'].'" />
+                                <input type="hidden" id="linkFoto" name="idEnvio" value="'.$egreso['idEgresosManuales'].'" />
                                 <button type="submit" class="btn btn-success">Ver</button>
                                 </form>
                                 </td>
                                  <td>
                                 <form action="editarEnvioView" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="'.$envio['idEnvio'].'" />
+                                <input type="hidden" id="linkFoto" name="idEnvio" value="'.$egreso['idEgresosManuales'].'" />
                                 <button type="submit" class="btn btn-warning">editar</button>
                                 </form>
                                 </td>
@@ -288,7 +254,7 @@ $envios=listEnvios($conexion);
                                 
                                 ';
                             }}else if($tipodeRespuesta=='string'){
-                                echo $subSucursales;
+                                echo '<tr><td colspan="5">No se encontraron ingresos manuales.</td></tr>';
                             }
                           
                         
@@ -298,7 +264,7 @@ $envios=listEnvios($conexion);
                          
                         </tbody>
                     </table>
-
+                    <h2><?php echo $total?></h2>
                 </div>
                 <!-- /.container-fluid -->
 

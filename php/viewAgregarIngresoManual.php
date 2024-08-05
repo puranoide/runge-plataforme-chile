@@ -91,6 +91,21 @@
                 </div>
             </li>
             <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagesEgresosManuales"
+                    aria-expanded="true" aria-controls="collapsePagesingresosManuales">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Egresos</span>
+                </a>
+                <div id="collapsePagesEgresosManuales" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">manejo de ingresos</h6>
+                        <a class="collapse-item" href="viewEgresosManuales">Ver egresos Manuales</a>
+                        <a class="collapse-item" href="viewAgregarEgresoManual">Agregar egresos manual</a>
+                     
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagescamiones" aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>Camiones</span>
