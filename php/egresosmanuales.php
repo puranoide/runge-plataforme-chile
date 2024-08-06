@@ -19,7 +19,7 @@ function listarEgresosManuales($con){
     return $usuarios;
 }
 
-function agregarIngresosManuales($con, $descripcion, $monto)
+function agregaregresosManuales($con, $descripcion, $monto)
 {
     $date = new DateTime();
     $date->modify('-7 hours');
@@ -59,7 +59,6 @@ function sumatoriaEgresosManuales($listarEgresosanuales){
 
 }
 
-$resultados=listarEgresosManuales($conexion);
 
 
 
@@ -79,7 +78,7 @@ echo '<pre>';
 print_r ($resultados);
 echo '</pre>';
 
-$resultado=agregarIngresosManuales($conexion,'prueba de engreso 2',30.23);
+$resultado=agregaregresosManuales($conexion,'prueba de engreso 2',30.23);
 echo $resultado;
 
 
