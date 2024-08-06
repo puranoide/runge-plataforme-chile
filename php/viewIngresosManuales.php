@@ -220,7 +220,7 @@ $total=sumatoriaIngresosManuales($ingresos);
                                 <th scope="col">id</th>
                                 <th scope="col">descripcion</th>
                                 <th scope="col">monto</th>
-                         
+                                <th scope="col">fecha de ingreso</th>
                                 <th scope="col">detalles</th>
                                 <th scope="col">editar</th>
                             
@@ -237,6 +237,7 @@ $total=sumatoriaIngresosManuales($ingresos);
                                 <th scope="row">'.$ingreso['idIngresosManuales'].'</th>
                                 <td>'.$ingreso['descripcionIngresosManuales'].'</td>
                                 <td>'.$ingreso['monto'].'</td>
+                                <td>'.$ingreso['fechaIngresoManual'].'</td>
                                 <td>
                                 <form action="detalleEnvio" method="POST">
                                 <input type="hidden" id="linkFoto" name="idEnvio" value="'.$ingreso['idIngresosManuales'].'" />

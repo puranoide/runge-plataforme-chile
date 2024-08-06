@@ -2,7 +2,8 @@
 
 
 
-function listarEgresosManuales($con){
+function listarEgresosManuales($con)
+{
     $mensaje = "no hay Egresos manuales registrados";
     $usuarios = [];
     $sqlUsarios = "SELECT* from egresosmanuales;";
@@ -39,27 +40,95 @@ function agregaregresosManuales($con, $descripcion, $monto)
         return $mensaje;
     }
 }
-function sumatoriaEgresosManuales($listarEgresosanuales){
-    
-    $total=0;
-    $resultados=$listarEgresosanuales;
-    $tipoderepuesta=gettype($resultados);
-    if($tipoderepuesta=="array"){
-        $total=0;
-        foreach ($resultados as $egreso) { 
-            # code...
-            $total+=$egreso['montoEgresosManuales'];
-    
-        }
-    }else if($tipoderepuesta=="string"){
-        $total=0;
-    }
-   
-    return $total;
+function sumatoriaEgresosManuales($listarEgresosmanuales)
+{
 
+    $total = 0;
+    $resultados = $listarEgresosmanuales;
+    $tipoderepuesta = gettype($resultados);
+    if ($tipoderepuesta == "array") {
+        $total = 0;
+        foreach ($resultados as $egreso) {
+            # code...
+            $total += $egreso['montoEgresosManuales'];
+        }
+    } else if ($tipoderepuesta == "string") {
+        $total = 0;
+    }
+
+    return $total;
 }
 
+function egresosMensuales($con)
+{
+    $mensaje = "no hay Egresos manuales registrados";
+    $usuarios = [];
+    $sqlUsarios = "SELECT *
+    FROM egresosmanuales
+    WHERE MONTH(fechaRegistrada) = MONTH(NOW());";
+    $resultUsuarios = $con->query($sqlUsarios);
 
+    if ($resultUsuarios->num_rows > 0) {
+        while ($rowUsuarios = $resultUsuarios->fetch_assoc()) {
+            $usuarios[] = $rowUsuarios;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $usuarios;
+}
+function egresosanuales($con){
+    $mensaje = "no hay Egresos manuales registrados";
+    $usuarios = [];
+    $sqlUsarios = "SELECT *
+    FROM egresosmanuales
+    WHERE YEAR(fechaRegistrada) = YEAR(NOW());";
+    $resultUsuarios = $con->query($sqlUsarios);
+
+    if ($resultUsuarios->num_rows > 0) {
+        while ($rowUsuarios = $resultUsuarios->fetch_assoc()) {
+            $usuarios[] = $rowUsuarios;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $usuarios;
+}
+
+function sumatoriaEgresosManualesMensuales($listaegresosmensuales){
+    $total = 0;
+    $resultados = $listaegresosmensuales;
+    $tipoderepuesta = gettype($resultados);
+    if ($tipoderepuesta == "array") {
+        $total = 0;
+        foreach ($resultados as $egreso) {
+            # code...
+            $total += $egreso['montoEgresosManuales'];
+        }
+    } else if ($tipoderepuesta == "string") {
+        $total = 0;
+    }
+
+    return $total;
+}
+function sumatoriaEgresosManualesAnuales($listaegresosanuales){
+    $total = 0;
+    $resultados = $listaegresosanuales;
+    $tipoderepuesta = gettype($resultados);
+    if ($tipoderepuesta == "array") {
+        $total = 0;
+        foreach ($resultados as $egreso) {
+            # code...
+            $total += $egreso['montoEgresosManuales'];
+        }
+    } else if ($tipoderepuesta == "string") {
+        $total = 0;
+    }
+
+    return $total;
+}
 
 
 /* 
@@ -90,7 +159,21 @@ echo '<pre>';
 print_r ($total);
 echo '</pre>';
 
+$resultados=egresosMensuales($conexion);
+
+echo '<pre>';
+print_r ($resultados);
+echo '</pre>';
+
+$resultados=egresosMensuales($conexion);
+
+echo '<pre>';
+print_r ($resultados);
+echo '</pre>';
+
+$total=sumatoriaEgresosManualesMensuales($resultados);
+echo '<pre>';
+print_r ($total);
+echo '</pre>';
+
 */
-
-
-?>

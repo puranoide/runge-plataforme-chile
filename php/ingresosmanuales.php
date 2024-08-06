@@ -1,8 +1,6 @@
 <?php
 
 
-
-
 function listaringresosManuales($con){
     $mensaje = "no hay ingresos manuales registrados";
     $usuarios = [];
@@ -22,10 +20,12 @@ function listaringresosManuales($con){
 
 function agregarIngresosManuales($con, $descripcion, $monto)
 {
-   
+    $date = new DateTime();
+    $date->modify('-7 hours');
+    $dateFormat = $date->format('Y-m-d H:i:s');
     $mensaje = '';
-    $sqlAddconductores = "INSERT INTO ingresosmanuales (descripcionIngresosManuales,monto)
-                    VALUES('$descripcion','$monto')";
+    $sqlAddconductores = "INSERT INTO ingresosmanuales (descripcionIngresosManuales,monto,fechaIngresoManual)
+                    VALUES('$descripcion','$monto','$dateFormat')";
 
     $ejecutar = mysqli_query($con, $sqlAddconductores);
 
@@ -57,8 +57,76 @@ function sumatoriaIngresosManuales($listaIngresosManuales){
     return $total;
 
 }
+function ingresosMensuales($con)
+{
+    $mensaje = "no hay ingresos manuales registrados";
+    $usuarios = [];
+    $sqlUsarios = "SELECT *
+    FROM ingresosmanuales
+    WHERE MONTH(fechaIngresoManual) = MONTH(NOW());";
+    $resultUsuarios = $con->query($sqlUsarios);
 
+    if ($resultUsuarios->num_rows > 0) {
+        while ($rowUsuarios = $resultUsuarios->fetch_assoc()) {
+            $usuarios[] = $rowUsuarios;
+        }
+    } else {
+        return $mensaje;
+    }
 
+    return $usuarios;
+}
+function ingresosanuales($con){
+    $mensaje = "no hay ingresos manuales registrados";
+    $usuarios = [];
+    $sqlUsarios = "SELECT *
+    FROM ingresosmanuales
+    WHERE YEAR(fechaIngresoManual) = YEAR(NOW());";
+    $resultUsuarios = $con->query($sqlUsarios);
+
+    if ($resultUsuarios->num_rows > 0) {
+        while ($rowUsuarios = $resultUsuarios->fetch_assoc()) {
+            $usuarios[] = $rowUsuarios;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $usuarios;
+}
+
+function sumatoriaIngresosManualesMensuales($listaIngresosmensuales){
+    $total = 0;
+    $resultados = $listaIngresosmensuales;
+    $tipoderepuesta = gettype($resultados);
+    if ($tipoderepuesta == "array") {
+        $total = 0;
+        foreach ($resultados as $ingreso) {
+            # code...
+            $total += $ingreso['monto'];
+        }
+    } else if ($tipoderepuesta == "string") {
+        $total = 0;
+    }
+
+    return $total;
+}
+function sumatoriaIngresosManualesAnuales($listaIngresosanuales){
+    $total = 0;
+    $resultados = $listaIngresosanuales;
+    $tipoderepuesta = gettype($resultados);
+    if ($tipoderepuesta == "array") {
+        $total = 0;
+        foreach ($resultados as $ingreso) {
+            # code...
+            $total += $ingreso['monto'];
+        }
+    } else if ($tipoderepuesta == "string") {
+        $total = 0;
+    }
+
+    return $total;
+}
 
 /* 
 

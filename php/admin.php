@@ -3,11 +3,18 @@
 include_once('conection.php');
 include_once('ingresosmanuales.php');
 include_once('egresosmanuales.php');
-$ingresos=listaringresosManuales($conexion);
-$egresos=listarEgresosManuales($conexion);
-$total=sumatoriaIngresosManuales($ingresos);
-$totalEgresos=sumatoriaEgresosManuales($egresos);
+$ingresosMensuales=ingresosMensuales($conexion);
+$ingresosAnuales=ingresosanuales($conexion);
 
+$totalIngresosMensuales=sumatoriaIngresosManualesMensuales($ingresosMensuales);
+$totalIngresosAnuales=sumatoriaIngresosManualesAnuales($ingresosAnuales);
+
+$egresosMensuales=egresosMensuales($conexion);
+$egresosAnuales=egresosanuales($conexion);
+
+
+$totalEgresosMensuales=sumatoriaEgresosManualesMensuales($egresosMensuales);
+$totalEgresosAnuales=sumatoriaEgresosManualesAnuales($egresosAnuales);
 ?>
 
 <!DOCTYPE html>
@@ -245,7 +252,7 @@ $totalEgresos=sumatoriaEgresosManuales($egresos);
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Ingresos (Mensuales)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo $total ?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo $totalIngresosMensuales ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -263,7 +270,7 @@ $totalEgresos=sumatoriaEgresosManuales($egresos);
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Ingresos (anual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo $total?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo $totalIngresosAnuales?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -281,7 +288,7 @@ $totalEgresos=sumatoriaEgresosManuales($egresos);
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                 Egresos (Mensual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo $totalEgresos?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo $totalEgresosMensuales?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -298,7 +305,7 @@ $totalEgresos=sumatoriaEgresosManuales($egresos);
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                 Egresos (anual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo $totalEgresos?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo $totalEgresosAnuales?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -343,13 +350,10 @@ $totalEgresos=sumatoriaEgresosManuales($egresos);
                                     </div>
                                     <div class="mt-4 text-center small">
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
+                                            <i class="fas fa-circle" style="color:#2d572c;"></i> Ingresos
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
+                                            <i class="fas fa-circle" style="color:#b81414;"></i> egresos
                                         </span>
                                     </div>
                                 </div>
@@ -441,11 +445,11 @@ $totalEgresos=sumatoriaEgresosManuales($egresos);
                 var myPieChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ["Direct", "Referral", "Social"],
+                    labels: ["ingresos", "egresos"],
                     datasets: [{
-                    data: [55, 30, 35],
-                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-                    hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                    data: [<?php echo $totalIngresosMensuales?>, <?php echo $totalEgresosMensuales?>],
+                    backgroundColor: ['#2d572c', '#b81414'],
+                    hoverBackgroundColor: ['#2d572c', '#b81414'],
                     hoverBorderColor: "rgba(234, 236, 244, 1)",
                     }],
                 },
