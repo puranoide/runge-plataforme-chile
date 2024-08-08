@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 08-08-2024 a las 18:37:00
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Servidor: localhost
+-- Tiempo de generación: 08-08-2024 a las 20:10:29
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `rungedatabasev2`
+-- Base de datos: `rungeDatabasev2`
 --
 
 -- --------------------------------------------------------
@@ -60,9 +60,7 @@ CREATE TABLE `cliente` (
 --
 
 INSERT INTO `cliente` (`clienteId`, `nombreCliente`, `SucursalPrincipal`) VALUES
-(1, 'gabriel', 'av belen 495'),
-(2, 'edgar macedo', 'calle jose lean 1551'),
-(3, 'Juan Carrera', 'av belen 495 departamento 2');
+(4, 'canontex', 'av belen 495');
 
 -- --------------------------------------------------------
 
@@ -98,16 +96,6 @@ CREATE TABLE `egresosmanuales` (
   `fechaRegistrada` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `egresosmanuales`
---
-
-INSERT INTO `egresosmanuales` (`idEgresosManuales`, `descripcionEgresosManuales`, `montoEgresosManuales`, `fechaRegistrada`) VALUES
-(5, 'ESTE MES 1', 10, '2024-08-06'),
-(6, 'ESTE MES 2', 10.1, '2024-08-06'),
-(7, 'MES SIGUIENTE', 10.3, '2024-09-03'),
-(8, 'prueba desde front para panel', 123, '2024-08-06');
-
 -- --------------------------------------------------------
 
 --
@@ -136,28 +124,7 @@ CREATE TABLE `envios` (
 --
 
 INSERT INTO `envios` (`idEnvio`, `idCamionFk`, `idConductorFk`, `idClienteFk`, `fechaRegistrada`, `fechaInicio`, `fechaFinal`, `estadoEnvio`, `comentarioEnvio`, `rutaFotoEnvio`, `montoViaje`, `bonoConductor`, `bonoPeoneta`, `codigoEnvio`) VALUES
-(4, 1, 4, 1, '2024-07-25 11:27:29', '2024-07-25 23:13:44', '2024-07-25 23:14:47', 3, 'prueba Comentario', '', NULL, NULL, NULL, NULL),
-(5, 1, 4, 1, '2024-07-25 11:28:23', '2024-07-26 10:57:34', NULL, 2, 'prueba Comentario', '', NULL, NULL, NULL, NULL),
-(6, 1, 4, 1, '2024-07-25 11:36:56', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL),
-(7, 1, 4, 1, '2024-07-25 11:37:28', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL),
-(8, 1, 4, 1, '2024-07-25 11:37:36', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL),
-(9, 1, 4, 1, '2024-07-26 19:44:11', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'P13243a'),
-(10, 1, 4, 1, '2024-07-26 21:08:10', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'P13243a'),
-(11, 1, 4, 1, '2024-07-26 21:09:41', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'P13243a'),
-(12, 1, 4, 1, '2024-07-26 21:10:46', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'P13243a'),
-(13, 1, 4, 1, '2024-07-26 21:11:58', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'P13243a'),
-(14, 1, 4, 1, '2024-07-26 21:12:06', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'P13243a'),
-(15, 1, 4, 1, '2024-07-26 21:12:19', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'P13243a'),
-(16, 1, 4, 1, '2024-07-26 21:12:33', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'P13243a'),
-(17, 1, 4, 1, '2024-07-26 21:12:45', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'P13243a'),
-(18, 1, 4, 1, '2024-07-26 21:14:56', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'P13243a'),
-(19, 1, 4, 1, '2024-07-26 21:16:09', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'P13243a'),
-(20, 2, 5, 1, '2024-07-26 21:23:50', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, '2323'),
-(21, 1, 4, 1, '2024-07-26 21:38:43', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, '2324'),
-(22, 1, 5, 2, '2024-07-27 13:27:13', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, '23245'),
-(23, 1, 5, 3, '2024-07-28 18:44:02', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, '1111'),
-(24, 1, 4, 2, '2024-07-31 12:09:55', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, '2222'),
-(25, 2, 4, 1, '2024-08-04 12:56:11', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, '1');
+(26, 1, 5, 4, '2024-08-08 13:07:24', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'P0001');
 
 -- --------------------------------------------------------
 
@@ -197,9 +164,7 @@ CREATE TABLE `ingresosmanuales` (
 --
 
 INSERT INTO `ingresosmanuales` (`idIngresosManuales`, `descripcionIngresosManuales`, `monto`, `fechaIngresoManual`) VALUES
-(12, 'prueba desde front', 10.1, '2024-08-06'),
-(13, 'prueba desde backend-otromes', 10.1, '2024-09-18'),
-(14, 'prueba grafica', 100, '2024-08-06');
+(15, 'prueba frontend 1', 100, '2024-08-08');
 
 -- --------------------------------------------------------
 
@@ -215,28 +180,25 @@ CREATE TABLE `sucursalessubclientes` (
   `idEnvioFK` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `sucursalessubclientes`
+-- Estructura de tabla para la tabla `tiposDeViajes`
 --
 
-INSERT INTO `sucursalessubclientes` (`idSucusalesSubClientes`, `nombreSubcliente`, `direccionSubCliente`, `idClienteFk`, `idEnvioFK`) VALUES
-(1, 'ale rCAMBIADO', 'prueba de calle actualizada', 3, 4),
-(8, 'gabriel-subcliente', 'calle belen 155112', 1, 4),
-(9, 'edgar macedo-subcliente', 'calle jose lean 155112', 2, 8),
-(10, 'prueba de sucursal', 'prueba direccion sucursal', 2, 20),
-(11, 'prueba de sucursal 2', 'prueba direccion sucursal 2', 1, 20),
-(12, 'prueba de sucursal 3', 'prueba direccion sucursal 3', 2, 20),
-(13, 'prueba de sucursal 3', 'prueba direccion sucursal 3', 2, 20),
-(14, 'prueba de sucursal 1', 'prueba direccion sucursal 2', 3, 21),
-(15, 'prueba de sucursal 2', 'prueba direccion sucursal 2', 3, 21),
-(16, 'prueba de sucursal 2', 'prueba direccion sucursal 2', 1, 21),
-(17, 'prueba de sucursal 2', 'prueba direccion sucursal 2', 2, 22),
-(18, 'prueba de sucursal344', 'prueba direccion sucursal 333', 3, 22),
-(19, 'gabriel prueba de vista kaka', 'nombreCliente', 1, 23),
-(20, 'gabriel prueba de vista kaka', 'nombreCliente asdasd', 2, 24),
-(21, 'qweqwe', '312wqe', 2, 24),
-(22, 'prueba de sucursal', 'av belen 495', 2, 25),
-(23, 'prueba de sucursal 2', 'av belen 495', 1, 25);
+CREATE TABLE `tiposDeViajes` (
+  `idTipoDeviaje` int(11) UNSIGNED NOT NULL,
+  `descripcionViaje` varchar(155) DEFAULT NULL,
+  `clienteFK` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tiposDeViajes`
+--
+
+INSERT INTO `tiposDeViajes` (`idTipoDeviaje`, `descripcionViaje`, `clienteFK`) VALUES
+(1, 'viaje 1', 4),
+(2, 'viaje 2', 4);
 
 -- --------------------------------------------------------
 
@@ -322,6 +284,13 @@ ALTER TABLE `sucursalessubclientes`
   ADD KEY `sucursales_subclientes_envios_FK` (`idEnvioFK`);
 
 --
+-- Indices de la tabla `tiposDeViajes`
+--
+ALTER TABLE `tiposDeViajes`
+  ADD PRIMARY KEY (`idTipoDeviaje`),
+  ADD KEY `clienteFK` (`clienteFK`);
+
+--
 -- Indices de la tabla `user`
 --
 ALTER TABLE `user`
@@ -341,7 +310,7 @@ ALTER TABLE `camion`
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `clienteId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `clienteId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `conductor`
@@ -359,7 +328,7 @@ ALTER TABLE `egresosmanuales`
 -- AUTO_INCREMENT de la tabla `envios`
 --
 ALTER TABLE `envios`
-  MODIFY `idEnvio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `idEnvio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `gestores`
@@ -371,13 +340,19 @@ ALTER TABLE `gestores`
 -- AUTO_INCREMENT de la tabla `ingresosmanuales`
 --
 ALTER TABLE `ingresosmanuales`
-  MODIFY `idIngresosManuales` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `idIngresosManuales` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `sucursalessubclientes`
 --
 ALTER TABLE `sucursalessubclientes`
   MODIFY `idSucusalesSubClientes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT de la tabla `tiposDeViajes`
+--
+ALTER TABLE `tiposDeViajes`
+  MODIFY `idTipoDeviaje` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `user`
@@ -415,6 +390,12 @@ ALTER TABLE `gestores`
 ALTER TABLE `sucursalessubclientes`
   ADD CONSTRAINT `sucursales_subclientes_cliente_FK` FOREIGN KEY (`idClienteFk`) REFERENCES `cliente` (`clienteId`),
   ADD CONSTRAINT `sucursales_subclientes_envios_FK` FOREIGN KEY (`idEnvioFK`) REFERENCES `envios` (`idEnvio`);
+
+--
+-- Filtros para la tabla `tiposDeViajes`
+--
+ALTER TABLE `tiposDeViajes`
+  ADD CONSTRAINT `clienteFK` FOREIGN KEY (`clienteFK`) REFERENCES `cliente` (`clienteId`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
