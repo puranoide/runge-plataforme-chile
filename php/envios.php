@@ -55,6 +55,16 @@ function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente,$codigoEn
         return $mensaje;
     }
 }
+function insertarMontoDeEnvio($con,$id){
+    
+}
+function calcularMontoDelEnvio($con,$id){
+        $envio=listarEnvioPorId($con,$id);
+        if($envio['idClienteFk']=='1'){
+            
+        }
+
+}
 
 function ActualizarEnvios($con,$id, $conductor, $idCamion, $idCliente,$estadoEnvio,$comentario,$rutaFotoEnvio){
     if($estadoEnvio==2){
