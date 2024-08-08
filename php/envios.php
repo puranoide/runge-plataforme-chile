@@ -59,6 +59,7 @@ function insertarMontoDeEnvio($con,$id){
     
 }
 function calcularMontoDelEnvio($con,$id){
+        $montoEnvio=0;
         $envio=listarEnvioPorId($con,$id);
         if($envio['idClienteFk']=='1'){
             
