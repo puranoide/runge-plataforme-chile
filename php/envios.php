@@ -61,7 +61,7 @@ function insertarMontoDeEnvio($con,$id,$monto){
 function calcularMontoDelEnvio($con, $id) {
     $envio = listarEnvioPorId($con, $id);
     $tipoderespuesta = gettype($envio);
-
+    
     if ($tipoderespuesta == 'array') {
         $camion = listarCamionesPorId($con, $envio[0]['idCamionFk']);
         if ($envio[0]['idClienteFk'] == 4) {
@@ -171,7 +171,7 @@ function listEnviosTerminado($con){
 
 
 
-$resultados=calcularMontoDelEnvio($conexion,26);
+$resultados=calcularMontoDelEnvio($conexion,29);
 
 echo '<pre>';
 print_r ($resultados);
