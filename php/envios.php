@@ -55,7 +55,7 @@ function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente,$codigoEn
         return $mensaje;
     }
 }
-function insertarMontoDeEnvio($con,$id){
+function insertarMontoDeEnvio($con,$id,$monto){
     
 }
 function calcularMontoDelEnvio($con, $id) {
