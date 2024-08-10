@@ -1,6 +1,6 @@
 <?php
-
-
+include_once('conection.php');
+include_once('camiones.php');
 function listEnvios($con){
     $mensaje = "no hay envios registrados";
     $gestores = [];
@@ -58,13 +58,23 @@ function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente,$codigoEn
 function insertarMontoDeEnvio($con,$id){
     
 }
-function calcularMontoDelEnvio($con,$id){
-        $montoEnvio=0;
-        $envio=listarEnvioPorId($con,$id);
-        if($envio['idClienteFk']=='4'){
-            
-        }
+function calcularMontoDelEnvio($con, $id) {
+    $envio = listarEnvioPorId($con, $id);
+    $tipoderespuesta = gettype($envio);
 
+    if ($tipoderespuesta == 'array') {
+        $camion = listarCamionesPorId($con, $envio[0]['idCamionFk']);
+        if ($envio[0]['idClienteFk'] == 4) {
+            if ($camion[0]['cubicajeCamion'] == 30) {
+                return 120000;
+            }
+        }
+    } elseif ($tipoderespuesta == 'string') {
+        return $envio;
+    }
+    
+    // Si no se cumple ninguna condición, puedes devolver un mensaje por defecto
+    return "No se pudo calcular el monto del envío.";
 }
 
 function ActualizarEnvios($con,$id, $conductor, $idCamion, $idCliente,$estadoEnvio,$comentario,$rutaFotoEnvio){
@@ -161,7 +171,11 @@ function listEnviosTerminado($con){
 
 
 
+$resultados=calcularMontoDelEnvio($conexion,26);
 
+echo '<pre>';
+print_r ($resultados);
+echo '</pre>';
 
 /*
 
