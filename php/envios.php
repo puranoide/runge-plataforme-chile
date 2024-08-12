@@ -36,14 +36,14 @@ function listarEnvioPorId($con,$id){
 
 }
 
-function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente,$codigoEnvio)
+function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente,$codigoEnvio,$tipoDeViaje)
 {
     $date = new DateTime();
     $date->modify('-7 hours');
     $dateFormat = $date->format('Y-m-d H:i:s');
     $mensaje = '';
-    $sqlAddenvios = "INSERT INTO envios (fechaRegistrada,estadoEnvio,idConductorFk,idCamionFk,idClienteFk,codigoEnvio)
-                    VALUES('$dateFormat',1,'$conductor','$idCamion','$idCliente','$codigoEnvio')";
+    $sqlAddenvios = "INSERT INTO envios (fechaRegistrada,estadoEnvio,idConductorFk,idCamionFk,idClienteFk,codigoEnvio,tipoDeViajeFK)
+                    VALUES('$dateFormat',1,'$conductor','$idCamion','$idCliente','$codigoEnvio','$tipoDeViaje')";
     $ejecutar = mysqli_query($con, $sqlAddenvios);
 
     if ($ejecutar) {
@@ -171,11 +171,12 @@ function listEnviosTerminado($con){
 
 
 
-$resultados=calcularMontoDelEnvio($conexion,29);
+$resultados=listEnvios($conexion);
 
 echo '<pre>';
 print_r ($resultados);
 echo '</pre>';
+
 
 /*
 

@@ -1,5 +1,5 @@
 <?php 
-include_once('conection.php');
+
 function listTipoDeEnvio($con){
     $mensaje = "no hay tipos de envios registrados";
     $gestores = [];
