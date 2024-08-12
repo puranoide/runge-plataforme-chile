@@ -1,7 +1,8 @@
 <?php
 include_once('conection.php');
 include_once('camiones.php');
-function listEnvios($con){
+function listEnvios($con)
+{
     $mensaje = "no hay envios registrados";
     $gestores = [];
     $sqlconductores = "SELECT * from envios";
@@ -18,8 +19,9 @@ function listEnvios($con){
     return $gestores;
 }
 
-function listarEnvioPorId($con,$id){
-    $mensaje = "no hay envios registrados con el id :".$id;
+function listarEnvioPorId($con, $id)
+{
+    $mensaje = "no hay envios registrados con el id :" . $id;
     $usuarios = [];
     $sqlUsarios = "SELECT* from envios WHERE idEnvio=$id;";
     $resultUsuarios = $con->query($sqlUsarios);
@@ -33,10 +35,9 @@ function listarEnvioPorId($con,$id){
     }
 
     return $usuarios;
-
 }
 
-function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente,$codigoEnvio,$tipodeviaje)
+function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente, $codigoEnvio, $tipodeviaje)
 {
     $date = new DateTime();
     $date->modify('-7 hours');
@@ -45,7 +46,7 @@ function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente,$codigoEn
     $sqlAddenvios = "INSERT INTO envios (fechaRegistrada,estadoEnvio,idConductorFk,idCamionFk,idClienteFk,codigoEnvio,tipoDeViajeFK)
                     VALUES('$dateFormat',1,'$conductor','$idCamion','$idCliente','$codigoEnvio','$tipodeviaje')";
     $ejecutar = mysqli_query($con, $sqlAddenvios);
-    
+
     if ($ejecutar) {
         $idconductor = mysqli_insert_id($con);
         $mensaje = 'gestor agregado con exito,ID del gestor agregado: ' . $idconductor;
@@ -55,39 +56,72 @@ function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente,$codigoEn
         return $mensaje;
     }
 }
-function insertarMontoDeEnvio($con,$id,$monto){
-    
-}
-function calcularMontoDelEnvio($con, $id) {
+function insertarMontoDeEnvio($con, $id, $monto) {}
+function calcularMontoDelEnvio($con, $id)
+{
     $envio = listarEnvioPorId($con, $id);
     $tipoderespuesta = gettype($envio);
-    
+
     if ($tipoderespuesta == 'array') {
         $camion = listarCamionesPorId($con, $envio[0]['idCamionFk']);
-        if ($envio[0]['idClienteFk'] == 4) {
+        if ($envio[0]['idClienteFk'] == 4 && $envio[0]['tipoDeViajeFK'] == 1) {
             if ($camion[0]['cubicajeCamion'] == 30) {
                 return 120000;
             }
+            if ($camion[0]['cubicajeCamion'] == 50) {
+                return 140000;
+            }
+        } elseif ($envio[0]['idClienteFk'] == 4 && $envio[0]['tipoDeViajeFK'] == 2) {
+            if ($camion[0]['cubicajeCamion'] == 30) {
+                return 60000;
+            }
+            if ($camion[0]['cubicajeCamion'] == 50) {
+                return 70000;
+            }
+        } elseif ($envio[0]['idClienteFk'] == 4 && $envio[0]['tipoDeViajeFK'] == 3) {
+            if ($camion[0]['cubicajeCamion'] == 30) {
+                return 100000;
+            }
+            if ($camion[0]['cubicajeCamion'] == 50) {
+                return 120000;
+            }
+        } elseif ($envio[0]['idClienteFk'] == 4 && $envio[0]['tipoDeViajeFK'] == 4) {
+            if ($camion[0]['cubicajeCamion'] == 30) {
+                return 170000;
+            }
+        } elseif ($envio[0]['idClienteFk'] == 4 && $envio[0]['tipoDeViajeFK'] == 5) {
+            if ($camion[0]['cubicajeCamion'] == 30) {
+                return 170000;
+            }
+        }elseif ($envio[0]['idClienteFk']==5 && $envio[0]['tipoDeViajeFK'] == 6 ){
+            if ($camion[0]['cubicajeCamion'] == 30) {
+                return 120000;
+            }
+            if ($camion[0]['cubicajeCamion'] == 50) {
+                return 140000;
+            }
         }
-    } elseif ($tipoderespuesta == 'string') {
+    } else if ($tipoderespuesta == 'string') {
         return $envio;
     }
-    
+
     // Si no se cumple ninguna condición, puedes devolver un mensaje por defecto
     return "No se pudo calcular el monto del envío.";
 }
 
-function ActualizarEnvios($con,$id, $conductor, $idCamion, $idCliente,$estadoEnvio,$comentario,$rutaFotoEnvio){
-    if($estadoEnvio==2){
+
+function ActualizarEnvios($con, $id, $conductor, $idCamion, $idCliente, $estadoEnvio, $comentario, $rutaFotoEnvio)
+{
+    if ($estadoEnvio == 2) {
         $date = new DateTime();
         $date->modify('-7 hours');
         $dateFormat = $date->format('Y-m-d H:i:s');
         $mensaje = '';
-        $sqlupdateConductor ="UPDATE envios SET idConductorFk='$conductor',idCamionFk='$idCamion',idClienteFk='$idCliente',fechaInicio='$dateFormat',estadoEnvio='$estadoEnvio',comentarioEnvio='$comentario',rutaFotoEnvio='$rutaFotoEnvio'
+        $sqlupdateConductor = "UPDATE envios SET idConductorFk='$conductor',idCamionFk='$idCamion',idClienteFk='$idCliente',fechaInicio='$dateFormat',estadoEnvio='$estadoEnvio',comentarioEnvio='$comentario',rutaFotoEnvio='$rutaFotoEnvio'
          WHERE idEnvio=$id;";
-    
+
         $ejecutar = mysqli_query($con, $sqlupdateConductor);
-    
+
         if ($ejecutar) {
             $mensaje = 'gestor actualizado con exito,ID del gestor actualizado: ' . $id;
             return $mensaje;
@@ -95,16 +129,16 @@ function ActualizarEnvios($con,$id, $conductor, $idCamion, $idCliente,$estadoEnv
             $mensaje = 'gestor no se pudo actualizar,intentelo de nuevo o contacte con soporte';
             return $mensaje;
         }
-    }else if($estadoEnvio==3){
+    } else if ($estadoEnvio == 3) {
         $date = new DateTime();
         $date->modify('-7 hours');
         $dateFormat = $date->format('Y-m-d H:i:s');
         $mensaje = '';
-        $sqlupdateConductor ="UPDATE envios SET idConductorFk='$conductor',idCamionFk='$idCamion',idClienteFk='$idCliente',fechaFinal='$dateFormat',estadoEnvio='$estadoEnvio',comentarioEnvio='$comentario',rutaFotoEnvio='$rutaFotoEnvio'
+        $sqlupdateConductor = "UPDATE envios SET idConductorFk='$conductor',idCamionFk='$idCamion',idClienteFk='$idCliente',fechaFinal='$dateFormat',estadoEnvio='$estadoEnvio',comentarioEnvio='$comentario',rutaFotoEnvio='$rutaFotoEnvio'
          WHERE idEnvio=$id;";
-    
+
         $ejecutar = mysqli_query($con, $sqlupdateConductor);
-    
+
         if ($ejecutar) {
             $mensaje = 'gestor actualizado con exito,ID del gestor actualizado: ' . $id;
             return $mensaje;
@@ -113,12 +147,10 @@ function ActualizarEnvios($con,$id, $conductor, $idCamion, $idCliente,$estadoEnv
             return $mensaje;
         }
     }
-
-   
-
 }
 
-function listEnviosActivos($con){
+function listEnviosActivos($con)
+{
     $mensaje = "no hay envios activos";
     $gestores = [];
     $sqlconductores = "SELECT * from envios WHERE estadoEnvio=1";
@@ -135,7 +167,8 @@ function listEnviosActivos($con){
     return $gestores;
 }
 
-function listEnviosIniciados($con){
+function listEnviosIniciados($con)
+{
     $mensaje = "no hay envios activos";
     $gestores = [];
     $sqlconductores = "SELECT * from envios WHERE estadoEnvio=2";
@@ -152,7 +185,8 @@ function listEnviosIniciados($con){
     return $gestores;
 }
 
-function listEnviosTerminado($con){
+function listEnviosTerminado($con)
+{
     $mensaje = "no hay envios activos";
     $gestores = [];
     $sqlconductores = "SELECT * from envios WHERE estadoEnvio=3";
@@ -169,7 +203,11 @@ function listEnviosTerminado($con){
     return $gestores;
 }
 
+$resultados=calcularMontoDelEnvio($conexion,63);
 
+echo '<pre>';
+print_r ($resultados);
+echo '</pre>';
 
 
 /*
@@ -304,6 +342,3 @@ bonos salen del 3 viaje  a minorista o sucursal
 
 
 */
-
-?>
-
