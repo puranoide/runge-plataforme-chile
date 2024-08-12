@@ -264,7 +264,8 @@ $total=sumatoriaIngresosManuales($ingresos);
                          
                         </tbody>
                     </table>
-                    <h2><?php echo $total?></h2>
+                    <h2><?php echo number_format($total, 2, '.', ','); ?></h2>
+
                 </div>
                 <!-- /.container-fluid -->
 

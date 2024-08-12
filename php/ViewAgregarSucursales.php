@@ -9,7 +9,7 @@ $camion = $_POST['camionSeleccionado'];
 $cliente = $_POST['clienteSeleccionado'];
 $codigoEnvio = $_POST['codigoEnvio'];
 
-$idEnvio = agregarEnviosParteUno($conexion, $conductor, $camion, $cliente, $codigoEnvio);
+$idEnvio = agregarEnviosParteUno($conexion, $conductor, $camion, $cliente, $codigoEnvio,1);
 
 
 

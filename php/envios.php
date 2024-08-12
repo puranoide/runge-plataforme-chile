@@ -36,16 +36,16 @@ function listarEnvioPorId($con,$id){
 
 }
 
-function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente,$codigoEnvio,$tipoDeViaje)
+function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente,$codigoEnvio,$tipodeviaje)
 {
     $date = new DateTime();
     $date->modify('-7 hours');
     $dateFormat = $date->format('Y-m-d H:i:s');
     $mensaje = '';
     $sqlAddenvios = "INSERT INTO envios (fechaRegistrada,estadoEnvio,idConductorFk,idCamionFk,idClienteFk,codigoEnvio,tipoDeViajeFK)
-                    VALUES('$dateFormat',1,'$conductor','$idCamion','$idCliente','$codigoEnvio','$tipoDeViaje')";
+                    VALUES('$dateFormat',1,'$conductor','$idCamion','$idCliente','$codigoEnvio','$tipodeviaje')";
     $ejecutar = mysqli_query($con, $sqlAddenvios);
-
+    
     if ($ejecutar) {
         $idconductor = mysqli_insert_id($con);
         $mensaje = 'gestor agregado con exito,ID del gestor agregado: ' . $idconductor;
@@ -171,12 +171,6 @@ function listEnviosTerminado($con){
 
 
 
-$resultados=listEnvios($conexion);
-
-echo '<pre>';
-print_r ($resultados);
-echo '</pre>';
-
 
 /*
 
@@ -209,6 +203,10 @@ echo '</pre>';
 
 $resultado=agregarEnviosParteUno($conexion,4,1,1);
 echo gettype($resultado);
+echo $resultado;
+
+
+$resultado=agregarEnviosParteUno($conexion,4,1,4,'p0003',1); 
 echo $resultado;
 
 

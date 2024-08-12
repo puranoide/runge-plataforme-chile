@@ -252,7 +252,7 @@ $totalEgresosAnuales=sumatoriaEgresosManualesAnuales($egresosAnuales);
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Ingresos (Mensuales)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo $totalIngresosMensuales ?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($totalIngresosMensuales,2,'.',',');  ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -270,7 +270,7 @@ $totalEgresosAnuales=sumatoriaEgresosManualesAnuales($egresosAnuales);
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Ingresos (anual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo $totalIngresosAnuales?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($totalIngresosAnuales,2,'.',',');?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -288,7 +288,7 @@ $totalEgresosAnuales=sumatoriaEgresosManualesAnuales($egresosAnuales);
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                 Egresos (Mensual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo $totalEgresosMensuales?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($totalEgresosMensuales,2,'.',',');?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -305,7 +305,7 @@ $totalEgresosAnuales=sumatoriaEgresosManualesAnuales($egresosAnuales);
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                 Egresos (anual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo $totalEgresosAnuales?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($totalEgresosAnuales,2,'.',',');?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -322,7 +322,7 @@ $totalEgresosAnuales=sumatoriaEgresosManualesAnuales($egresosAnuales);
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                 Utilidad (mensual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo $totalIngresosMensuales-$totalEgresosMensuales?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php $utilidadmensual=$totalIngresosMensuales-$totalEgresosMensuales;echo number_format($utilidadmensual,2,'.',','); ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -339,7 +339,7 @@ $totalEgresosAnuales=sumatoriaEgresosManualesAnuales($egresosAnuales);
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                 Utilidad (anual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo $totalIngresosAnuales-$totalEgresosAnuales?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php  $utilidadanual=$totalIngresosAnuales-$totalEgresosAnuales;echo number_format($utilidadanual,2,'.',',');?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
