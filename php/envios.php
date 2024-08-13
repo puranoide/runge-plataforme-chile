@@ -100,6 +100,34 @@ function calcularMontoDelEnvio($con, $id)
             if ($camion[0]['cubicajeCamion'] == 50) {
                 return 140000;
             }
+        }elseif ($envio[0]['idClienteFk']==5 && $envio[0]['tipoDeViajeFK'] == 7 ){
+            if ($camion[0]['cubicajeCamion'] == 30) {
+                return 130000;
+            }
+            if ($camion[0]['cubicajeCamion'] == 50) {
+                return 150000;
+            }
+        }elseif ($envio[0]['idClienteFk']==5 && $envio[0]['tipoDeViajeFK'] == 8 ){
+            if ($camion[0]['cubicajeCamion'] == 30) {
+                return 120000;
+            }
+            if ($camion[0]['cubicajeCamion'] == 50) {
+                return 140000;
+            }
+        }elseif ($envio[0]['idClienteFk']==5 && $envio[0]['tipoDeViajeFK'] == 9 ){
+            if ($camion[0]['cubicajeCamion'] == 30) {
+                return 120000;
+            }
+            if ($camion[0]['cubicajeCamion'] == 50) {
+                return 140000;
+            }
+        }elseif ($envio[0]['idClienteFk']==6 ){
+            if ($camion[0]['cubicajeCamion'] == 30) {
+                return 130000;
+            }
+            if ($camion[0]['cubicajeCamion'] == 50) {
+                return 150000;
+            }
         }
     } else if ($tipoderespuesta == 'string') {
         return $envio;
@@ -315,8 +343,8 @@ cliente 4 (castaño) cuando se seleccione castaño
 camion-m3(30-50)-
 
 si es 50-->numero de viaje (1-10) del cuando es 3er viaje subclientes o sucursal hay bono
-,
---> y entrega subclientes-->cantidad de clientes(1-5)-->sucursales a mano=135,000
+
+si es de 50--> y entrega subclientes-->cantidad de clientes(1-5)-->sucursales a mano=135,000
 
 sobrecargo=variable que se suma 
 
