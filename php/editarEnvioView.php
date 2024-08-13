@@ -192,7 +192,7 @@ $clientes = listarClientes($conexion);
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <form action="ViewAgregarSucursales" method="POST">
+                    <form action="editadoyredireccion" method="POST">
 
                     <input type="hidden" id="linkFoto" name="idEnvio" value="<?php echo $idenvio ?>" />
                         <div data-mdb-input-init class="form-outline form-white mb-4">
@@ -249,14 +249,14 @@ $clientes = listarClientes($conexion);
                             } else if ($envio[0]['estadoEnvio'] == 3) {
                                 $estadoString = 'terminado';
                             }
-                            echo $estadoString;
+                            
 
                             ?>
-                        <option value="<?php echo $envio[0]['estadoEnvio'] ?>" selected><?php echo $estadoString?></option>
+                        <option value="<?php echo $envio[0]['estadoEnvio']; ?>" selected><?php echo $estadoString;?></option>
                         <option value="1" >activo</option>
                         <option value="2" >iniciado</option>
                         <option value="3" >terminado</option>
-
+                        </select>
                         </div>
                         <button type="submit" class="btn btn-success">Success</button>
                     </form>

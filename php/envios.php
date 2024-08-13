@@ -231,11 +231,7 @@ function listEnviosTerminado($con)
     return $gestores;
 }
 
-$resultados=calcularMontoDelEnvio($conexion,63);
 
-echo '<pre>';
-print_r ($resultados);
-echo '</pre>';
 
 
 /*
@@ -300,17 +296,18 @@ formula:
 
 cliente1(canontex)
 camion-m3(30-50)-
-si es 30 y el viaje 1-->subclientes-sucursal-direccion=120,000
-si es 30 y es viaje 2=60,000
-si es 30 y es viaje 3=100,000
-si es 30 y es viaje 2 y es ruta colchon=170,000
-si es 30 y es viaje 3 y es ruta colchon=170,000
+si es 30 y el viaje 1-->subclientes-sucursal-direccion=115,000
+si es 30 y es viaje 2=55,000
+si es 30 y es viaje 3=95,000
+si es 30 y es viaje 2 y es ruta colchon=155,000
+si es 30 y es viaje 3 y es ruta colchon=155,000
 
-si es sabado y es viaje 1-->sacan bono-chofer-->25,000 peoneta-->20,000
+si el viaje se inicia sabado y es viaje 1-->sacan bono-chofer-->25,000 peoneta-->20,000
+reunion 13 de agosto
 
-si es de 50 y es el primer viaje=140,000
-si es de 50 y es el segundo viaje=70,000
-si es de 50 y es el tercer viaje=120,000
+si es de 50 y es el primer viaje=135,000
+si es de 50 y es el segundo viaje=65,000
+si es de 50 y es el tercer viaje=115,000
 viaje(1,2,3)
 
 sobrecargo=variable que se suma 
@@ -340,11 +337,11 @@ si es 50 y entrega subclientes-->cantidad de clientes(1-5)-->sucursales a mano=1
 sobrecargo=variable que se suma 
 
 cliente 4 (castaño) cuando se seleccione castaño
-camion-m3(30-50)-
+camion-m3(30-50)
 
-si es 50-->numero de viaje (1-10) del cuando es 3er viaje subclientes o sucursal hay bono
+si es 50-->numero de viaje (1-4)->cuando trabajen todos los  sabado->bono  (revisar todos los envios del mes,4sabados,si hay envios estos sabados(si no hay no hay bono,si hay,si todos sabados se termino los envios->bono->100,000 )-->135,000
 
-si es de 50--> y entrega subclientes-->cantidad de clientes(1-5)-->sucursales a mano=135,000
+si el cambion es de 30-->135,000
 
 sobrecargo=variable que se suma 
 
