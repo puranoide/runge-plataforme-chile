@@ -56,7 +56,30 @@ function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente, $codigoE
         return $mensaje;
     }
 }
-function insertarMontoDeEnvio($con, $id, $monto) {}
+function insertarMontoDeEnvio($con, $id) {
+
+    $montoEnvio=calcularMontoDelEnvio($con,$id);
+    $tipoderespuesta = gettype($montoEnvio);
+    if ($tipoderespuesta=='integer') {
+        $sqlupdateConductor = "UPDATE envios SET montoViaje='$montoEnvio'
+        WHERE idEnvio=$id;";
+
+       $ejecutar = mysqli_query($con, $sqlupdateConductor);
+
+       if ($ejecutar) {
+           $mensaje = 'viaje actualizado con exito,ID del gestor actualizado: ' . $id;
+           return $mensaje;
+       } else {
+           $mensaje = 'viaje no se pudo actualizar,intentelo de nuevo o contacte con soporte';
+           return $mensaje;
+       }
+
+
+    }elseif ($tipoderespuesta=='string') {
+        return $montoEnvio;
+    }
+
+}
 function calcularMontoDelEnvio($con, $id)
 {
     $envio = listarEnvioPorId($con, $id);
@@ -127,6 +150,13 @@ function calcularMontoDelEnvio($con, $id)
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
                 return 150000;
+            }
+        }elseif ($envio[0]['idClienteFk']==7 ){
+            if ($camion[0]['cubicajeCamion'] == 30) {
+                return 135000;
+            }
+            if ($camion[0]['cubicajeCamion'] == 50) {
+                return 135000;
             }
         }
     } else if ($tipoderespuesta == 'string') {
@@ -231,6 +261,9 @@ function listEnviosTerminado($con)
     return $gestores;
 }
 
+
+$resultado=insertarMontoDeEnvio($conexion,60);
+echo $resultado;
 
 
 
