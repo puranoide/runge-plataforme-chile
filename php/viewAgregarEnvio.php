@@ -3,7 +3,7 @@ include_once('conection.php');
 include_once('conductores.php');
 include_once('clientes.php');
 include_once('camiones.php');
-
+include_once('tipoDeEnvio.php');
 $conductores = listarconductores($conexion);
 $camiones = listarCamiones($conexion);
 $clientes = listarClientes($conexion);
@@ -93,7 +93,7 @@ $clientes = listarClientes($conexion);
                         <h6 class="collapse-header">manejo de ingresos</h6>
                         <a class="collapse-item" href="viewIngresosManuales">Ver ingresos Manuales</a>
                         <a class="collapse-item" href="viewAgregarIngresoManual">Agregar ingreso manual</a>
-                     
+
                     </div>
                 </div>
             </li>
@@ -108,7 +108,7 @@ $clientes = listarClientes($conexion);
                         <h6 class="collapse-header">manejo de ingresos</h6>
                         <a class="collapse-item" href="viewEgresosManuales">Ver egresos Manuales</a>
                         <a class="collapse-item" href="viewAgregarEgresoManual">Agregar egresos manual</a>
-                     
+
                     </div>
                 </div>
             </li>
@@ -220,7 +220,7 @@ $clientes = listarClientes($conexion);
 
                         <div data-mdb-input-init class="form-outline form-white mb-4">
                             <label class="form-label text-dark" for="linkFoto">Codigo de pedido</label>
-                            <input type="text" id="linkFoto" class="form-control form-control-lg" name="codigoEnvio"  required pattern="\S.*" />
+                            <input type="text" id="linkFoto" class="form-control form-control-lg" name="codigoEnvio" required pattern="\S.*" />
 
                         </div>
 
@@ -250,7 +250,7 @@ $clientes = listarClientes($conexion);
                         </div>
                         <div data-mdb-input-init class="form-outline form-white mb-4">
                             <label class="form-label text-dark" for="linkFoto">clientes</label>
-                            <select class="form-select" aria-label="Default select example" name="clienteSeleccionado" required>
+                            <select class="form-select" aria-label="Default select example" name="clienteSeleccionado" id="cliente" onchange="actualizarForm()" required>
                                 <option value="" selected>Selecciona un cliente</option>
                                 <?php
                                 foreach ($clientes as $cliente) {
@@ -259,6 +259,9 @@ $clientes = listarClientes($conexion);
 
                                 ?>
                             </select>
+                        </div>
+                        <div data-mdb-input-init class="form-outline form-white mb-4" id="rutas">
+                           
                         </div>
                         <button type="submit" class="btn btn-success">Success</button>
                     </form>
@@ -350,6 +353,53 @@ $clientes = listarClientes($conexion);
                     cutoutPercentage: 80,
                 },
             });
+
+            function actualizarForm() {
+                var clienteSeleccionado = document.getElementById("cliente").value
+                var conteinerRutas = document.getElementById("rutas");
+
+                var formularioCanontex = `
+                 <label class="form-label text-dark" for="linkFoto">rutas para el cliente</label>
+                            <select class="form-select" aria-label="Default select example" name="ruta" id="rutas" required>
+                                <option value="0" >Selecciona un cliente</option>
+                <option value="1" >viaje 1</option>
+                <option value="2" >viaje 2</option>
+                <option value="3" >viaje 3</option>
+                <option value="4" >viaje 2-ruta colchon</option>
+                <option value="5" >viaje 3-ruta colchon</option>
+                </select>
+               
+                `
+
+                var formularioAlicomer = `
+ <label class="form-label text-dark" for="linkFoto">rutas para el cliente</label>
+                            <select class="form-select" aria-label="Default select example" name="ruta" id="rutas" required>
+                                <option value="0" >Selecciona un cliente</option>
+                <option value="0" >Selecciona un cliente</option>
+                <option value="6" >entregar de pan</option>
+                <option value="7" >retiro de harina</option>
+                <option value="8" >retiro de cajas de carton</option>
+                <option value="9" >retiro de cajas plasticas</option>
+                </select>
+               
+                `
+                var formularionutriscocastaño = `
+                <input type="hidden" value="10" id="" class="form-control form-control-lg" name="ruta" onlyread pattern="\S.*" />
+                 
+               
+                `
+
+                conteinerRutas.innerHTML = ""; // Limpiar el formulario
+                if (clienteSeleccionado === "4") {
+                    conteinerRutas.innerHTML = formularioCanontex;
+                } else if (clienteSeleccionado === "5") {
+                    conteinerRutas.innerHTML = formularioAlicomer;
+                } else if (clienteSeleccionado === "6" || clienteSeleccionado === "7") {
+                    conteinerRutas.innerHTML = formularionutriscocastaño;
+                } else {
+                    console.warn("Cliente no identificado o no hay formulario disponible.");
+                }
+            }
         </script>
 
 </body>

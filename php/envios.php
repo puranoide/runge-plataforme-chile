@@ -59,6 +59,7 @@ function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente, $codigoE
 function insertarMontoDeEnvio($con, $id) {
 
     $montoEnvio=calcularMontoDelEnvio($con,$id);
+    var_dump($montoEnvio);
     $tipoderespuesta = gettype($montoEnvio);
     if ($tipoderespuesta=='integer') {
         $sqlupdateConductor = "UPDATE envios SET montoViaje='$montoEnvio'
@@ -144,14 +145,14 @@ function calcularMontoDelEnvio($con, $id)
             if ($camion[0]['cubicajeCamion'] == 50) {
                 return 140000;
             }
-        }elseif ($envio[0]['idClienteFk']==6 ){
+        }elseif ($envio[0]['idClienteFk']==6 && $envio[0]['tipoDeViajeFK'] == 10){
             if ($camion[0]['cubicajeCamion'] == 30) {
                 return 130000;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
                 return 150000;
             }
-        }elseif ($envio[0]['idClienteFk']==7 ){
+        }elseif ($envio[0]['idClienteFk']==7 && $envio[0]['tipoDeViajeFK'] == 10){
             if ($camion[0]['cubicajeCamion'] == 30) {
                 return 135000;
             }
@@ -262,8 +263,6 @@ function listEnviosTerminado($con)
 }
 
 
-$resultado=insertarMontoDeEnvio($conexion,60);
-echo $resultado;
 
 
 

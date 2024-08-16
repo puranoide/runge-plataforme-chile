@@ -290,9 +290,6 @@ $envios=listEnvios($conexion);
                             }}else if($tipodeRespuesta=='string'){
                                 echo $subSucursales;
                             }
-                          
-                        
-                            
                             ?>
                         
                          

@@ -70,11 +70,7 @@ echo '</pre>';
 
 */
 
-$resultados=listarTipoDeViajePorId($conexion,4);
 
-echo '<pre>';
-print_r ($resultados);
-echo '</pre>';
 
 
 
