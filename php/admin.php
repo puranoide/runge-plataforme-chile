@@ -482,8 +482,8 @@ $totalEgresosAnuales=sumatoriaEgresosManualesAnuales($egresosAnuales);
                     labels: ["ingresos", "egresos"],
                     datasets: [{
                     data: [<?php echo $totalIngresosMensuales?>, <?php echo $totalEgresosMensuales?>],
-                    backgroundColor: ['#2d572c', '#b81414'],
-                    hoverBackgroundColor: ['#2d572c', '#b81414'],
+                    backgroundColor: ['#0ECB69', '#EC4B44'],
+                    hoverBackgroundColor: ['#0ECB69', '#EC4B44'],
                     hoverBorderColor: "rgba(234, 236, 244, 1)",
                     }],
                 },
