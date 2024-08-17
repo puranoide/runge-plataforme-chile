@@ -220,7 +220,10 @@ $clientes = listarClientes($conexion);
                         </div>
                         <button type="submit" class="btn btn-success">Success</button>
                     </form>
-
+                    <form action="terminarInsercionDeEnvios" method="POST">
+                        <input type="hidden" id="linkFoto" name="idEnvio" value="<?php echo $idEnvio ?>" />
+                        <button type="submit" class="btn btn-danger">terminar de agregar sucursales</button>
+                        </form>
                     <table class="table">
                         <thead>
                             <tr>

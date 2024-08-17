@@ -236,7 +236,7 @@ $total=sumatoriaIngresosManuales($ingresos);
                                 <tr>
                                 <th scope="row">'.$ingreso['idIngresosManuales'].'</th>
                                 <td>'.$ingreso['descripcionIngresosManuales'].'</td>
-                                <td>'.$ingreso['monto'].'</td>
+                                <td>$'.number_format($ingreso['monto'],2,'.',',').'</td>
                                 <td>'.$ingreso['fechaIngresoManual'].'</td>
                                 <td>
                                 <form action="detalleEnvio" method="POST">
@@ -264,7 +264,7 @@ $total=sumatoriaIngresosManuales($ingresos);
                          
                         </tbody>
                     </table>
-                    <h2><?php echo number_format($total, 2, '.', ','); ?></h2>
+                    <h2><?php echo '$'.number_format($total, 2, '.', ','); ?></h2>
 
                 </div>
                 <!-- /.container-fluid -->

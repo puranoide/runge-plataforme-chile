@@ -219,7 +219,7 @@ $envios=listEnvios($conexion);
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">id</th>
+                                
                                 <th scope="col">codigo</th>
                                 <th scope="col">camion</th>
                                 <th scope="col">conductor</th>
@@ -258,7 +258,7 @@ $envios=listEnvios($conexion);
                                 echo '
                                 
                                 <tr>
-                                <th scope="row">'.$envio['idEnvio'].'</th>
+                                
                                 <td>'.$envio['codigoEnvio'].'</td>
                                 <td>'.$camion[0]['placaCamion'].'</td>
                                 <td>'.$conductor[0]['completenameconductor'].'</td>
@@ -269,7 +269,7 @@ $envios=listEnvios($conexion);
                                 <td>'.$estadoString.'</td>
                                 <td>'.$envio['comentarioEnvio'].'</td>
                                 <td>'.$envio['rutaFotoEnvio'].'</td>
-                                <td>'.$envio['montoViaje'].'</td>
+                                <td>$'.number_format($envio['montoViaje'],2,'.',',').'</td>
                                 <td>'.$envio['bonoConductor'].'</td>
                                 <td>'.$envio['bonoPeoneta'].'</td>
                                 <td>

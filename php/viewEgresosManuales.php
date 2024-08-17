@@ -236,7 +236,7 @@ $total=sumatoriaEgresosManuales($egresos);
                                 <tr>
                                 <th scope="row">'.$egreso['idEgresosManuales'].'</th>
                                 <td>'.$egreso['descripcionEgresosManuales'].'</td>
-                                <td>'.$egreso['montoEgresosManuales'].'</td>
+                                <td>$'.number_format($egreso['montoEgresosManuales']).'</td>
                                  <td>'.$egreso['fechaRegistrada'].'</td>
                                 <td>
                                 <form action="detalleEnvio" method="POST">
@@ -264,7 +264,7 @@ $total=sumatoriaEgresosManuales($egresos);
                          
                         </tbody>
                     </table>
-                    <h2><?php echo $total?></h2>
+                    <h2><?php echo '$'.number_format($total,2,'.',',')?></h2>
                 </div>
                 <!-- /.container-fluid -->
 
