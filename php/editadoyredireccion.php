@@ -9,9 +9,10 @@ $cliente=$_POST['clienteSeleccionado'];
 $estado=$_POST['estadoEnvio'];
 
 $resultado=ActualizarEnvios($conexion,$idenvio,$conductor,$camion,$cliente,$estado,'','');
+$bonos=insertarbonosDelEnvio($conexion,$idenvio);
     echo '
     <script>
-    alert("'.$resultado.'");
+    alert("'.$resultado.','.$bonos.'");
     window.location="ViewEnvios";
     </script>
     ';

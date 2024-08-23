@@ -186,7 +186,25 @@ function calcularMontoDelEnvio($con, $id)
     // Si no se cumple ninguna condición, puedes devolver un mensaje por defecto
     return "No se pudo calcular el monto del envío.";
 }
+function insertarbonosDelEnvio($con,$id){
+        $bonos=calcularBonos($con,$id);
+        $bonoConductor=$bonos['bonoConductor'];
+        $bonoPeoneta=$bonos['bonoPeoneta'];
+        $sqlupdateConductor = "UPDATE envios SET bonoConductor='$bonoConductor',bonoPeoneta='$bonoPeoneta'
+        WHERE idEnvio=$id;";
 
+        $ejecutar = mysqli_query($con, $sqlupdateConductor);
+        if ($ejecutar) {
+            $mensaje = 'envio actualizado con exito,ID del gestor actualizado: ' . $id;
+            return $mensaje;
+        } else {
+            $mensaje = 'viaje no se pudo actualizar,intentelo de nuevo o contacte con soporte';
+            return $mensaje;
+        }
+   
+
+    
+}
 function calcularBonos($con, $id)
 {
     $envio = listarEnvioPorId($con, $id);
@@ -211,7 +229,11 @@ function calcularBonos($con, $id)
 
                 return $bonos;
             } else {
-                return 0;
+                $bonos = [
+                    'bonoConductor' => 0,
+                    'bonoPeoneta' => 0
+                ];
+                return $bonos;
             }
         } elseif ($envio[0]['idClienteFk'] == 7) {
             $fechadeinicio = $envio[0]['fechaInicio'];
@@ -232,13 +254,25 @@ function calcularBonos($con, $id)
 
                 return $bonos;
             } else {
-                return 0;
+                $bonos = [
+                    'bonoConductor' => 0,
+                    'bonoPeoneta' => 0
+                ];
+                return $bonos;
             }
         } else {
-            return 0;
+            $bonos = [
+                'bonoConductor' => 0,
+                'bonoPeoneta' => 0
+            ];
+            return $bonos;
         }
     } else {
-        return $envio;
+        $bonos = [
+            'bonoConductor' => 0,
+            'bonoPeoneta' => 0
+        ];
+        return $bonos;
     }
 }
 
@@ -246,7 +280,7 @@ function obtenerenviosSabadosPorConductorCastañosCanontex($con, $idconductor)
 {
     $envios = enviosMensualesPorConductor($con, $idconductor);
     $envioSabado = [];
-    $respuesta = [];
+
     foreach ($envios as $envio) {
         $fechadeinicio = $envio['fechaInicio'];
         $fechaEsSabado = false;
@@ -382,7 +416,7 @@ function totalSaturdaysInMonth($month, $year)
 
     return $totalSaturdays;
 }
-obtenerenviosSabadosPorConductorCastañosCanontex($conexion, 5);
+
 
 /* Ejemplo de uso:
 $month = 8; // Agosto
