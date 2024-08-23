@@ -5,7 +5,7 @@ include_once('camiones.php');
 include_once('envios.php');
 include_once('conductores.php');
 include_once('clientes.php');
-$envios=listEnvios($conexion);
+$envios = listEnvios($conexion);
 
 ?>
 
@@ -30,7 +30,9 @@ $envios=listEnvios($conexion);
 
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
-
+  <style>
+    
+  </style>
 </head>
 
 <body id="page-top">
@@ -95,7 +97,7 @@ $envios=listEnvios($conexion);
                         <h6 class="collapse-header">manejo de ingresos</h6>
                         <a class="collapse-item" href="viewIngresosManuales">Ver ingresos Manuales</a>
                         <a class="collapse-item" href="viewAgregarIngresoManual">Agregar ingreso manual</a>
-                     
+
                     </div>
                 </div>
             </li>
@@ -110,7 +112,7 @@ $envios=listEnvios($conexion);
                         <h6 class="collapse-header">manejo de ingresos</h6>
                         <a class="collapse-item" href="viewEgresosManuales">Ver egresos Manuales</a>
                         <a class="collapse-item" href="viewAgregarEgresoManual">Agregar egresos manual</a>
-                     
+
                     </div>
                 </div>
             </li>
@@ -219,7 +221,7 @@ $envios=listEnvios($conexion);
                     <table class="table">
                         <thead>
                             <tr>
-                                
+
                                 <th scope="col">codigo</th>
                                 <th scope="col">camion</th>
                                 <th scope="col">conductor</th>
@@ -235,64 +237,65 @@ $envios=listEnvios($conexion);
                                 <th scope="col">bono peoneta</th>
                                 <th scope="col">detalles</th>
                                 <th scope="col">editar</th>
-                            
+
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                                
-                                $tipodeRespuesta=gettype($envios);
-                                if($tipodeRespuesta =='array'){
+
+                            $tipodeRespuesta = gettype($envios);
+                            if ($tipodeRespuesta == 'array') {
                                 foreach ($envios as $envio) {
-                                $estadoString='';
-                                if ($envio['estadoEnvio']==1) {
-                                    $estadoString='Activo';
-                                }else if($envio['estadoEnvio']==2){
-                                    $estadoString='iniciado';
-                                }else if($envio['estadoEnvio']==3){
-                                    $estadoString='terminado';
-                                }
-                                $camion=listarCamionesPorId($conexion,$envio['idCamionFk']);
-                                $conductor=listarconductoresPorId($conexion,$envio['idConductorFk']);
-                                $cliente=listarClientesPorId($conexion,$envio['idClienteFk']);
-                                echo '
+                                    $estadoString = '';
+                                    if ($envio['estadoEnvio'] == 1) {
+                                        $estadoString = 'Activo';
+                                    } else if ($envio['estadoEnvio'] == 2) {
+                                        $estadoString = 'iniciado';
+                                    } else if ($envio['estadoEnvio'] == 3) {
+                                        $estadoString = 'terminado';
+                                    }
+                                    $camion = listarCamionesPorId($conexion, $envio['idCamionFk']);
+                                    $conductor = listarconductoresPorId($conexion, $envio['idConductorFk']);
+                                    $cliente = listarClientesPorId($conexion, $envio['idClienteFk']);
+                                    echo '
                                 
                                 <tr>
                                 
-                                <td>'.$envio['codigoEnvio'].'</td>
-                                <td>'.$camion[0]['placaCamion'].'</td>
-                                <td>'.$conductor[0]['completenameconductor'].'</td>
-                                <td>'.$cliente[0]['nombreCliente'].'</td>
-                                <td>'.$envio['fechaRegistrada'].'</td>
-                                <td>'.$envio['fechaInicio'].'</td>
-                                <td>'.$envio['fechaFinal'].'</td>
-                                <td>'.$estadoString.'</td>
-                                <td>'.$envio['comentarioEnvio'].'</td>
-                                <td>'.$envio['rutaFotoEnvio'].'</td>
-                                <td>$'.number_format($envio['montoViaje'],2,'.',',').'</td>
-                                <td>'.$envio['bonoConductor'].'</td>
-                                <td>'.$envio['bonoPeoneta'].'</td>
+                                <td>' . $envio['codigoEnvio'] . '</td>
+                                <td>' . $camion[0]['placaCamion'] . '</td>
+                                <td>' . $conductor[0]['completenameconductor'] . '</td>
+                                <td>' . $cliente[0]['nombreCliente'] . '</td>
+                                <td>' . $envio['fechaRegistrada'] . '</td>
+                                <td>' . $envio['fechaInicio'] . '</td>
+                                <td>' . $envio['fechaFinal'] . '</td>
+                                <td>' . $estadoString . '</td>
+                                <td>' . $envio['comentarioEnvio'] . '</td>
+                                <td>' . $envio['rutaFotoEnvio'] . '</td>
+                                <td>$' . number_format($envio['montoViaje'], 2, '.', ',') . '</td>
+                                <td>' . $envio['bonoConductor'] . '</td>
+                                <td>' . $envio['bonoPeoneta'] . '</td>
                                 <td>
                                 <form action="detalleEnvio" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="'.$envio['idEnvio'].'" />
+                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $envio['idEnvio'] . '" />
                                 <button type="submit" class="btn btn-success">Ver</button>
                                 </form>
                                 </td>
                                  <td>
                                 <form action="editarEnvioView" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="'.$envio['idEnvio'].'" />
+                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $envio['idEnvio'] . '" />
                                 <button type="submit" class="btn btn-warning">editar</button>
                                 </form>
                                 </td>
                                  </tr>
                                 
                                 ';
-                            }}else if($tipodeRespuesta=='string'){
+                                }
+                            } else if ($tipodeRespuesta == 'string') {
                                 echo $subSucursales;
                             }
                             ?>
-                        
-                         
+
+
                         </tbody>
                     </table>
 

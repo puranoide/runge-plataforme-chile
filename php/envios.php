@@ -18,7 +18,28 @@ function listEnvios($con)
 
     return $gestores;
 }
+function enviosMensualesPorConductor($con, $idConductorFk)
+{
+    $mensaje = "no hay envios registrados para el conductor con el id :" . $idConductorFk;
+    $usuarios = [];
+    $sqlUsarios = "SELECT *
+    FROM envios
+    WHERE YEAR(fechaInicio) = YEAR(NOW())
+    AND MONTH(fechaInicio) = MONTH(NOW())
+    AND idConductorFk = $idConductorFk;";
 
+    $resultUsuarios = $con->query($sqlUsarios);
+
+    if ($resultUsuarios->num_rows > 0) {
+        while ($rowUsuarios = $resultUsuarios->fetch_assoc()) {
+            $usuarios[] = $rowUsuarios;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $usuarios;
+}
 function listarEnvioPorId($con, $id)
 {
     $mensaje = "no hay envios registrados con el id :" . $id;
@@ -56,30 +77,28 @@ function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente, $codigoE
         return $mensaje;
     }
 }
-function insertarMontoDeEnvio($con, $id) {
+function insertarMontoDeEnvio($con, $id)
+{
 
-    $montoEnvio=calcularMontoDelEnvio($con,$id);
+    $montoEnvio = calcularMontoDelEnvio($con, $id);
     var_dump($montoEnvio);
     $tipoderespuesta = gettype($montoEnvio);
-    if ($tipoderespuesta=='integer') {
+    if ($tipoderespuesta == 'integer') {
         $sqlupdateConductor = "UPDATE envios SET montoViaje='$montoEnvio'
         WHERE idEnvio=$id;";
 
-       $ejecutar = mysqli_query($con, $sqlupdateConductor);
+        $ejecutar = mysqli_query($con, $sqlupdateConductor);
 
-       if ($ejecutar) {
-           $mensaje = 'viaje actualizado con exito,ID del gestor actualizado: ' . $id;
-           return $mensaje;
-       } else {
-           $mensaje = 'viaje no se pudo actualizar,intentelo de nuevo o contacte con soporte';
-           return $mensaje;
-       }
-
-
-    }elseif ($tipoderespuesta=='string') {
+        if ($ejecutar) {
+            $mensaje = 'viaje actualizado con exito,ID del gestor actualizado: ' . $id;
+            return $mensaje;
+        } else {
+            $mensaje = 'viaje no se pudo actualizar,intentelo de nuevo o contacte con soporte';
+            return $mensaje;
+        }
+    } elseif ($tipoderespuesta == 'string') {
         return $montoEnvio;
     }
-
 }
 function calcularMontoDelEnvio($con, $id)
 {
@@ -117,42 +136,42 @@ function calcularMontoDelEnvio($con, $id)
             if ($camion[0]['cubicajeCamion'] == 30) {
                 return 170000;
             }
-        }elseif ($envio[0]['idClienteFk']==5 && $envio[0]['tipoDeViajeFK'] == 6 ){
+        } elseif ($envio[0]['idClienteFk'] == 5 && $envio[0]['tipoDeViajeFK'] == 6) {
             if ($camion[0]['cubicajeCamion'] == 30) {
                 return 120000;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
                 return 140000;
             }
-        }elseif ($envio[0]['idClienteFk']==5 && $envio[0]['tipoDeViajeFK'] == 7 ){
+        } elseif ($envio[0]['idClienteFk'] == 5 && $envio[0]['tipoDeViajeFK'] == 7) {
             if ($camion[0]['cubicajeCamion'] == 30) {
                 return 130000;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
                 return 150000;
             }
-        }elseif ($envio[0]['idClienteFk']==5 && $envio[0]['tipoDeViajeFK'] == 8 ){
+        } elseif ($envio[0]['idClienteFk'] == 5 && $envio[0]['tipoDeViajeFK'] == 8) {
             if ($camion[0]['cubicajeCamion'] == 30) {
                 return 120000;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
                 return 140000;
             }
-        }elseif ($envio[0]['idClienteFk']==5 && $envio[0]['tipoDeViajeFK'] == 9 ){
+        } elseif ($envio[0]['idClienteFk'] == 5 && $envio[0]['tipoDeViajeFK'] == 9) {
             if ($camion[0]['cubicajeCamion'] == 30) {
                 return 120000;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
                 return 140000;
             }
-        }elseif ($envio[0]['idClienteFk']==6 && $envio[0]['tipoDeViajeFK'] == 10){
+        } elseif ($envio[0]['idClienteFk'] == 6 && $envio[0]['tipoDeViajeFK'] == 10) {
             if ($camion[0]['cubicajeCamion'] == 30) {
                 return 130000;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
                 return 150000;
             }
-        }elseif ($envio[0]['idClienteFk']==7 && $envio[0]['tipoDeViajeFK'] == 10){
+        } elseif ($envio[0]['idClienteFk'] == 7 && $envio[0]['tipoDeViajeFK'] == 10) {
             if ($camion[0]['cubicajeCamion'] == 30) {
                 return 135000;
             }
@@ -168,6 +187,91 @@ function calcularMontoDelEnvio($con, $id)
     return "No se pudo calcular el monto del envío.";
 }
 
+function calcularBonos($con, $id)
+{
+    $envio = listarEnvioPorId($con, $id);
+    $tipoderespuesta = gettype($envio);
+    if ($tipoderespuesta == 'array') {
+        if ($envio[0]['idClienteFk'] == 4) {
+            $fechadeinicio = $envio[0]['fechaInicio'];
+            $fechaEsSabado = false;
+            $timestamp = strtotime($fechadeinicio); // Convierte la fecha a un timestamp
+            // Verifica si el día de la semana es sábado (6 en la función date('w'))
+            if (date('w', $timestamp) == 6) {
+                $fechaEsSabado = true;
+            } else {
+                $fechaEsSabado = false;
+            }
+
+            if ($fechaEsSabado) {
+                $bonos = [
+                    'bonoConductor' => 25000,
+                    'bonoPeoneta' => 20000
+                ];
+
+                return $bonos;
+            } else {
+                return 0;
+            }
+        } elseif ($envio[0]['idClienteFk'] == 7) {
+            $fechadeinicio = $envio[0]['fechaInicio'];
+            $fechaEsSabado = false;
+            $timestamp = strtotime($fechadeinicio); // Convierte la fecha a un timestamp
+            // Verifica si el día de la semana es sábado (6 en la función date('w'))
+            if (date('w', $timestamp) == 6) {
+                $fechaEsSabado = true;
+            } else {
+                $fechaEsSabado = false;
+            }
+
+            if ($fechaEsSabado) {
+                $bonos = [
+                    'bonoConductor' => 135000,
+                    'bonoPeoneta' => 135000
+                ];
+
+                return $bonos;
+            } else {
+                return 0;
+            }
+        } else {
+            return 0;
+        }
+    } else {
+        return $envio;
+    }
+}
+
+function obtenerenviosSabadosPorConductorCastañosCanontex($con, $idconductor)
+{
+    $envios = enviosMensualesPorConductor($con, $idconductor);
+    $envioSabado = [];
+    $respuesta = [];
+    foreach ($envios as $envio) {
+        $fechadeinicio = $envio['fechaInicio'];
+        $fechaEsSabado = false;
+        $timestamp = strtotime($fechadeinicio); // Convierte la fecha a un timestamp
+        // Obtén el mes (en formato numérico, 1-12)
+        $mes = date('n', $timestamp);
+
+        // Obtén el año
+        $año = date('Y', $timestamp);
+        $totaldesabados = totalSaturdaysInMonth($mes, $año);
+
+        // Verifica si el día de la semana es sábado (6 en la función date('w'))
+        if (date('w', $timestamp) == 6) {
+            $fechaEsSabado = true;
+        } else {
+            $fechaEsSabado = false;
+        }
+
+        if ($fechaEsSabado && $envio['idClienteFk'] == 7) {
+            array_push($envioSabado, $envio);
+        }
+    }
+
+   return $envioSabado;
+}
 
 function ActualizarEnvios($con, $id, $conductor, $idCamion, $idCliente, $estadoEnvio, $comentario, $rutaFotoEnvio)
 {
@@ -261,11 +365,29 @@ function listEnviosTerminado($con)
 
     return $gestores;
 }
+function totalSaturdaysInMonth($month, $year)
+{
+    $totalSaturdays = 0;
 
+    // Obtiene el número de días en el mes
+    $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
+    // Recorre cada día del mes
+    for ($day = 1; $day <= $daysInMonth; $day++) {
+        // Si es sábado (6 en el formato de día de la semana)
+        if (date('N', strtotime("$year-$month-$day")) == 6) {
+            $totalSaturdays++;
+        }
+    }
 
+    return $totalSaturdays;
+}
+obtenerenviosSabadosPorConductorCastañosCanontex($conexion, 5);
 
-
+/* Ejemplo de uso:
+$month = 8; // Agosto
+$year = 2024;
+echo "Total de sábados en $month/$year: " . totalSaturdaysInMonth($month, $year);
 /*
 
 
