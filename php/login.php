@@ -22,7 +22,7 @@ if ($consulta_usuario) {
         $_SESSION['password']=$usuario['userpass'];
         if ($_SESSION['password']==$contraseña) {
             if ($_SESSION['rol']=='1'){
-                header('location:admin');
+                header('location:admin.php');
                 exit();
             }else{
                 header('location:conductoresView');
