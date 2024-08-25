@@ -214,6 +214,11 @@ $total=sumatoriaEgresosManuales($egresos);
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                <form action="egresosfiltrados" method="POST">
+                        Desde:<input type="date" name="desde" id="">
+                        Hasta:<input type="date" name="hasta" id="">
+                        <button type="submit">buscar</button>
+                    </form>
                     <table class="table">
                         <thead>
                             <tr>

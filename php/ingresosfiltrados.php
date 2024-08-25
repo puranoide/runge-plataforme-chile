@@ -1,12 +1,11 @@
 <?php
 
 include_once('conection.php');
-include_once('camiones.php');
-include_once('envios.php');
-include_once('conductores.php');
-include_once('clientes.php');
-$envios = listEnvios($conexion);
-
+include_once('ingresosmanuales.php');
+$fechaDesde=isset($_POST["desde"])?$_POST["desde"]:'';
+$fechaHasta=isset($_POST["hasta"])?$_POST["hasta"]:'';
+$ingresos=filtaringresosmanualesporfechas($conexion,$fechaDesde,$fechaHasta);
+$total=sumatoriaIngresosManuales($ingresos);
 ?>
 
 
@@ -30,9 +29,7 @@ $envios = listEnvios($conexion);
 
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
-  <style>
-    
-  </style>
+
 </head>
 
 <body id="page-top">
@@ -41,7 +38,7 @@ $envios = listEnvios($conexion);
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion " id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="admin">
@@ -97,7 +94,7 @@ $envios = listEnvios($conexion);
                         <h6 class="collapse-header">manejo de ingresos</h6>
                         <a class="collapse-item" href="viewIngresosManuales">Ver ingresos Manuales</a>
                         <a class="collapse-item" href="viewAgregarIngresoManual">Agregar ingreso manual</a>
-
+                     
                     </div>
                 </div>
             </li>
@@ -112,10 +109,11 @@ $envios = listEnvios($conexion);
                         <h6 class="collapse-header">manejo de ingresos</h6>
                         <a class="collapse-item" href="viewEgresosManuales">Ver egresos Manuales</a>
                         <a class="collapse-item" href="viewAgregarEgresoManual">Agregar egresos manual</a>
-
+                     
                     </div>
                 </div>
             </li>
+            
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagescamiones" aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
@@ -218,86 +216,62 @@ $envios = listEnvios($conexion);
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                    <form action="ingresosfiltrados" method="POST">
+                        Desde:<input type="date" name="desde" id="">
+                        Hasta:<input type="date" name="hasta" id="">
+                        <button type="submit">buscar</button>
+                    </form>
                     <table class="table">
                         <thead>
                             <tr>
-
-                                <th scope="col">codigo</th>
-                                <th scope="col">camion</th>
-                                <th scope="col">conductor</th>
-                                <th scope="col">cliente</th>
-                                <th scope="col">registrado</th>
-                                <th scope="col">inicio</th>
-                                <th scope="col">final</th>
-                                <th scope="col">estado</th>
-                                <th scope="col">comentario</th>
-                                <th scope="col">foto</th>
+                                <th scope="col">id</th>
+                                <th scope="col">descripcion</th>
                                 <th scope="col">monto</th>
-                                <th scope="col">bono conductor</th>
-                                <th scope="col">bono peoneta</th>
+                                <th scope="col">fecha de ingreso</th>
                                 <th scope="col">detalles</th>
                                 <th scope="col">editar</th>
-
+                            
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-
-                            $tipodeRespuesta = gettype($envios);
-                            if ($tipodeRespuesta == 'array') {
-                                foreach ($envios as $envio) {
-                                    $estadoString = '';
-                                    if ($envio['estadoEnvio'] == 1) {
-                                        $estadoString = 'Activo';
-                                    } else if ($envio['estadoEnvio'] == 2) {
-                                        $estadoString = 'iniciado';
-                                    } else if ($envio['estadoEnvio'] == 3) {
-                                        $estadoString = 'terminado';
-                                    }
-                                    $camion = listarCamionesPorId($conexion, $envio['idCamionFk']);
-                                    $conductor = listarconductoresPorId($conexion, $envio['idConductorFk']);
-                                    $cliente = listarClientesPorId($conexion, $envio['idClienteFk']);
-                                    echo '
+                                $tipodeRespuesta=gettype($ingresos);
+                                if($tipodeRespuesta =='array'){
+                                foreach ($ingresos as $ingreso) {
+                                echo '
                                 
                                 <tr>
-                                
-                                <td>' . $envio['codigoEnvio'] . '</td>
-                                <td>' . $camion[0]['placaCamion'] . '</td>
-                                <td>' . $conductor[0]['completenameconductor'] . '</td>
-                                <td>' . $cliente[0]['nombreCliente'] . '</td>
-                                <td>' . $envio['fechaRegistrada'] . '</td>
-                                <td>' . $envio['fechaInicio'] . '</td>
-                                <td>' . $envio['fechaFinal'] . '</td>
-                                <td>' . $estadoString . '</td>
-                                <td>' . $envio['comentarioEnvio'] . '</td>
-                                <td>' . $envio['rutaFotoEnvio'] . '</td>
-                                <td>$' . number_format($envio['montoViaje'], 2, '.', ',') . '</td>
-                                <td>' . number_format($envio['bonoConductor'] ,2,'.',',') . '</td>
-                                <td>' . number_format($envio['bonoPeoneta'],2,'.',',')  . '</td>
+                                <th scope="row">'.$ingreso['idIngresosManuales'].'</th>
+                                <td>'.$ingreso['descripcionIngresosManuales'].'</td>
+                                <td>$'.number_format($ingreso['monto'],2,'.',',').'</td>
+                                <td>'.$ingreso['fechaIngresoManual'].'</td>
                                 <td>
                                 <form action="detalleEnvio" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $envio['idEnvio'] . '" />
+                                <input type="hidden" id="linkFoto" name="idEnvio" value="'.$ingreso['idIngresosManuales'].'" />
                                 <button type="submit" class="btn btn-success">Ver</button>
                                 </form>
                                 </td>
                                  <td>
                                 <form action="editarEnvioView" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $envio['idEnvio'] . '" />
+                                <input type="hidden" id="linkFoto" name="idEnvio" value="'.$ingreso['idIngresosManuales'].'" />
                                 <button type="submit" class="btn btn-warning">editar</button>
                                 </form>
                                 </td>
                                  </tr>
                                 
                                 ';
-                                }
-                            } else if ($tipodeRespuesta == 'string') {
-                                echo $subSucursales;
+                            }}else if($tipodeRespuesta=='string'){
+                                echo '<tr><td colspan="5">No se encontraron ingresos manuales.</td></tr>';
                             }
+                          
+                        
+                            
                             ?>
-
-
+                        
+                         
                         </tbody>
                     </table>
+                    <h2><?php echo '$'.number_format($total, 2, '.', ','); ?></h2>
 
                 </div>
                 <!-- /.container-fluid -->

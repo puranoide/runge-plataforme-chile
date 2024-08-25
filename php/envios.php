@@ -1,5 +1,5 @@
 <?php
-include_once('conection.php');
+
 include_once('camiones.php');
 function listEnvios($con)
 {

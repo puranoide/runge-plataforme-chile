@@ -127,6 +127,38 @@ function sumatoriaIngresosManualesAnuales($listaIngresosanuales){
 
     return $total;
 }
+function filtaringresosmanualesporfechas($con,$inicio,$fin){
+    $mensaje = "no hay ingresos registrados de la fecha: " . $inicio . ' hasta: ' . $fin;
+    $usuarios = [];
+    
+    $sqlUsuarios = "SELECT * FROM ingresosmanuales WHERE 1=1";
+    
+    if (!empty($inicio) && !empty($fin)) {
+        // Si ambas fechas están especificadas
+        $sqlUsuarios .= " AND fechaIngresoManual BETWEEN '$inicio' AND '$fin'";
+    } elseif (!empty($inicio)) {
+        // Si solo se especifica la fecha de inicio
+        $sqlUsuarios .= " AND fechaIngresoManual = '$inicio'";
+    } elseif (!empty($fin)) {
+        // Si solo se especifica la fecha de fin
+        $sqlUsuarios .= " AND fechaIngresoManual <= '$fin'";
+    }
+    
+    // Ejecutar la consulta
+    $resultUsuarios = $con->query($sqlUsuarios);
+    
+    if ($resultUsuarios->num_rows > 0) {
+        while ($rowUsuarios = $resultUsuarios->fetch_assoc()) {
+            $usuarios[] = $rowUsuarios;
+        }
+    } else {
+        return $mensaje;
+    }
+    
+    return $usuarios;
+    
+}
+
 
 /* 
 
