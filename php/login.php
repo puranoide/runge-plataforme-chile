@@ -31,7 +31,7 @@ if ($consulta_usuario) {
             echo'
             <script>
                 alert("contraseña incorrecta,intentelo de nuevo");
-                window.location="../index";
+                window.location="../index.html";
             </script>
             
             ';
@@ -41,7 +41,7 @@ if ($consulta_usuario) {
         echo '
             <script>
                 alert("No se encontró el usuario,por favor vuelva a intentarlo");
-                window.location="../index";
+                window.location="../index.html";
             </script>
         ';
         exit();
