@@ -54,7 +54,7 @@
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
                 <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="admin">
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="admin.php">
                     <div class="sidebar-brand-icon">
                         <img src="../assetspersonal/img/logorunge.jpg" alt="" width="60" height="50">
                     </div>
@@ -90,8 +90,8 @@
                     <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">manejo de envios</h6>
-                            <a class="collapse-item" href="ViewEnvios">Ver envios</a>
-                            <a class="collapse-item" href="viewAgregarEnvio">Agregar envio</a>
+                            <a class="collapse-item" href="ViewEnvios.php">Ver envios</a>
+                            <a class="collapse-item" href="viewAgregarEnvio.php">Agregar envio</a>
                             <a class="collapse-item" href="forgot-password.html">editar envio</a>
                         </div>
                     </div>
@@ -105,8 +105,8 @@
                     <div id="collapsePagesingresosManuales" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">manejo de ingresos</h6>
-                            <a class="collapse-item" href="viewIngresosManuales">Ver ingresos Manuales</a>
-                            <a class="collapse-item" href="viewAgregarIngresoManual">Agregar ingreso manual</a>
+                            <a class="collapse-item" href="viewIngresosManuales.php">Ver ingresos Manuales</a>
+                            <a class="collapse-item" href="viewAgregarIngresoManual.php">Agregar ingreso manual</a>
                         
                         </div>
                     </div>
@@ -120,8 +120,8 @@
                     <div id="collapsePagesEgresosManuales" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">manejo de ingresos</h6>
-                            <a class="collapse-item" href="viewEgresosManuales">Ver egresos Manuales</a>
-                            <a class="collapse-item" href="viewAgregarEgresoManual">Agregar egresos manual</a>
+                            <a class="collapse-item" href="viewEgresosManuales.php">Ver egresos Manuales</a>
+                            <a class="collapse-item" href="viewAgregarEgresoManual.php">Agregar egresos manual</a>
                         
                         </div>
                     </div>
@@ -229,7 +229,7 @@
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
 
-                        <form action="postSucursal" method="POST">
+                        <form action="postSucursal.php" method="POST">
 
                             <input type="hidden" id="linkFoto" name="idEnvio" value="<?php echo $idEnvio ?>" />
                             <div data-mdb-input-init class="form-outline form-white mb-4">
@@ -258,7 +258,7 @@
                             
                             <button type="submit" class="btn btn-success">Success</button>
                         </form>
-                        <form action="terminarInsercionDeEnvios" method="POST">
+                        <form action="terminarInsercionDeEnvios.php" method="POST">
                         <input type="hidden" id="linkFoto" name="idEnvio" value="<?php echo $idEnvio ?>" />
                         <button type="submit" class="btn btn-danger">terminar de agregar sucursales</button>
                         </form>

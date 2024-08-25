@@ -9,7 +9,7 @@ $resultado=agregaregresosManuales($conexion,$descripcion,$montoDescripcionManual
     echo '
     <script>
     alert("'.$resultado.'");
-    window.location="viewEgresosManuales";
+    window.location="viewEgresosManuales.php";
     </script>
     ';
 

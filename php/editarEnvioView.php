@@ -47,7 +47,7 @@ $clientes = listarClientes($conexion);
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="admin">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="admin.php">
                 <div class="sidebar-brand-icon">
                     <img src="../assetspersonal/img/logorunge.jpg" alt="" width="60" height="50">
                 </div>
@@ -83,8 +83,8 @@ $clientes = listarClientes($conexion);
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">manejo de envios</h6>
-                        <a class="collapse-item" href="ViewEnvios">Ver envios</a>
-                        <a class="collapse-item" href="viewAgregarEnvio">Agregar envio</a>
+                        <a class="collapse-item" href="ViewEnvios.php">Ver envios</a>
+                        <a class="collapse-item" href="viewAgregarEnvio.php">Agregar envio</a>
                         <a class="collapse-item" href="forgot-password.html">editar envio</a>
                     </div>
                 </div>
@@ -192,7 +192,7 @@ $clientes = listarClientes($conexion);
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <form action="editadoyredireccion" method="POST">
+                    <form action="editadoyredireccion.php" method="POST">
 
                     <input type="hidden" id="linkFoto" name="idEnvio" value="<?php echo $idenvio ?>" />
                         <div data-mdb-input-init class="form-outline form-white mb-4">

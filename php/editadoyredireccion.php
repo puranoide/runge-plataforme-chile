@@ -13,7 +13,7 @@ $bonos=insertarbonosDelEnvio($conexion,$idenvio);
     echo '
     <script>
     alert("'.$resultado.','.$bonos.'");
-    window.location="ViewEnvios";
+    window.location="ViewEnvios.php";
     </script>
     ';
 

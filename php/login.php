@@ -25,7 +25,7 @@ if ($consulta_usuario) {
                 header('location:admin.php');
                 exit();
             }else{
-                header('location:conductoresView');
+                header('location:conductoresView.php');
             }
         }else {
             echo'
@@ -50,7 +50,7 @@ if ($consulta_usuario) {
     echo '
         <script>
             alert("Error en la consulta a la base de datos");
-            window.location="../index";
+            window.location="../index.html";
         </script>
     ';
     exit();

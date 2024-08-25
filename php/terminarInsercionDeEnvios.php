@@ -9,7 +9,7 @@ $Respuesta=insertarMontoDeEnvio($conexion,$id);
     echo '
     <script>
     alert("'.$Respuesta.'");
-    window.location="ViewEnvios";
+    window.location="ViewEnvios.php";
     </script>
     ';
 
