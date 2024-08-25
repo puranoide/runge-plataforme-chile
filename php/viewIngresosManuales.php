@@ -214,7 +214,7 @@ $total=sumatoriaIngresosManuales($ingresos);
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <form action="ingresosfiltrados" method="POST">
+                    <form action="ingresosfiltrados.php" method="POST">
                         Desde:<input type="date" name="desde" id="">
                         Hasta:<input type="date" name="hasta" id="">
                         <button type="submit">buscar</button>
