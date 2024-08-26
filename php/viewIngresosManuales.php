@@ -90,8 +90,8 @@ $total=sumatoriaIngresosManuales($ingresos);
                 <div id="collapsePagesingresosManuales" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">manejo de ingresos</h6>
-                        <a class="collapse-item" href="viewIngresosManuales">Ver ingresos Manuales</a>
-                        <a class="collapse-item" href="viewAgregarIngresoManual">Agregar ingreso manual</a>
+                        <a class="collapse-item" href="viewIngresosManuales.php">Ver ingresos Manuales</a>
+                        <a class="collapse-item" href="viewAgregarIngresoManual.php">Agregar ingreso manual</a>
                      
                     </div>
                 </div>
@@ -105,8 +105,8 @@ $total=sumatoriaIngresosManuales($ingresos);
                 <div id="collapsePagesEgresosManuales" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">manejo de ingresos</h6>
-                        <a class="collapse-item" href="viewEgresosManuales">Ver egresos Manuales</a>
-                        <a class="collapse-item" href="viewAgregarEgresoManual">Agregar egresos manual</a>
+                        <a class="collapse-item" href="viewEgresosManuales.php">Ver egresos Manuales</a>
+                        <a class="collapse-item" href="viewAgregarEgresoManual.php">Agregar egresos manual</a>
                      
                     </div>
                 </div>
