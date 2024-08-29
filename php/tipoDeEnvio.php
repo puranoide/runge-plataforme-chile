@@ -38,7 +38,7 @@ function listarTipoDeViajePorCliente($con,$id){
 function listarTipoDeViajePorId($con,$id){
     $mensaje = "no hay tipo de viajes con el id :".$id;
     $usuarios = [];
-    $sqlUsarios = "SELECT* from tiposDeViajes WHERE idTipoDeviaje=$id;";
+    $sqlUsarios = "SELECT* from tiposdeviajes WHERE idTipoDeviaje=$id;";
     $resultUsuarios = $con->query($sqlUsarios);
 
     if ($resultUsuarios->num_rows > 0) {
