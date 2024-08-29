@@ -58,14 +58,14 @@ function listarEnvioPorId($con, $id)
     return $usuarios;
 }
 
-function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente, $codigoEnvio, $tipodeviaje)
+function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente, $codigoEnvio, $tipodeviaje,$fechaRegistrada)
 {
     $date = new DateTime();
     $date->modify('-7 hours');
     $dateFormat = $date->format('Y-m-d H:i:s');
     $mensaje = '';
     $sqlAddenvios = "INSERT INTO envios (fechaRegistrada,estadoEnvio,idConductorFk,idCamionFk,idClienteFk,codigoEnvio,tipoDeViajeFK)
-                    VALUES('$dateFormat',1,'$conductor','$idCamion','$idCliente','$codigoEnvio','$tipodeviaje')";
+                    VALUES('$fechaRegistrada',1,'$conductor','$idCamion','$idCliente','$codigoEnvio','$tipodeviaje')";
     $ejecutar = mysqli_query($con, $sqlAddenvios);
 
     if ($ejecutar) {

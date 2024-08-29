@@ -213,7 +213,7 @@ $total=sumatoriaIngresosManuales($ingresos);
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <div class="table-responsive">
                     <form action="ingresosfiltrados.php" method="POST">
                         Desde:<input type="date" name="desde" id="">
                         Hasta:<input type="date" name="hasta" id="">

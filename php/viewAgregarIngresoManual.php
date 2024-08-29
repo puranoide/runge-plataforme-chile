@@ -86,7 +86,7 @@
                         <h6 class="collapse-header">manejo de ingresos</h6>
                         <a class="collapse-item" href="viewIngresosManuales.php">Ver ingresos Manuales</a>
                         <a class="collapse-item" href="viewAgregarIngresoManual.php">Agregar ingreso manual</a>
-                     
+
                     </div>
                 </div>
             </li>
@@ -101,7 +101,7 @@
                         <h6 class="collapse-header">manejo de ingresos</h6>
                         <a class="collapse-item" href="viewEgresosManuales.php">Ver egresos Manuales</a>
                         <a class="collapse-item" href="viewAgregarEgresoManual.php">Agregar egresos manual</a>
-                     
+
                     </div>
                 </div>
             </li>
@@ -213,13 +213,17 @@
 
                         <div data-mdb-input-init class="form-outline form-white mb-4">
                             <label class="form-label text-dark" for="linkFoto">Descripción del ingreso</label>
-                            <input type="text" id="linkFoto" class="form-control form-control-lg" name="descripcionIngresoManual"  required pattern="\S.*" />
+                            <input type="text" id="linkFoto" class="form-control form-control-lg" name="descripcionIngresoManual" required pattern="\S.*" />
 
                         </div>
                         <div data-mdb-input-init class="form-outline form-white mb-4">
                             <label class="form-label text-dark" for="linkFoto">Monto del ingreso</label>
-                            <input type="number" step=".01"  id="linkFoto" class="form-control form-control-lg" name="montoDescripcionManual"  required pattern="\S.*" />
+                            <input type="number" step=".01" id="linkFoto" class="form-control form-control-lg" name="montoDescripcionManual" required pattern="\S.*" />
 
+                        </div>
+                        <div data-mdb-input-init class="form-outline form-white mb-4">
+                            <label class="form-label text-dark" for="linkFoto">fecha</label>
+                            <input type="date" name="fechaRegistro" id="fechaRegistro">
                         </div>
 
                         <button type="submit" class="btn btn-success">Success</button>
@@ -314,6 +318,20 @@
             });
         </script>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+
+                var now = new Date();
+
+                var day = ("0" + now.getDate()).slice(-2);
+                var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+                var today = now.getFullYear() + "-" + (month) + "-" + (day);
+                $("#fechaRegistro").val(today);
+            });
+        </script>
 </body>
 
 </html>

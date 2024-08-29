@@ -219,7 +219,7 @@ $listadosucursalesporenvio=listarSubSucursalPorIdEnvio($conexion,$idEnvio);
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <div class="table-responsive">
                 <h1>Pedido:</h1>
                 <table class="table">
                         <thead>
@@ -296,9 +296,9 @@ $listadosucursalesporenvio=listarSubSucursalPorIdEnvio($conexion,$idEnvio);
                          
                         </tbody>
                 </table>
-                
+                </div>
                 <h1>Sucursales de subclientes para envio:</h1>
-                
+                <div class="table-responsive">
                 <table class="table">
                         <thead>
                             <tr>
@@ -343,9 +343,9 @@ $listadosucursalesporenvio=listarSubSucursalPorIdEnvio($conexion,$idEnvio);
                          
                         </tbody>
                 </table>
-                
-                
                 </div>
+                
+                
                 <!-- /.container-fluid -->
 
                 <!-- End of Main Content -->

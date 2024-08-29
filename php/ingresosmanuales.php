@@ -18,14 +18,14 @@ function listaringresosManuales($con){
     return $usuarios;
 }
 
-function agregarIngresosManuales($con, $descripcion, $monto)
+function agregarIngresosManuales($con, $descripcion, $monto,$fecha)
 {
     $date = new DateTime();
     $date->modify('-7 hours');
     $dateFormat = $date->format('Y-m-d H:i:s');
     $mensaje = '';
     $sqlAddconductores = "INSERT INTO ingresosmanuales (descripcionIngresosManuales,monto,fechaIngresoManual)
-                    VALUES('$descripcion','$monto','$dateFormat')";
+                    VALUES('$descripcion','$monto','$fecha')";
 
     $ejecutar = mysqli_query($con, $sqlAddconductores);
 

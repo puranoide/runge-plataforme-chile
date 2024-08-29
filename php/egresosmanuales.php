@@ -20,14 +20,14 @@ function listarEgresosManuales($con)
     return $usuarios;
 }
 
-function agregaregresosManuales($con, $descripcion, $monto)
+function agregaregresosManuales($con, $descripcion, $monto,$fecha)
 {
     $date = new DateTime();
     $date->modify('-7 hours');
     $dateFormat = $date->format('Y-m-d H:i:s');
     $mensaje = '';
     $sqlAddconductores = "INSERT INTO egresosmanuales (descripcionEgresosManuales,montoEgresosManuales,fechaRegistrada)
-                    VALUES('$descripcion','$monto','$dateFormat')";
+                    VALUES('$descripcion','$monto','$fecha')";
 
     $ejecutar = mysqli_query($con, $sqlAddconductores);
 

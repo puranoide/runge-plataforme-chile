@@ -5,6 +5,7 @@ include_once('camiones.php');
 include_once('envios.php');
 include_once('conductores.php');
 include_once('clientes.php');
+include_once('tipoDeEnvio.php');
 $envios = listEnvios($conexion);
 
 ?>
@@ -217,7 +218,7 @@ $envios = listEnvios($conexion);
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <div class="table-responsive">
                     <table class="table">
                         <thead>
                             <tr>
@@ -235,6 +236,7 @@ $envios = listEnvios($conexion);
                                 <th scope="col">monto</th>
                                 <th scope="col">bono conductor</th>
                                 <th scope="col">bono peoneta</th>
+                                <th scope="col">tipo de viaje</th>
                                 <th scope="col">detalles</th>
                                 <th scope="col">editar</th>
 
@@ -257,6 +259,7 @@ $envios = listEnvios($conexion);
                                     $camion = listarCamionesPorId($conexion, $envio['idCamionFk']);
                                     $conductor = listarconductoresPorId($conexion, $envio['idConductorFk']);
                                     $cliente = listarClientesPorId($conexion, $envio['idClienteFk']);
+                                    $tipodeenvio=listarTipoDeViajePorId($conexion,$envio['tipoDeViajeFK']);
                                     echo '
                                 
                                 <tr>
@@ -274,6 +277,7 @@ $envios = listEnvios($conexion);
                                 <td>$' . number_format($envio['montoViaje'], 2, '.', ',') . '</td>
                                 <td>' . number_format($envio['bonoConductor'] ,2,'.',',') . '</td>
                                 <td>' . number_format($envio['bonoPeoneta'],2,'.',',')  . '</td>
+                                <td>' . $tipodeenvio[0]['descripcionViaje'] . '</td>
                                 <td>
                                 <form action="detalleEnvio.php" method="POST">
                                 <input type="hidden" id="linkFoto" name="idEnvio" value="' . $envio['idEnvio'] . '" />

@@ -261,7 +261,11 @@ $clientes = listarClientes($conexion);
                             </select>
                         </div>
                         <div data-mdb-input-init class="form-outline form-white mb-4" id="rutas">
-                           
+
+                        </div>
+                        <div data-mdb-input-init class="form-outline form-white mb-4">
+                            <label class="form-label text-dark" for="linkFoto">fecha</label>
+                            <input type="date" name="fechaRegistro" id="fechaRegistro">
                         </div>
                         <button type="submit" class="btn btn-success">Success</button>
                     </form>
@@ -372,7 +376,7 @@ $clientes = listarClientes($conexion);
                 `
 
                 var formularioAlicomer = `
- <label class="form-label text-dark" for="linkFoto">rutas para el cliente</label>
+                    <label class="form-label text-dark" for="linkFoto">rutas para el cliente</label>
                             <select class="form-select" aria-label="Default select example" name="ruta" id="rutas" required>
                                 <option value="0" >Selecciona un cliente</option>
                 <option value="0" >Selecciona un cliente</option>
@@ -381,7 +385,6 @@ $clientes = listarClientes($conexion);
                 <option value="8" >retiro de cajas de carton</option>
                 <option value="9" >retiro de cajas plasticas</option>
                 </select>
-               
                 `
                 var formularionutriscocastaño = `
                 <input type="hidden" value="10" id="" class="form-control form-control-lg" name="ruta" onlyread pattern="\S.*" />
@@ -401,7 +404,20 @@ $clientes = listarClientes($conexion);
                 }
             }
         </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+        <script>
+            $(document).ready(function() {
+
+                var now = new Date();
+
+                var day = ("0" + now.getDate()).slice(-2);
+                var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+                var today = now.getFullYear() + "-" + (month) + "-" + (day);
+                $("#fechaRegistro").val(today);
+            });
+        </script>
 </body>
 
 </html>
