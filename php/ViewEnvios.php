@@ -279,7 +279,7 @@ $envios = listEnvios($conexion);
                                 <td>' . number_format($envio['bonoConductor'] ,2,'.',',') . '</td>
                                 <td>' . number_format($envio['bonoPeoneta'],2,'.',',')  . '</td>
                                 <td>' . $tipodeenvio[0]['descripcionViaje'] . '</td>
-                                 <td>' . $envio['sobrecargo'] . '</td>
+                                 <td>' . number_format($envio['sobrecargo'],2,'.',',') . '</td>
                                 <td>
                                 <form action="detalleEnvio.php" method="POST">
                                 <input type="hidden" id="linkFoto" name="idEnvio" value="' . $envio['idEnvio'] . '" />
