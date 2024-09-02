@@ -10,8 +10,8 @@
     $codigoEnvio = $_POST['codigoEnvio'];
     $tipoDeViaje = $_POST['ruta'];
     $fechaRegistro = $_POST['fechaRegistro'];
-
-    $idEnvio = agregarEnviosParteUno($conexion, $conductor, $camion, $cliente, $codigoEnvio,$tipoDeViaje,$fechaRegistro);
+    $sobrecargo=$_POST['sobrecargo'];
+    $idEnvio = agregarEnviosParteUno($conexion, $conductor, $camion, $cliente, $codigoEnvio,$tipoDeViaje,$fechaRegistro,$sobrecargo);
 
 
 

@@ -260,12 +260,21 @@ $clientes = listarClientes($conexion);
                                 ?>
                             </select>
                         </div>
+
+
+
                         <div data-mdb-input-init class="form-outline form-white mb-4" id="rutas">
 
                         </div>
                         <div data-mdb-input-init class="form-outline form-white mb-4">
                             <label class="form-label text-dark" for="linkFoto">fecha</label>
                             <input type="date" name="fechaRegistro" id="fechaRegistro">
+                        </div>
+
+                        <div data-mdb-input-init class="form-outline form-white mb-4">
+                            <label class="form-label text-dark" for="linkFoto">Sobrecargo</label>
+                            <input type="number" step=".01" id="linkFoto" class="form-control form-control-lg" name="sobrecargo" required pattern="\S.*" value="0.00" />
+
                         </div>
                         <button type="submit" class="btn btn-success">Success</button>
                     </form>

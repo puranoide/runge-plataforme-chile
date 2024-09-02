@@ -1,5 +1,5 @@
 <?php
-
+include_once('conection.php');
 include_once('camiones.php');
 function listEnvios($con)
 {
@@ -58,14 +58,14 @@ function listarEnvioPorId($con, $id)
     return $usuarios;
 }
 
-function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente, $codigoEnvio, $tipodeviaje,$fechaRegistrada)
+function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente, $codigoEnvio, $tipodeviaje,$fechaRegistrada,$sobreCargo)
 {
     $date = new DateTime();
     $date->modify('-7 hours');
     $dateFormat = $date->format('Y-m-d H:i:s');
     $mensaje = '';
-    $sqlAddenvios = "INSERT INTO envios (fechaRegistrada,estadoEnvio,idConductorFk,idCamionFk,idClienteFk,codigoEnvio,tipoDeViajeFK)
-                    VALUES('$fechaRegistrada',1,'$conductor','$idCamion','$idCliente','$codigoEnvio','$tipodeviaje')";
+    $sqlAddenvios = "INSERT INTO envios (fechaRegistrada,estadoEnvio,idConductorFk,idCamionFk,idClienteFk,codigoEnvio,tipoDeViajeFK,sobreCargo)
+                    VALUES('$fechaRegistrada',1,'$conductor','$idCamion','$idCliente','$codigoEnvio','$tipodeviaje','$sobreCargo')";
     $ejecutar = mysqli_query($con, $sqlAddenvios);
 
     if ($ejecutar) {
@@ -109,74 +109,95 @@ function calcularMontoDelEnvio($con, $id)
         $camion = listarCamionesPorId($con, $envio[0]['idCamionFk']);
         if ($envio[0]['idClienteFk'] == 4 && $envio[0]['tipoDeViajeFK'] == 1) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                return 120000;
+                $sobrecargo=$envio[0]['sobrecargo'];
+                return 120000+$sobrecargo;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
-                return 140000;
+                $sobrecargo=$envio[0]['sobrecargo'];
+                return 140000+$sobrecargo;
             }
         } elseif ($envio[0]['idClienteFk'] == 4 && $envio[0]['tipoDeViajeFK'] == 2) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                return 60000;
+                $sobrecargo=$envio[0]['sobrecargo'];
+                return 60000+$sobrecargo;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
-                return 70000;
+                $sobrecargo=$envio[0]['sobrecargo'];
+                return 70000+$sobrecargo;
             }
         } elseif ($envio[0]['idClienteFk'] == 4 && $envio[0]['tipoDeViajeFK'] == 3) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                return 100000;
+                $sobrecargo=$envio[0]['sobrecargo'];
+                return 100000+$sobrecargo;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
-                return 120000;
+                $sobrecargo=$envio[0]['sobrecargo'];
+                return 120000+$sobrecargo;
             }
         } elseif ($envio[0]['idClienteFk'] == 4 && $envio[0]['tipoDeViajeFK'] == 4) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                return 170000;
+                $sobrecargo=$envio[0]['sobrecargo'];
+                return 170000+$sobrecargo;
             }
         } elseif ($envio[0]['idClienteFk'] == 4 && $envio[0]['tipoDeViajeFK'] == 5) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                return 170000;
+                $sobrecargo=$envio[0]['sobrecargo'];
+                return 170000+$sobrecargo;
             }
         } elseif ($envio[0]['idClienteFk'] == 5 && $envio[0]['tipoDeViajeFK'] == 6) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                return 120000;
+                $sobrecargo=$envio[0]['sobrecargo'];
+                return 120000+$sobrecargo;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
-                return 140000;
+                $sobrecargo=$envio[0]['sobrecargo'];
+                return 140000+$sobrecargo;
             }
         } elseif ($envio[0]['idClienteFk'] == 5 && $envio[0]['tipoDeViajeFK'] == 7) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                return 130000;
+                $sobrecargo=$envio[0]['sobrecargo'];
+                return 130000+$sobrecargo;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
-                return 150000;
+                $sobrecargo=$envio[0]['sobrecargo'];
+                return 150000+$sobrecargo;
             }
         } elseif ($envio[0]['idClienteFk'] == 5 && $envio[0]['tipoDeViajeFK'] == 8) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                return 120000;
+                $sobrecargo=$envio[0]['sobrecargo'];
+                return 120000+$sobrecargo;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
-                return 140000;
+                $sobrecargo=$envio[0]['sobrecargo'];
+                return 140000+$sobrecargo;
             }
         } elseif ($envio[0]['idClienteFk'] == 5 && $envio[0]['tipoDeViajeFK'] == 9) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                return 120000;
+                $sobrecargo=$envio[0]['sobrecargo'];
+                return 120000+$sobrecargo;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
-                return 140000;
+                $sobrecargo=$envio[0]['sobrecargo'];
+                return 140000+$sobrecargo;
+                
             }
         } elseif ($envio[0]['idClienteFk'] == 6 && $envio[0]['tipoDeViajeFK'] == 10) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                return 130000;
+                $sobrecargo=$envio[0]['sobrecargo'];
+                return 130000+$sobrecargo;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
-                return 150000;
+                $sobrecargo=$envio[0]['sobrecargo'];
+                return 150000+$sobrecargo;
             }
         } elseif ($envio[0]['idClienteFk'] == 7 && $envio[0]['tipoDeViajeFK'] == 10) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                return 135000;
+                $sobrecargo=$envio[0]['sobrecargo'];
+                return 135000+$sobrecargo;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
-                return 135000;
+                $sobrecargo=$envio[0]['sobrecargo'];
+                return 135000+$sobrecargo;
             }
         }
     } else if ($tipoderespuesta == 'string') {
@@ -513,7 +534,7 @@ si es 50 -->retiro de harina-->no pasa nada=150,000
 si es 50 -->retiro de cajas de carton--no pasa nada=140,000
 si es 50 -->retiro de bandejas plasticas-->sucursal de subcliente=140,000
 
-sobrecargo=variable que se suma :=0
+sobrecargo=variable que se suma 
 
 
 cliente 3 (nutrisco)
