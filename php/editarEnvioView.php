@@ -258,6 +258,11 @@ $clientes = listarClientes($conexion);
                         <option value="3" >terminado</option>
                         </select>
                         </div>
+                        <div data-mdb-input-init class="form-outline form-white mb-4">
+                            <label class="form-label text-dark" for="linkFoto">sobrecargo del envio</label>
+                            <input type="number" step=".01" id="linkFoto" class="form-control form-control-lg" name="sobrecargo" value="<?php echo $envio[0]['sobreCargo'] ?>" required pattern="\S.*" />
+
+                        </div>
                         <button type="submit" class="btn btn-success">Success</button>
                     </form>
                 </div>

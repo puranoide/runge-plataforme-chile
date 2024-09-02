@@ -7,12 +7,14 @@ $conductor=$_POST['conductorSeleccionado'];
 $camion=$_POST['camionSeleccionado'];
 $cliente=$_POST['clienteSeleccionado'];
 $estado=$_POST['estadoEnvio'];
-
-$resultado=ActualizarEnvios($conexion,$idenvio,$conductor,$camion,$cliente,$estado,'','');
+$sobrecargo=$_POST['sobrecargo'];
+$resultado=ActualizarEnvios($conexion,$idenvio,$conductor,$camion,$cliente,$estado,'','',$sobrecargo);
+$montos=insertarMontoDeEnvio($conexion,$idenvio);
 $bonos=insertarbonosDelEnvio($conexion,$idenvio);
+
     echo '
     <script>
-    alert("'.$resultado.','.$bonos.'");
+    alert("'.$resultado.','.$bonos.','.$montos.'");
     window.location="ViewEnvios.php";
     </script>
     ';
