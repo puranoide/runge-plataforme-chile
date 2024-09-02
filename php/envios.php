@@ -370,7 +370,7 @@ function ActualizarEnvios($con, $id, $conductor, $idCamion, $idCliente, $estadoE
         $date->modify('-7 hours');
         $dateFormat = $date->format('Y-m-d H:i:s');
         $mensaje = '';
-        $sqlupdateConductor = "UPDATE envios SET idConductorFk='$conductor',idCamionFk='$idCamion',idClienteFk='$idCliente',fechaFinal='$dateFormat',estadoEnvio='$estadoEnvio',comentarioEnvio='$comentario',rutaFotoEnvio='$rutaFotoEnvio'
+        $sqlupdateConductor = "UPDATE envios SET idConductorFk='$conductor',idCamionFk='$idCamion',idClienteFk='$idCliente',fechaFinal='$dateFormat',estadoEnvio='$estadoEnvio',comentarioEnvio='$comentario',sobreCargo='$sobrecargo',rutaFotoEnvio='$rutaFotoEnvio'
          WHERE idEnvio=$id;";
 
         $ejecutar = mysqli_query($con, $sqlupdateConductor);
