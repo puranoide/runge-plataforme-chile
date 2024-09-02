@@ -109,94 +109,94 @@ function calcularMontoDelEnvio($con, $id)
         $camion = listarCamionesPorId($con, $envio[0]['idCamionFk']);
         if ($envio[0]['idClienteFk'] == 4 && $envio[0]['tipoDeViajeFK'] == 1) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                $sobrecargo=$envio[0]['sobrecargo'];
+                $sobrecargo=$envio[0]['sobreCargo'];
                 return 120000+$sobrecargo;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
-                $sobrecargo=$envio[0]['sobrecargo'];
+                $sobrecargo=$envio[0]['sobreCargo'];
                 return 140000+$sobrecargo;
             }
         } elseif ($envio[0]['idClienteFk'] == 4 && $envio[0]['tipoDeViajeFK'] == 2) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                $sobrecargo=$envio[0]['sobrecargo'];
+                $sobrecargo=$envio[0]['sobreCargo'];
                 return 60000+$sobrecargo;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
-                $sobrecargo=$envio[0]['sobrecargo'];
+                $sobrecargo=$envio[0]['sobreCargo'];
                 return 70000+$sobrecargo;
             }
         } elseif ($envio[0]['idClienteFk'] == 4 && $envio[0]['tipoDeViajeFK'] == 3) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                $sobrecargo=$envio[0]['sobrecargo'];
+                $sobrecargo=$envio[0]['sobreCargo'];
                 return 100000+$sobrecargo;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
-                $sobrecargo=$envio[0]['sobrecargo'];
+                $sobrecargo=$envio[0]['sobreCargo'];
                 return 120000+$sobrecargo;
             }
         } elseif ($envio[0]['idClienteFk'] == 4 && $envio[0]['tipoDeViajeFK'] == 4) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                $sobrecargo=$envio[0]['sobrecargo'];
+                $sobrecargo=$envio[0]['sobreCargo'];
                 return 170000+$sobrecargo;
             }
         } elseif ($envio[0]['idClienteFk'] == 4 && $envio[0]['tipoDeViajeFK'] == 5) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                $sobrecargo=$envio[0]['sobrecargo'];
+                $sobrecargo=$envio[0]['sobreCargo'];
                 return 170000+$sobrecargo;
             }
         } elseif ($envio[0]['idClienteFk'] == 5 && $envio[0]['tipoDeViajeFK'] == 6) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                $sobrecargo=$envio[0]['sobrecargo'];
+                $sobrecargo=$envio[0]['sobreCargo'];
                 return 120000+$sobrecargo;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
-                $sobrecargo=$envio[0]['sobrecargo'];
+                $sobrecargo=$envio[0]['sobreCargo'];
                 return 140000+$sobrecargo;
             }
         } elseif ($envio[0]['idClienteFk'] == 5 && $envio[0]['tipoDeViajeFK'] == 7) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                $sobrecargo=$envio[0]['sobrecargo'];
+                $sobrecargo=$envio[0]['sobreCargo'];
                 return 130000+$sobrecargo;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
-                $sobrecargo=$envio[0]['sobrecargo'];
+                $sobrecargo=$envio[0]['sobreCargo'];
                 return 150000+$sobrecargo;
             }
         } elseif ($envio[0]['idClienteFk'] == 5 && $envio[0]['tipoDeViajeFK'] == 8) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                $sobrecargo=$envio[0]['sobrecargo'];
+                $sobrecargo=$envio[0]['sobreCargo'];
                 return 120000+$sobrecargo;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
-                $sobrecargo=$envio[0]['sobrecargo'];
+                $sobrecargo=$envio[0]['sobreCargo'];
                 return 140000+$sobrecargo;
             }
         } elseif ($envio[0]['idClienteFk'] == 5 && $envio[0]['tipoDeViajeFK'] == 9) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                $sobrecargo=$envio[0]['sobrecargo'];
+                $sobrecargo=$envio[0]['sobreCargo'];
                 return 120000+$sobrecargo;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
-                $sobrecargo=$envio[0]['sobrecargo'];
+                $sobrecargo=$envio[0]['sobreCargo'];
                 return 140000+$sobrecargo;
                 
             }
         } elseif ($envio[0]['idClienteFk'] == 6 && $envio[0]['tipoDeViajeFK'] == 10) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                $sobrecargo=$envio[0]['sobrecargo'];
+                $sobrecargo=$envio[0]['sobreCargo'];
                 return 130000+$sobrecargo;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
-                $sobrecargo=$envio[0]['sobrecargo'];
+                $sobrecargo=$envio[0]['sobreCargo'];
                 return 150000+$sobrecargo;
             }
         } elseif ($envio[0]['idClienteFk'] == 7 && $envio[0]['tipoDeViajeFK'] == 10) {
             if ($camion[0]['cubicajeCamion'] == 30) {
-                $sobrecargo=$envio[0]['sobrecargo'];
+                $sobrecargo=$envio[0]['sobreCargo'];
                 return 135000+$sobrecargo;
             }
             if ($camion[0]['cubicajeCamion'] == 50) {
-                $sobrecargo=$envio[0]['sobrecargo'];
+                $sobrecargo=$envio[0]['sobreCargo'];
                 return 135000+$sobrecargo;
             }
         }
