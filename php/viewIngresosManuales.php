@@ -2,8 +2,8 @@
 
 include_once('conection.php');
 include_once('ingresosmanuales.php');
-$ingresos=listaringresosManuales($conexion);
-$total=sumatoriaIngresosManuales($ingresos);
+$ingresos = listaringresosManuales($conexion);
+$total = sumatoriaIngresosManuales($ingresos);
 ?>
 
 
@@ -20,6 +20,8 @@ $total=sumatoriaIngresosManuales($ingresos);
     <meta name="author" content="">
 
     <title>SB Admin 2 - Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
+
 
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -92,7 +94,7 @@ $total=sumatoriaIngresosManuales($ingresos);
                         <h6 class="collapse-header">manejo de ingresos</h6>
                         <a class="collapse-item" href="viewIngresosManuales.php">Ver ingresos Manuales</a>
                         <a class="collapse-item" href="viewAgregarIngresoManual.php">Agregar ingreso manual</a>
-                     
+
                     </div>
                 </div>
             </li>
@@ -107,11 +109,11 @@ $total=sumatoriaIngresosManuales($ingresos);
                         <h6 class="collapse-header">manejo de ingresos</h6>
                         <a class="collapse-item" href="viewEgresosManuales.php">Ver egresos Manuales</a>
                         <a class="collapse-item" href="viewAgregarEgresoManual.php">Agregar egresos manual</a>
-                     
+
                     </div>
                 </div>
             </li>
-            
+
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagescamiones" aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
@@ -219,7 +221,7 @@ $total=sumatoriaIngresosManuales($ingresos);
                         Hasta:<input type="date" name="hasta" id="">
                         <button type="submit">buscar</button>
                     </form>
-                    <table class="table">
+                    <table class="table" id="myTable">
                         <thead>
                             <tr>
                                 <th scope="col">id</th>
@@ -228,48 +230,49 @@ $total=sumatoriaIngresosManuales($ingresos);
                                 <th scope="col">fecha de ingreso</th>
                                 <th scope="col">detalles</th>
                                 <th scope="col">editar</th>
-                            
+
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                                $tipodeRespuesta=gettype($ingresos);
-                                if($tipodeRespuesta =='array'){
+                            $tipodeRespuesta = gettype($ingresos);
+                            if ($tipodeRespuesta == 'array') {
                                 foreach ($ingresos as $ingreso) {
-                                echo '
+                                    echo '
                                 
                                 <tr>
-                                <th scope="row">'.$ingreso['idIngresosManuales'].'</th>
-                                <td>'.$ingreso['descripcionIngresosManuales'].'</td>
-                                <td>$'.number_format($ingreso['monto'],2,'.',',').'</td>
-                                <td>'.$ingreso['fechaIngresoManual'].'</td>
+                                <th scope="row">' . $ingreso['idIngresosManuales'] . '</th>
+                                <td>' . $ingreso['descripcionIngresosManuales'] . '</td>
+                                <td>$' . number_format($ingreso['monto'], 2, '.', ',') . '</td>
+                                <td>' . $ingreso['fechaIngresoManual'] . '</td>
                                 <td>
                                 <form action="detalleEnvio" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="'.$ingreso['idIngresosManuales'].'" />
+                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $ingreso['idIngresosManuales'] . '" />
                                 <button type="submit" class="btn btn-success">Ver</button>
                                 </form>
                                 </td>
                                  <td>
                                 <form action="editarEnvioView" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="'.$ingreso['idIngresosManuales'].'" />
+                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $ingreso['idIngresosManuales'] . '" />
                                 <button type="submit" class="btn btn-warning">editar</button>
                                 </form>
                                 </td>
                                  </tr>
                                 
                                 ';
-                            }}else if($tipodeRespuesta=='string'){
+                                }
+                            } else if ($tipodeRespuesta == 'string') {
                                 echo '<tr><td colspan="5">No se encontraron ingresos manuales.</td></tr>';
                             }
-                          
-                        
-                            
+
+
+
                             ?>
-                        
-                         
+
+
                         </tbody>
                     </table>
-                    <h2><?php echo '$'.number_format($total, 2, '.', ','); ?></h2>
+                    <h2><?php echo '$' . number_format($total, 2, '.', ','); ?></h2>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -323,7 +326,19 @@ $total=sumatoriaIngresosManuales($ingresos);
         <!-- Page level custom scripts -->
         <script src="../js/demo/chart-area-demo.js"></script>
         <script src="../js/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+
         <script>
+            $(document).ready(function() {
+                $('#myTable').DataTable({
+                    "order": [
+                        [0, "desc"]
+                    ] // Ordena la primera columna (índice 0) de forma descendente por defecto
+                });
+            });
+
+
             // Set new default font family and font color to mimic Bootstrap's default styling
             Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
             Chart.defaults.global.defaultFontColor = '#858796';
