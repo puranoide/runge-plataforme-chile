@@ -31,9 +31,9 @@ $envios = listEnvios($conexion);
 
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
-  <style>
-    
-  </style>
+    <style>
+
+    </style>
 </head>
 
 <body id="page-top">
@@ -219,7 +219,7 @@ $envios = listEnvios($conexion);
 
                 <!-- Begin Page Content -->
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table" id="myTable">
                         <thead>
                             <tr>
 
@@ -260,7 +260,7 @@ $envios = listEnvios($conexion);
                                     $camion = listarCamionesPorId($conexion, $envio['idCamionFk']);
                                     $conductor = listarconductoresPorId($conexion, $envio['idConductorFk']);
                                     $cliente = listarClientesPorId($conexion, $envio['idClienteFk']);
-                                    $tipodeenvio=listarTipoDeViajePorId($conexion,$envio['tipoDeViajeFK']);
+                                    $tipodeenvio = listarTipoDeViajePorId($conexion, $envio['tipoDeViajeFK']);
                                     echo '
                                 
                                 <tr>
@@ -276,10 +276,10 @@ $envios = listEnvios($conexion);
                                 <td>' . $envio['comentarioEnvio'] . '</td>
                                 <td>' . $envio['rutaFotoEnvio'] . '</td>
                                 <td>$' . number_format($envio['montoViaje'], 2, '.', ',') . '</td>
-                                <td>' . number_format($envio['bonoConductor'] ,2,'.',',') . '</td>
-                                <td>' . number_format($envio['bonoPeoneta'],2,'.',',')  . '</td>
+                                <td>' . number_format($envio['bonoConductor'], 2, '.', ',') . '</td>
+                                <td>' . number_format($envio['bonoPeoneta'], 2, '.', ',')  . '</td>
                                 <td>' . $tipodeenvio[0]['descripcionViaje'] . '</td>
-                                 <td>' . number_format($envio['sobreCargo'],2,'.',',') . '</td>
+                                 <td>' . number_format($envio['sobreCargo'], 2, '.', ',') . '</td>
                                 <td>
                                 <form action="detalleEnvio.php" method="POST">
                                 <input type="hidden" id="linkFoto" name="idEnvio" value="' . $envio['idEnvio'] . '" />
@@ -357,7 +357,17 @@ $envios = listEnvios($conexion);
         <!-- Page level custom scripts -->
         <script src="../js/demo/chart-area-demo.js"></script>
         <script src="../js/demo/chart-bar-demo.js"></script>
+
+        <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
         <script>
+            $(document).ready(function() {
+                $('#myTable').DataTable({
+                    "order": [
+                        [0, "desc"]
+                    ] // Ordena la primera columna (índice 0) de forma descendente por defecto
+                });
+            });
             // Set new default font family and font color to mimic Bootstrap's default styling
             Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
             Chart.defaults.global.defaultFontColor = '#858796';

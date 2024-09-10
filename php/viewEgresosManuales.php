@@ -2,8 +2,8 @@
 
 include_once('conection.php');
 include_once('egresosmanuales.php');
-$egresos=listarEgresosManuales($conexion);
-$total=sumatoriaEgresosManuales($egresos);
+$egresos = listarEgresosManuales($conexion);
+$total = sumatoriaEgresosManuales($egresos);
 ?>
 
 
@@ -92,7 +92,7 @@ $total=sumatoriaEgresosManuales($egresos);
                         <h6 class="collapse-header">manejo de ingresos</h6>
                         <a class="collapse-item" href="viewIngresosManuales.php">Ver ingresos Manuales</a>
                         <a class="collapse-item" href="viewAgregarIngresoManual.php">Agregar ingreso manual</a>
-                     
+
                     </div>
                 </div>
             </li>
@@ -107,11 +107,11 @@ $total=sumatoriaEgresosManuales($egresos);
                         <h6 class="collapse-header">manejo de ingresos</h6>
                         <a class="collapse-item" href="viewEgresosManuales.php">Ver egresos Manuales</a>
                         <a class="collapse-item" href="viewAgregarEgresoManual.php">Agregar egresos manual</a>
-                     
+
                     </div>
                 </div>
             </li>
-        
+
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagescamiones" aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
@@ -214,12 +214,12 @@ $total=sumatoriaEgresosManuales($egresos);
 
                 <!-- Begin Page Content -->
                 <div class="table-responsive">
-                <form action="egresosfiltrados.php" method="POST">
+                    <form action="egresosfiltrados.php" method="POST">
                         Desde:<input type="date" name="desde" id="">
                         Hasta:<input type="date" name="hasta" id="">
                         <button type="submit">buscar</button>
                     </form>
-                    <table class="table">
+                    <table class="table" id="myTable">
                         <thead>
                             <tr>
                                 <th scope="col">id</th>
@@ -228,48 +228,49 @@ $total=sumatoriaEgresosManuales($egresos);
                                 <th scope="col">fechaRegistrada</th>
                                 <th scope="col">detalles</th>
                                 <th scope="col">editar</th>
-                            
+
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                                $tipodeRespuesta=gettype($egresos);
-                                if($tipodeRespuesta =='array'){
+                            $tipodeRespuesta = gettype($egresos);
+                            if ($tipodeRespuesta == 'array') {
                                 foreach ($egresos as $egreso) {
-                                echo '
+                                    echo '
                                 
                                 <tr>
-                                <th scope="row">'.$egreso['idEgresosManuales'].'</th>
-                                <td>'.$egreso['descripcionEgresosManuales'].'</td>
-                                <td>$'.number_format($egreso['montoEgresosManuales']).'</td>
-                                 <td>'.$egreso['fechaRegistrada'].'</td>
+                                <th scope="row">' . $egreso['idEgresosManuales'] . '</th>
+                                <td>' . $egreso['descripcionEgresosManuales'] . '</td>
+                                <td>$' . number_format($egreso['montoEgresosManuales']) . '</td>
+                                 <td>' . $egreso['fechaRegistrada'] . '</td>
                                 <td>
                                 <form action="detalleEnvio.php" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="'.$egreso['idEgresosManuales'].'" />
+                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $egreso['idEgresosManuales'] . '" />
                                 <button type="submit" class="btn btn-success">Ver</button>
                                 </form>
                                 </td>
                                  <td>
                                 <form action="editarEnvioView.php" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="'.$egreso['idEgresosManuales'].'" />
+                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $egreso['idEgresosManuales'] . '" />
                                 <button type="submit" class="btn btn-warning">editar</button>
                                 </form>
                                 </td>
                                  </tr>
                                 
                                 ';
-                            }}else if($tipodeRespuesta=='string'){
+                                }
+                            } else if ($tipodeRespuesta == 'string') {
                                 echo '<tr><td colspan="5">No se encontraron ingresos manuales.</td></tr>';
                             }
-                          
-                        
-                            
+
+
+
                             ?>
-                        
-                         
+
+
                         </tbody>
                     </table>
-                    <h2><?php echo '$'.number_format($total,2,'.',',')?></h2>
+                    <h2><?php echo '$' . number_format($total, 2, '.', ',') ?></h2>
                 </div>
                 <!-- /.container-fluid -->
 
@@ -322,7 +323,16 @@ $total=sumatoriaEgresosManuales($egresos);
         <!-- Page level custom scripts -->
         <script src="../js/demo/chart-area-demo.js"></script>
         <script src="../js/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
         <script>
+            $(document).ready(function() {
+                $('#myTable').DataTable({
+                    "order": [
+                        [0, "desc"]
+                    ] // Ordena la primera columna (índice 0) de forma descendente por defecto
+                });
+            });
             // Set new default font family and font color to mimic Bootstrap's default styling
             Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
             Chart.defaults.global.defaultFontColor = '#858796';
