@@ -323,7 +323,7 @@ $ingresosdelcamion=sumarIngresosPorCamion($conexion,$idCamion);
                                 ';
                                 }
                             } else if ($tipodeRespuesta == 'string') {
-                                echo $envios;
+                                echo $listaEnvios;
                             }
                             ?>
 
