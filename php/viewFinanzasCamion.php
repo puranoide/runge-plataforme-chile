@@ -1,20 +1,16 @@
 <?php
 
 include_once('conection.php');
-include_once('ingresosmanuales.php');
-include_once('egresosmanuales.php');
-$ingresosMensuales=ingresosMensuales($conexion);
-$ingresosAnuales=ingresosanuales($conexion);
+include_once('camiones.php');
+include_once('envios.php');
+include_once('conductores.php');
+include_once('clientes.php');
+include_once('tipoDeEnvio.php');
 
-$totalIngresosMensuales=sumatoriaIngresosManualesMensuales($ingresosMensuales);
-$totalIngresosAnuales=sumatoriaIngresosManualesAnuales($ingresosAnuales);
+$idCamion=$_POST['idEnvio'];
+$listaEnvios=listarEnviosPorCamion($conexion,$idCamion);
+$ingresosdelcamion=sumarIngresosPorCamion($conexion,$idCamion);
 
-$egresosMensuales=egresosMensuales($conexion);
-$egresosAnuales=egresosanuales($conexion);
-
-
-$totalEgresosMensuales=sumatoriaEgresosManualesMensuales($egresosMensuales);
-$totalEgresosAnuales=sumatoriaEgresosManualesAnuales($egresosAnuales);
 ?>
 
 <!DOCTYPE html>
@@ -231,27 +227,14 @@ $totalEgresosAnuales=sumatoriaEgresosManualesAnuales($egresosAnuales);
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Page Heading 
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i>Ingresos</a>
-                                <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i>Egresos</a>
-                    </div>
-                    -->
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Ingresos (Mensuales)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($totalIngresosMensuales,2,'.',',');  ?></div>
+                                                Ingresos historicos</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($ingresosdelcamion,2,'.',',');  ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -261,166 +244,101 @@ $totalEgresosAnuales=sumatoriaEgresosManualesAnuales($egresosAnuales);
                             </div>
                         </div>
 
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Ingresos (anual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($totalIngresosAnuales,2,'.',',');?></div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="table-responsive">
+                    <table class="table" id="myTable">
+                        <thead>
+                            <tr>
 
-                          <!-- Earnings (Monthly) Card Example -->
-                          <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-danger shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                                Egresos (Mensual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($totalEgresosMensuales,2,'.',',');?></div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                          <!-- Earnings (Monthly) Card Example -->
-                          <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-danger shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                                Egresos (anual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($totalEgresosAnuales,2,'.',',');?></div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                <th scope="col">codigo</th>
+                                <th scope="col">camion</th>
+                                <th scope="col">conductor</th>
+                                <th scope="col">cliente</th>
+                                <th scope="col">registrado</th>
+                                <th scope="col">inicio</th>
+                                <th scope="col">final</th>
+                                <th scope="col">estado</th>
+                                <th scope="col">comentario</th>
+                                <th scope="col">foto</th>
+                                <th scope="col">monto</th>
+                                <th scope="col">bono conductor</th>
+                                <th scope="col">bono peoneta</th>
+                                <th scope="col">tipo de viaje</th>
+                                <th scope="col">sobrecargo</th>
+                                <th scope="col">detalles</th>
+                                <th scope="col">editar</th>
 
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Utilidad (mensual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php $utilidadmensual=$totalIngresosMensuales-$totalEgresosMensuales;echo number_format($utilidadmensual,2,'.',','); ?></div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
 
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Utilidad (anual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php  $utilidadanual=$totalIngresosAnuales-$totalEgresosAnuales;echo number_format($utilidadanual,2,'.',',');?></div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                   
-                    </div>
-
-                    <!-- Content Row -->
-
-                    <div class="row">
-
-                        <!-- Pie Chart -->
-                        <div class="col-xl-4 col-lg-5">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle" style="color:#2d572c;"></i> Ingresos
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle" style="color:#b81414;"></i> egresos
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                       
-
-               
-
-                        </div>
+                            $tipodeRespuesta = gettype($listaEnvios);
+                            if ($tipodeRespuesta == 'array') {
+                                foreach ($listaEnvios as $envio) {
+                                    $estadoString = '';
+                                    if ($envio['estadoEnvio'] == 1) {
+                                        $estadoString = 'Activo';
+                                    } else if ($envio['estadoEnvio'] == 2) {
+                                        $estadoString = 'iniciado';
+                                    } else if ($envio['estadoEnvio'] == 3) {
+                                        $estadoString = 'terminado';
+                                    }
+                                    $camion = listarCamionesPorId($conexion, $envio['idCamionFk']);
+                                    $conductor = listarconductoresPorId($conexion, $envio['idConductorFk']);
+                                    $cliente = listarClientesPorId($conexion, $envio['idClienteFk']);
+                                    $tipodeenvio = listarTipoDeViajePorId($conexion, $envio['tipoDeViajeFK']);
+                                    echo '
+                                
+                                <tr>
+                                
+                                <td>' . $envio['codigoEnvio'] . '</td>
+                                <td>' . $camion[0]['placaCamion'] . '</td>
+                                <td>' . $conductor[0]['completenameconductor'] . '</td>
+                                <td>' . $cliente[0]['nombreCliente'] . '</td>
+                                <td>' . $envio['fechaRegistrada'] . '</td>
+                                <td>' . $envio['fechaInicio'] . '</td>
+                                <td>' . $envio['fechaFinal'] . '</td>
+                                <td>' . $estadoString . '</td>
+                                <td>' . $envio['comentarioEnvio'] . '</td>
+                                <td>' . $envio['rutaFotoEnvio'] . '</td>
+                                <td>$' . number_format($envio['montoViaje'], 2, '.', ',') . '</td>
+                                <td>' . number_format($envio['bonoConductor'], 2, '.', ',') . '</td>
+                                <td>' . number_format($envio['bonoPeoneta'], 2, '.', ',')  . '</td>
+                                <td>' . $tipodeenvio[0]['descripcionViaje'] . '</td>
+                                 <td>' . number_format($envio['sobreCargo'], 2, '.', ',') . '</td>
+                                <td>
+                                <form action="detalleEnvio.php" method="POST">
+                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $envio['idEnvio'] . '" />
+                                <button type="submit" class="btn btn-success">Ver</button>
+                                </form>
+                                </td>
+                                 <td>
+                                <form action="editarEnvioView.php" method="POST">
+                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $envio['idEnvio'] . '" />
+                                <button type="submit" class="btn btn-warning">editar</button>
+                                </form>
+                                </td>
+                                 </tr>
+                                
+                                ';
+                                }
+                            } else if ($tipodeRespuesta == 'string') {
+                                echo $envios;
+                            }
+                            ?>
 
 
-                        <!-- Bar Chart -->
-                         <div class="col-md-8">
+                        </tbody>
+                    </table>
 
-                         
-                        <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-bar">
-                                        <canvas id="myBarChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-        
                 </div>
+
+      
                 <!-- /.container-fluid -->
 
             <!-- End of Main Content -->
 
-        </div>
+                    </div>
         <!-- End of Content Wrapper -->
 
     </div>

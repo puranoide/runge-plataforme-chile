@@ -1,20 +1,9 @@
 <?php
 
 include_once('conection.php');
-include_once('ingresosmanuales.php');
-include_once('egresosmanuales.php');
-$ingresosMensuales=ingresosMensuales($conexion);
-$ingresosAnuales=ingresosanuales($conexion);
+include_once('camiones.php');
+$camiones=listarCamiones($conexion);
 
-$totalIngresosMensuales=sumatoriaIngresosManualesMensuales($ingresosMensuales);
-$totalIngresosAnuales=sumatoriaIngresosManualesAnuales($ingresosAnuales);
-
-$egresosMensuales=egresosMensuales($conexion);
-$egresosAnuales=egresosanuales($conexion);
-
-
-$totalEgresosMensuales=sumatoriaEgresosManualesMensuales($egresosMensuales);
-$totalEgresosAnuales=sumatoriaEgresosManualesAnuales($egresosAnuales);
 ?>
 
 <!DOCTYPE html>
@@ -132,7 +121,7 @@ $totalEgresosAnuales=sumatoriaEgresosManualesAnuales($egresosAnuales);
                 </a>
                 <div id="collapsePagescamiones" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="viewbusquedaconductor.php">Buscar camion</a>
+                        <a class="collapse-item" href="viewbusquedacamion.php">Buscar camion</a>
                         <a class="collapse-item" href="register.html">Register</a>
                         <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
                         <div class="collapse-divider"></div>
@@ -230,13 +219,60 @@ $totalEgresosAnuales=sumatoriaEgresosManualesAnuales($egresosAnuales);
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                <div class="table-responsive">
+                    <table class="table" id="myTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">id</th>
+                                <th scope="col">descripcion</th>
+                                <th scope="col">plata</th>
+                                <th scope="col">cublicaje</th>
+                                <th scope="col">acciones</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $tipodeRespuesta = gettype($camiones);
+                            if ($tipodeRespuesta == 'array') {
+                                foreach ($camiones as $camion) {
+                                    echo '
+                                
+                                <tr>
+                                <th scope="row">' . $camion['camionId'] . '</th>
+                                <td>' . $camion['descripcionCamion'] . '</td>
+                                <td>$' . $camion['placaCamion'] . '</td>
+                                 <td>' . $camion['cubicajeCamion'] . '</td>
+                                 <td>
+                                <form action="viewFinanzasCamion.php" method="POST">
+                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $camion['camionId'] . '" />
+                                <button type="submit" class="btn btn-success">Ver ingresos</button>
+                                </form>
+                                </td>
+                                 </tr>
+                                
+                                ';
+                                }
+                            } else if ($tipodeRespuesta == 'string') {
+                                echo '<tr><td colspan="5">No se encontraron ingresos manuales.</td></tr>';
+                            }
+
+
+
+                            ?>
+
+
+                        </tbody>
+                    </table>
+                    
+                </div>
 
       
                 <!-- /.container-fluid -->
 
             <!-- End of Main Content -->
 
-        </div>
+                    </div>
         <!-- End of Content Wrapper -->
 
     </div>

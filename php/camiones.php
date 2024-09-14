@@ -1,6 +1,6 @@
 <?php
 
-
+include_once('conection.php');
 
 function listarCamiones($con)
 {
@@ -128,8 +128,69 @@ function listarCamionesinActivos($con)
     return $camiones;
 }
 
+function listarEnviosPorCamion($con,$id){
+    $mensaje = "no hay envios registrados para el camion con el id :" . $id;
+    $usuarios = [];
+    $sqlUsarios = "SELECT* from envios WHERE idCamionFk=$id;";
+    $resultUsuarios = $con->query($sqlUsarios);
+
+    if ($resultUsuarios->num_rows > 0) {
+        while ($rowUsuarios = $resultUsuarios->fetch_assoc()) {
+            $usuarios[] = $rowUsuarios;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $usuarios;
+}
+
+function sumarIngresosPorCamion($con,$id){
+    $total=0;
+    $resultados=listarEnviosPorCamion($con,$id);
+    $tipoderepuesta=gettype($resultados);
+    if($tipoderepuesta=="array"){
+        $total=0;
+        foreach ($resultados as $ingreso) { 
+            # code...
+            $total+=$ingreso['montoViaje'];
+    
+        }
+    }else if($tipoderepuesta=="string"){
+        $total=0;
+    }
+   
+    return $total;
+}
 
 
+
+
+/*
+
+$resultado=sumarIngresosPorCamion($conexion,5);
+echo '<pre>';
+print_r ($resultado);
+echo '</pre>';
+
+function listarEnvioPorId($con, $id)
+{
+    $mensaje = "no hay envios registrados con el id :" . $id;
+    $usuarios = [];
+    $sqlUsarios = "SELECT* from envios WHERE idEnvio=$id;";
+    $resultUsuarios = $con->query($sqlUsarios);
+
+    if ($resultUsuarios->num_rows > 0) {
+        while ($rowUsuarios = $resultUsuarios->fetch_assoc()) {
+            $usuarios[] = $rowUsuarios;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $usuarios;
+}
+*/
 
 
 /*
