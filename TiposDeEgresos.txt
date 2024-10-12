@@ -1,0 +1,26 @@
+//se crea tipoDeEgresoCamion->servira para que podamos asignar tipos pero que tengan los mismos campos y se pueda asociar por nombre->es una tabla hijo
+//EgresoCamionData->sera la tabla donde se asignara el detalle ,monto,link de la imagen y como fk un camion 
+
+//crear funcion para recepcionar los datos e ingresarlos()
+
+//crear la vista del formulario de ingreso->que incluya la api de subida de imagenes al servicio seleccionado
+
+Repuestos->se asocia a un camión y detalle
+
+gasolina->se asocia a un camión
+manteniendo->asocia a un camión
+viáticos->detalle, asocia a un camión
+
+
+
+
+
+
+
+remuneraciones->empleado, cuanto y detalle
+-empleado->datos, su salario, puesto
+créditos : tarjeta, monto
+descuentos de pago anticipado -> monto
+gastos generales->detalle, monto
+imposición->detalle, monto
+IVA->19%

@@ -1,9 +1,9 @@
 <?php
 include_once('rutaprotegida.php');
 include_once('conection.php');
-include_once('ingresosmanuales.php');
-$ingresos = listaringresosManuales($conexion);
-$total = sumatoriaIngresosManuales($ingresos);
+include_once('egresosCamiones.php');
+$egresos = listarEgresosCamiones($conexion);
+$total = sumatoriaEgresosCamiones($egresos);
 ?>
 
 
@@ -20,8 +20,6 @@ $total = sumatoriaIngresosManuales($ingresos);
     <meta name="author" content="">
 
     <title>SB Admin 2 - Dashboard</title>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
-
 
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -97,7 +95,7 @@ $total = sumatoriaIngresosManuales($ingresos);
 
                 <!-- Begin Page Content -->
                 <div class="table-responsive">
-                    <form action="ingresosfiltrados.php" method="POST">
+                    <form action="egresosfiltrados.php" method="POST">
                         Desde:<input type="date" name="desde" id="">
                         Hasta:<input type="date" name="hasta" id="">
                         <button type="submit">buscar</button>
@@ -108,7 +106,7 @@ $total = sumatoriaIngresosManuales($ingresos);
                                 <th scope="col">id</th>
                                 <th scope="col">descripcion</th>
                                 <th scope="col">monto</th>
-                                <th scope="col">fecha de ingreso</th>
+                                <th scope="col">fechaRegistrada</th>
                                 <th scope="col">detalles</th>
                                 <th scope="col">editar</th>
 
@@ -116,25 +114,25 @@ $total = sumatoriaIngresosManuales($ingresos);
                         </thead>
                         <tbody>
                             <?php
-                            $tipodeRespuesta = gettype($ingresos);
+                            $tipodeRespuesta = gettype($egresos);
                             if ($tipodeRespuesta == 'array') {
-                                foreach ($ingresos as $ingreso) {
+                                foreach ($egresos as $egreso) {
                                     echo '
                                 
                                 <tr>
-                                <th scope="row">' . $ingreso['idIngresosManuales'] . '</th>
-                                <td>' . $ingreso['descripcionIngresosManuales'] . '</td>
-                                <td>$' . number_format($ingreso['monto'], 2, '.', ',') . '</td>
-                                <td>' . $ingreso['fechaIngresoManual'] . '</td>
+                                <th scope="row">' . $egreso['idEgresoCamionData'] . '</th>
+                                <td>' . $egreso['detalle'] . '</td>
+                                <td>$' . number_format($egreso['montoEgresoCamion']) . '</td>
+                                 <td>' . $egreso['fechaEgresoCamion'] . '</td>
                                 <td>
-                                <form action="detalleEnvio" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $ingreso['idIngresosManuales'] . '" />
+                                <form action="detalleEnvio.php" method="POST">
+                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $egreso['idEgresoCamionData'] . '" />
                                 <button type="submit" class="btn btn-success">Ver</button>
                                 </form>
                                 </td>
                                  <td>
-                                <form action="editarEnvioView" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $ingreso['idIngresosManuales'] . '" />
+                                <form action="editarEnvioView.php" method="POST">
+                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $egreso['idEgresoCamionData'] . '" />
                                 <button type="submit" class="btn btn-warning">editar</button>
                                 </form>
                                 </td>
@@ -153,8 +151,7 @@ $total = sumatoriaIngresosManuales($ingresos);
 
                         </tbody>
                     </table>
-                    <h2><?php echo '$' . number_format($total, 2, '.', ','); ?></h2>
-
+                    <h2><?php echo '$' . number_format($total, 2, '.', ',') ?></h2>
                 </div>
                 <!-- /.container-fluid -->
 
@@ -209,7 +206,6 @@ $total = sumatoriaIngresosManuales($ingresos);
         <script src="../js/demo/chart-bar-demo.js"></script>
         <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
-
         <script>
             $(document).ready(function() {
                 $('#myTable').DataTable({
@@ -218,8 +214,6 @@ $total = sumatoriaIngresosManuales($ingresos);
                     ] // Ordena la primera columna (índice 0) de forma descendente por defecto
                 });
             });
-
-
             // Set new default font family and font color to mimic Bootstrap's default styling
             Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
             Chart.defaults.global.defaultFontColor = '#858796';

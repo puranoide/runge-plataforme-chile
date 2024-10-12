@@ -1,12 +1,11 @@
 <?php
 include_once('rutaprotegida.php');
 include_once('conection.php');
-include_once('ingresosmanuales.php');
-$ingresos = listaringresosManuales($conexion);
-$total = sumatoriaIngresosManuales($ingresos);
+include_once('egresosCamiones.php');
+include_once('camiones.php');
+$listatipodeegresos=listartipoegresocamion($conexion);
+$camiones=listarCamiones($conexion);
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,8 +19,6 @@ $total = sumatoriaIngresosManuales($ingresos);
     <meta name="author" content="">
 
     <title>SB Admin 2 - Dashboard</title>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
-
 
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -96,65 +93,53 @@ $total = sumatoriaIngresosManuales($ingresos);
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="table-responsive">
-                    <form action="ingresosfiltrados.php" method="POST">
-                        Desde:<input type="date" name="desde" id="">
-                        Hasta:<input type="date" name="hasta" id="">
-                        <button type="submit">buscar</button>
-                    </form>
-                    <table class="table" id="myTable">
-                        <thead>
-                            <tr>
-                                <th scope="col">id</th>
-                                <th scope="col">descripcion</th>
-                                <th scope="col">monto</th>
-                                <th scope="col">fecha de ingreso</th>
-                                <th scope="col">detalles</th>
-                                <th scope="col">editar</th>
+                <div class="container-fluid">
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $tipodeRespuesta = gettype($ingresos);
-                            if ($tipodeRespuesta == 'array') {
-                                foreach ($ingresos as $ingreso) {
-                                    echo '
-                                
-                                <tr>
-                                <th scope="row">' . $ingreso['idIngresosManuales'] . '</th>
-                                <td>' . $ingreso['descripcionIngresosManuales'] . '</td>
-                                <td>$' . number_format($ingreso['monto'], 2, '.', ',') . '</td>
-                                <td>' . $ingreso['fechaIngresoManual'] . '</td>
-                                <td>
-                                <form action="detalleEnvio" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $ingreso['idIngresosManuales'] . '" />
-                                <button type="submit" class="btn btn-success">Ver</button>
-                                </form>
-                                </td>
-                                 <td>
-                                <form action="editarEnvioView" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $ingreso['idIngresosManuales'] . '" />
-                                <button type="submit" class="btn btn-warning">editar</button>
-                                </form>
-                                </td>
-                                 </tr>
-                                
-                                ';
+                    <form action="agregarRedirectegresocamion.php" method="POST">
+
+
+                        <div data-mdb-input-init class="form-outline form-white mb-4">
+                            <label class="form-label text-dark" for="linkFoto">Descripción del egreso</label>
+                            <input type="text" id="linkFoto" class="form-control form-control-lg" name="descripcionegresocamion" required pattern="\S.*" />
+
+                        </div>
+                        <div data-mdb-input-init class="form-outline form-white mb-4">
+                            <label class="form-label text-dark" for="linkFoto">Monto del egreso</label>
+                            <input type="number" step=".01" id="linkFoto" class="form-control form-control-lg" name="montoDescripcionCamion" required pattern="\S.*" value="0.00" />
+
+                        </div>
+
+                        <div data-mdb-input-init class="form-outline form-white mb-4">
+                            <label class="form-label text-dark" for="linkFoto">tipo de egreso</label>
+                            <select class="form-select" aria-label="Default select example" name="tipodeseleccionado" required>
+                                <option value=''>tipo de egreso</option>
+                                <?php
+                                foreach ($listatipodeegresos as $tipo) {
+                                    echo '<option value="' . $tipo['idtipoDeEgresoCamion'] . '">' . $tipo['descripcionTipoEgresoCamion'] . '</option>';
                                 }
-                            } else if ($tipodeRespuesta == 'string') {
-                                echo '<tr><td colspan="5">No se encontraron ingresos manuales.</td></tr>';
-                            }
 
+                                ?>
+                            </select>
+                        </div>
+                        <div data-mdb-input-init class="form-outline form-white mb-4">
+                            <label class="form-label text-dark" for="linkFoto">Camion a asignar</label>
+                            <select class="form-select" aria-label="Default select example" name="camionseleccionado" required>
+                                <option value=''>Camion a asignar</option>
+                                <?php
+                                foreach ($camiones as $camion) {
+                                    echo '<option value="' . $camion['camionId'] . '">' . $camion['placaCamion'] . '</option>';
+                                }
 
+                                ?>
+                            </select>
+                        </div>
+                        <div data-mdb-input-init class="form-outline form-white mb-4">
+                            <label class="form-label text-dark" for="linkFoto">fecha</label>
+                            <input type="date" name="fechaRegistro" id="fechaRegistro">
+                        </div>
 
-                            ?>
-
-
-                        </tbody>
-                    </table>
-                    <h2><?php echo '$' . number_format($total, 2, '.', ','); ?></h2>
-
+                        <button type="submit" class="btn btn-success">Success</button>
+                    </form>
                 </div>
                 <!-- /.container-fluid -->
 
@@ -207,19 +192,7 @@ $total = sumatoriaIngresosManuales($ingresos);
         <!-- Page level custom scripts -->
         <script src="../js/demo/chart-area-demo.js"></script>
         <script src="../js/demo/chart-bar-demo.js"></script>
-        <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
-
         <script>
-            $(document).ready(function() {
-                $('#myTable').DataTable({
-                    "order": [
-                        [0, "desc"]
-                    ] // Ordena la primera columna (índice 0) de forma descendente por defecto
-                });
-            });
-
-
             // Set new default font family and font color to mimic Bootstrap's default styling
             Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
             Chart.defaults.global.defaultFontColor = '#858796';
@@ -254,6 +227,21 @@ $total = sumatoriaIngresosManuales($ingresos);
                     },
                     cutoutPercentage: 80,
                 },
+            });
+        </script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+
+                var now = new Date();
+
+                var day = ("0" + now.getDate()).slice(-2);
+                var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+                var today = now.getFullYear() + "-" + (month) + "-" + (day);
+                $("#fechaRegistro").val(today);
             });
         </script>
 

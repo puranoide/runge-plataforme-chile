@@ -18,7 +18,7 @@ if ($consulta_usuario) {
         $_SESSION['id'] = $usuario['userid'];
         $_SESSION['correo'] = $usuario['correo'];
         $_SESSION['username'] = $usuario['username'];
-        $_SESSION['rol'] = $usuario['rol']; // Esto estaba faltando
+        $_SESSION['rol'] = $usuario['rol']; 
         $_SESSION['password']=$usuario['userpass'];
         if ($_SESSION['password']==$contraseña) {
             if ($_SESSION['rol']=='1'){
