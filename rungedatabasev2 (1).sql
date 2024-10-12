@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 22-08-2024 a las 17:28:37
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 12-10-2024 a las 06:59:49
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `rungeDatabasev2`
+-- Base de datos: `rungedatabasev2`
 --
 
 -- --------------------------------------------------------
@@ -40,9 +40,14 @@ CREATE TABLE `camion` (
 --
 
 INSERT INTO `camion` (`camionId`, `descripcionCamion`, `placaCamion`, `cubicajeCamion`, `estado`) VALUES
-(1, 'prueba de ingreso por funcion-actualizada', 'L1234', 30, 2),
-(2, 'prueba de ingreso por funcion-2', 'L4321', 50, 1),
-(3, NULL, '1234', 30, 1);
+(4, 'Chervrolet-NPR 815-4KHK1817997-2010', 'CRCW-61', 30, 1),
+(5, 'HYUNDAY-HD 78 STD-D3DDA449430-2011', 'CYZY-10', 30, 1),
+(6, 'VOLKSWAGEN-17250-36225658-2011', 'CWCP-38', 50, 1),
+(7, 'CHEVROLET-FVR 1724-6HK1641036-2014', 'FZWT-21', 50, 1),
+(8, 'CHEVROLET-NPR E5-4HK10KS880-2022', 'RSYJ-93', 30, 1),
+(9, 'CHEVROLET-NPR E5-4HK10KS875-2022', 'RSYJ-94', 30, 1),
+(10, 'VOLKSWAGEN-DELIVERY 11.180 -36754945', 'RYVT-10', 50, 1),
+(11, 'CHEVROLET-NPR 816-4HK10VB979-2024', 'TJWL-54', 30, 1);
 
 -- --------------------------------------------------------
 
@@ -84,8 +89,42 @@ CREATE TABLE `conductor` (
 --
 
 INSERT INTO `conductor` (`idconductor`, `completenameconductor`, `fechaingresoconductor`, `iduserfk`) VALUES
-(4, 'edgar actualizado', '2024-07-23 00:34:38', 2),
-(5, 'edgar macedo', '2024-07-23 12:13:08', 3);
+(6, 'Alex Antonio Mujica Silva', '2023-04-24 12:31:48', 2),
+(7, 'Emilio José Cifuentes Rivero', '2023-10-12 12:33:09', 2),
+(8, 'Fernando Willians Perez Cabello', '2021-06-11 12:33:09', 2),
+(9, 'German Fernando Suarez Fuentes', '2023-02-15 12:33:09', 2),
+(10, 'Hernan Elias Arredondo Albornoz', '2022-02-01 12:33:09', 2),
+(11, 'Juan Antonio Gonzales Araya', '2019-09-01 12:33:09', 2),
+(12, 'Pedro Antonio Cuevas Guzman', '2020-10-03 12:33:09', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `egresoscamiondata`
+--
+
+CREATE TABLE `egresoscamiondata` (
+  `idEgresoCamionData` int(11) NOT NULL,
+  `detalle` varchar(250) DEFAULT NULL,
+  `montoEgresoCamion` double NOT NULL,
+  `linkEgresoCamionImagen` varchar(550) DEFAULT NULL,
+  `FKtipoDeIngresoCamion` int(11) DEFAULT NULL,
+  `FKcamion` int(11) DEFAULT NULL,
+  `fechaEgresoCamion` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `egresoscamiondata`
+--
+
+INSERT INTO `egresoscamiondata` (`idEgresoCamionData`, `detalle`, `montoEgresoCamion`, `linkEgresoCamionImagen`, `FKtipoDeIngresoCamion`, `FKcamion`, `fechaEgresoCamion`) VALUES
+(1, 'prueba', 100, NULL, 2, 5, NULL),
+(2, 'prueba de engreso camion', 30.23, '/imagendeprueba', 1, 4, '2024-10-07'),
+(3, 'prueba desde forntend', 100, '/pruebaingresoFoto', 2, 4, '2024-10-07'),
+(4, 'prueba desde forntend 2', 1223.23, '/pruebaingresoFoto', 1, 9, '2024-10-07'),
+(5, 'prueba desde forntend 3', 100, '/pruebaingresoFoto', 3, 7, '2024-10-07'),
+(6, 'prueba desde forntend 3', 100.23, '/pruebaingresoFoto', 2, 6, '2024-10-07'),
+(7, 'prueba desde forntend 123', 100.1, '/pruebaingresoFoto', 1, 9, '2024-10-08');
 
 -- --------------------------------------------------------
 
@@ -152,7 +191,9 @@ INSERT INTO `egresosmanuales` (`idEgresosManuales`, `descripcionEgresosManuales`
 (55, 'Seguros Zurich', 228072, '2024-08-17'),
 (56, 'Mantenimiento RSYJ-94', 166600, '2024-08-17'),
 (57, 'Bono sábado Pedro Collao ', 30000, '2024-08-17'),
-(58, 'Bono sábado Victor Valdivieso', 20000, '2024-08-17');
+(58, 'Bono sábado Victor Valdivieso', 20000, '2024-08-17'),
+(59, 'prueba desde front', 11111, '2024-08-29'),
+(60, '123', 123, '2024-08-21');
 
 -- --------------------------------------------------------
 
@@ -175,39 +216,20 @@ CREATE TABLE `envios` (
   `bonoConductor` double DEFAULT NULL,
   `bonoPeoneta` int(11) DEFAULT NULL,
   `codigoEnvio` varchar(100) DEFAULT NULL,
-  `tipoDeViajeFK` int(11) UNSIGNED DEFAULT NULL
+  `tipoDeViajeFK` int(11) UNSIGNED DEFAULT NULL,
+  `sobreCargo` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `envios`
 --
 
-INSERT INTO `envios` (`idEnvio`, `idCamionFk`, `idConductorFk`, `idClienteFk`, `fechaRegistrada`, `fechaInicio`, `fechaFinal`, `estadoEnvio`, `comentarioEnvio`, `rutaFotoEnvio`, `montoViaje`, `bonoConductor`, `bonoPeoneta`, `codigoEnvio`, `tipoDeViajeFK`) VALUES
-(61, 1, 4, 4, '2024-08-12 10:16:19', '2024-08-16 14:35:35', '2024-08-16 14:35:43', 3, '', '', 120000, NULL, NULL, 'p0003', 1),
-(62, 1, 4, 4, '2024-08-12 10:18:34', NULL, NULL, 1, NULL, NULL, 60000, NULL, NULL, 'P0004', 2),
-(63, 2, 5, 4, '2024-08-12 14:15:30', NULL, NULL, 1, NULL, NULL, 120000, NULL, NULL, 'P0005', 3),
-(64, 2, 5, 4, '2024-08-12 14:15:57', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'P0005', 4),
-(65, 2, 5, 4, '2024-08-13 16:38:02', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'P0005', 5),
-(68, 1, 4, 5, '2024-08-15 17:54:30', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'P0009', 1),
-(69, 2, 4, 4, '2024-08-15 18:00:42', NULL, NULL, 1, NULL, NULL, 140000, NULL, NULL, 'P0010', 1),
-(72, 1, 4, 5, '2024-08-15 18:45:49', NULL, NULL, 1, NULL, NULL, 120000, NULL, NULL, 'P0011', 9),
-(73, 2, 4, 4, '2024-08-15 18:46:25', NULL, NULL, 1, NULL, NULL, 120000, NULL, NULL, 'P0002', 3),
-(74, 2, 5, 4, '2024-08-15 18:46:50', NULL, NULL, 1, NULL, NULL, 120000, NULL, NULL, 'P0011', 3),
-(75, 1, 4, 5, '2024-08-15 18:47:53', NULL, NULL, 1, NULL, NULL, 120000, NULL, NULL, 'P0002', 8),
-(76, 2, 4, 5, '2024-08-15 18:48:51', NULL, NULL, 1, NULL, NULL, 150000, NULL, NULL, 'P0011', 7),
-(84, 1, 4, 5, '2024-08-15 19:10:17', NULL, NULL, 1, NULL, NULL, 120000, NULL, NULL, 'P0011', 6),
-(86, 2, 5, 6, '2024-08-15 19:15:12', NULL, NULL, 1, NULL, NULL, 150000, NULL, NULL, 'P0011', 10),
-(87, 2, 4, 7, '2024-08-15 19:15:44', NULL, NULL, 1, NULL, NULL, 135000, NULL, NULL, '123sadas', 10),
-(88, 1, 4, 7, '2024-08-15 19:16:25', NULL, NULL, 1, NULL, NULL, 135000, NULL, NULL, 'P0011', 10),
-(89, 1, 4, 7, '2024-08-15 19:17:25', NULL, NULL, 1, NULL, NULL, 135000, NULL, NULL, 'p134', 10),
-(90, 2, 5, 5, '2024-08-15 20:22:16', '2024-08-15 20:25:16', '2024-08-15 20:26:03', 3, '', '', 140000, NULL, NULL, 'P0014', 6),
-(91, 2, 5, 7, '2024-08-15 20:27:05', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'P0011', 10),
-(92, 2, 4, 5, '2024-08-15 21:14:53', NULL, NULL, 1, NULL, NULL, 140000, NULL, NULL, 'P0011', 6),
-(93, 2, 5, 4, '2024-08-15 21:21:37', NULL, NULL, 1, NULL, NULL, 120000, NULL, NULL, '101106', 3),
-(94, 1, 4, 4, '2024-08-15 21:24:28', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'P0011', 2),
-(95, 3, 5, 4, '2024-08-15 21:27:31', NULL, NULL, 1, NULL, NULL, 120000, NULL, NULL, 'P0002', 1),
-(96, 1, 4, 6, '2024-08-17 11:15:00', '2024-08-18 12:02:26', '2024-08-18 12:02:36', 3, '', '', 130000, NULL, NULL, 'P0004', 10),
-(98, 2, 5, 4, '2024-08-20 15:48:47', NULL, NULL, 1, NULL, NULL, 70000, NULL, NULL, '12323', 2);
+INSERT INTO `envios` (`idEnvio`, `idCamionFk`, `idConductorFk`, `idClienteFk`, `fechaRegistrada`, `fechaInicio`, `fechaFinal`, `estadoEnvio`, `comentarioEnvio`, `rutaFotoEnvio`, `montoViaje`, `bonoConductor`, `bonoPeoneta`, `codigoEnvio`, `tipoDeViajeFK`, `sobreCargo`) VALUES
+(108, 5, 7, 4, '2024-09-10 00:00:00', '2024-09-28 16:39:32', '2024-09-28 16:39:43', 3, '', '', 60100, 25000, 20000, 'prueba', 2, 100),
+(109, 4, 6, 7, '2024-09-12 00:00:00', NULL, NULL, 1, NULL, NULL, 135000, NULL, NULL, 'adssda', 10, 0),
+(110, 5, 6, 4, '2024-09-12 00:00:00', NULL, NULL, 1, NULL, NULL, 60000, NULL, NULL, '12345', 2, 0),
+(111, 4, 7, 4, '2024-09-28 00:00:00', NULL, NULL, 1, NULL, NULL, 120000, NULL, NULL, 'adssda', 1, 0),
+(112, 5, 7, 4, '2024-10-07 00:00:00', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'san isidro,cerca al golf club,frente al colegio belen', 1, 11.22);
 
 -- --------------------------------------------------------
 
@@ -253,7 +275,8 @@ INSERT INTO `ingresosmanuales` (`idIngresosManuales`, `descripcionIngresosManual
 (23, 'FACTURA 218 LAOTONG LOG SPA', 1201900, '2024-08-08'),
 (24, 'SALDO JULIO', 23099555, '2024-07-31'),
 (25, 'PRESTAMO SOCIO', 300000, '2024-08-02'),
-(26, 'PRESTAMO SOCIO 2/3', 150000, '2024-08-02');
+(26, 'PRESTAMO SOCIO 2/3', 150000, '2024-08-02'),
+(27, 'prueba desde front con xavi', 3423234, '2024-08-29');
 
 -- --------------------------------------------------------
 
@@ -269,35 +292,44 @@ CREATE TABLE `sucursalessubclientes` (
   `idEnvioFK` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `sucursalessubclientes`
+-- Estructura de tabla para la tabla `tipodeegresocamion`
 --
 
-INSERT INTO `sucursalessubclientes` (`idSucusalesSubClientes`, `nombreSubcliente`, `direccionSubCliente`, `idClienteFk`, `idEnvioFK`) VALUES
-(24, 'sucursal xavi', 'av lol', 7, 91),
-(25, 'sucursal xavi', 'av lol', 4, 94),
-(26, 'sucursal gabriel', 'av peru', 4, 94),
-(27, 'sucursal gabriel', 'av lol', 6, 96),
-(28, 'sucursal xavi', 'av lol', 6, 96),
-(29, 'mid mall', 'p,atricia viñuela', 4, 98);
+CREATE TABLE `tipodeegresocamion` (
+  `idtipoDeEgresoCamion` int(11) NOT NULL,
+  `descripcionTipoEgresoCamion` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tipodeegresocamion`
+--
+
+INSERT INTO `tipodeegresocamion` (`idtipoDeEgresoCamion`, `descripcionTipoEgresoCamion`) VALUES
+(1, 'Repuestos'),
+(2, 'Gasolina'),
+(3, 'Mantenimiento'),
+(4, 'Viáticos');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tiposDeViajes`
+-- Estructura de tabla para la tabla `tiposdeviajes`
 --
 
-CREATE TABLE `tiposDeViajes` (
+CREATE TABLE `tiposdeviajes` (
   `idTipoDeviaje` int(11) UNSIGNED NOT NULL,
   `descripcionViaje` varchar(155) DEFAULT NULL,
   `clienteFK` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `tiposDeViajes`
+-- Volcado de datos para la tabla `tiposdeviajes`
 --
 
-INSERT INTO `tiposDeViajes` (`idTipoDeviaje`, `descripcionViaje`, `clienteFK`) VALUES
+INSERT INTO `tiposdeviajes` (`idTipoDeviaje`, `descripcionViaje`, `clienteFK`) VALUES
 (1, 'viaje 1', 4),
 (2, 'viaje 2', 4),
 (3, 'viaje 3', 4),
@@ -357,6 +389,14 @@ ALTER TABLE `conductor`
   ADD KEY `conductor_user_fk` (`iduserfk`);
 
 --
+-- Indices de la tabla `egresoscamiondata`
+--
+ALTER TABLE `egresoscamiondata`
+  ADD PRIMARY KEY (`idEgresoCamionData`),
+  ADD KEY `egresosCamionData_tipodeegresocamion_FK` (`FKtipoDeIngresoCamion`),
+  ADD KEY `egresosCamionData_camion_FK` (`FKcamion`);
+
+--
 -- Indices de la tabla `egresosmanuales`
 --
 ALTER TABLE `egresosmanuales`
@@ -394,9 +434,15 @@ ALTER TABLE `sucursalessubclientes`
   ADD KEY `sucursales_subclientes_envios_FK` (`idEnvioFK`);
 
 --
--- Indices de la tabla `tiposDeViajes`
+-- Indices de la tabla `tipodeegresocamion`
 --
-ALTER TABLE `tiposDeViajes`
+ALTER TABLE `tipodeegresocamion`
+  ADD PRIMARY KEY (`idtipoDeEgresoCamion`);
+
+--
+-- Indices de la tabla `tiposdeviajes`
+--
+ALTER TABLE `tiposdeviajes`
   ADD PRIMARY KEY (`idTipoDeviaje`),
   ADD KEY `clienteFK` (`clienteFK`);
 
@@ -414,7 +460,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT de la tabla `camion`
 --
 ALTER TABLE `camion`
-  MODIFY `camionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `camionId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `cliente`
@@ -426,19 +472,25 @@ ALTER TABLE `cliente`
 -- AUTO_INCREMENT de la tabla `conductor`
 --
 ALTER TABLE `conductor`
-  MODIFY `idconductor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idconductor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT de la tabla `egresoscamiondata`
+--
+ALTER TABLE `egresoscamiondata`
+  MODIFY `idEgresoCamionData` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `egresosmanuales`
 --
 ALTER TABLE `egresosmanuales`
-  MODIFY `idEgresosManuales` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `idEgresosManuales` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT de la tabla `envios`
 --
 ALTER TABLE `envios`
-  MODIFY `idEnvio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `idEnvio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 
 --
 -- AUTO_INCREMENT de la tabla `gestores`
@@ -450,18 +502,24 @@ ALTER TABLE `gestores`
 -- AUTO_INCREMENT de la tabla `ingresosmanuales`
 --
 ALTER TABLE `ingresosmanuales`
-  MODIFY `idIngresosManuales` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `idIngresosManuales` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `sucursalessubclientes`
 --
 ALTER TABLE `sucursalessubclientes`
-  MODIFY `idSucusalesSubClientes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `idSucusalesSubClientes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
--- AUTO_INCREMENT de la tabla `tiposDeViajes`
+-- AUTO_INCREMENT de la tabla `tipodeegresocamion`
 --
-ALTER TABLE `tiposDeViajes`
+ALTER TABLE `tipodeegresocamion`
+  MODIFY `idtipoDeEgresoCamion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `tiposdeviajes`
+--
+ALTER TABLE `tiposdeviajes`
   MODIFY `idTipoDeviaje` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
@@ -481,13 +539,20 @@ ALTER TABLE `conductor`
   ADD CONSTRAINT `conductor_user_fk` FOREIGN KEY (`iduserfk`) REFERENCES `user` (`userid`);
 
 --
+-- Filtros para la tabla `egresoscamiondata`
+--
+ALTER TABLE `egresoscamiondata`
+  ADD CONSTRAINT `egresosCamionData_camion_FK` FOREIGN KEY (`FKcamion`) REFERENCES `camion` (`camionId`),
+  ADD CONSTRAINT `egresosCamionData_tipodeegresocamion_FK` FOREIGN KEY (`FKtipoDeIngresoCamion`) REFERENCES `tipodeegresocamion` (`idtipoDeEgresoCamion`);
+
+--
 -- Filtros para la tabla `envios`
 --
 ALTER TABLE `envios`
   ADD CONSTRAINT `NewTable_camion_FK` FOREIGN KEY (`idCamionFk`) REFERENCES `camion` (`camionId`),
   ADD CONSTRAINT `NewTable_cliente_FK` FOREIGN KEY (`idClienteFk`) REFERENCES `cliente` (`clienteId`),
   ADD CONSTRAINT `NewTable_conductor_FK` FOREIGN KEY (`idConductorFk`) REFERENCES `conductor` (`idconductor`),
-  ADD CONSTRAINT `tipoDeViajeFK` FOREIGN KEY (`tipoDeViajeFK`) REFERENCES `tiposDeViajes` (`idTipoDeviaje`);
+  ADD CONSTRAINT `tipoDeViajeFK` FOREIGN KEY (`tipoDeViajeFK`) REFERENCES `tiposdeviajes` (`idTipoDeviaje`);
 
 --
 -- Filtros para la tabla `gestores`
@@ -503,9 +568,9 @@ ALTER TABLE `sucursalessubclientes`
   ADD CONSTRAINT `sucursales_subclientes_envios_FK` FOREIGN KEY (`idEnvioFK`) REFERENCES `envios` (`idEnvio`);
 
 --
--- Filtros para la tabla `tiposDeViajes`
+-- Filtros para la tabla `tiposdeviajes`
 --
-ALTER TABLE `tiposDeViajes`
+ALTER TABLE `tiposdeviajes`
   ADD CONSTRAINT `clienteFK` FOREIGN KEY (`clienteFK`) REFERENCES `cliente` (`clienteId`);
 COMMIT;
 
