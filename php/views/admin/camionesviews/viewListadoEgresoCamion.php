@@ -2,6 +2,7 @@
 include_once('../../../config/rutaprotegida.php');
 include_once('../../../config/conection.php');
 include_once('../../../logic/egresosCamiones.php');
+include_once('../../../logic/camiones.php');
 $egresos = listarEgresosCamiones($conexion);
 $total = sumatoriaEgresosCamiones($egresos);
 ?>
@@ -65,7 +66,10 @@ $total = sumatoriaEgresosCamiones($egresos);
                                 <th scope="col">descripcion</th>
                                 <th scope="col">monto</th>
                                 <th scope="col">fechaRegistrada</th>
-                                <th scope="col">detalles</th>
+                                <th scope="col">imagen</th>
+                                <th scope="col">tipo de ingreso</th>
+                                <th scope="col">camion</th>
+                                
                                 <th scope="col">editar</th>
 
                             </tr>
@@ -75,6 +79,8 @@ $total = sumatoriaEgresosCamiones($egresos);
                             $tipodeRespuesta = gettype($egresos);
                             if ($tipodeRespuesta == 'array') {
                                 foreach ($egresos as $egreso) {
+                                $tipodeegreso=listartipoegresocamionbyid($conexion,$egreso['FKtipoDeIngresoCamion']);
+                                $camion = listarCamionesPorId($conexion, $egreso['FKcamion']);
                                     echo '
                                 
                                 <tr>
@@ -82,12 +88,9 @@ $total = sumatoriaEgresosCamiones($egresos);
                                 <td>' . $egreso['detalle'] . '</td>
                                 <td>$' . number_format($egreso['montoEgresoCamion'], 2, '.', ',') . '</td>
                                  <td>' . $egreso['fechaEgresoCamion'] . '</td>
-                                <td>
-                                <form action="detalleEnvio.php" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $egreso['idEgresoCamionData'] . '" />
-                                <button type="submit" class="btn btn-success">Ver</button>
-                                </form>
-                                </td>
+                                  <td>' . $egreso['linkEgresoCamionImagen'] . '</td>
+                                  <td>' . $tipodeegreso[0]['descripcionTipoEgresoCamion'] . '</td>
+                                  <td>' . $camion[0]['placaCamion'] . '</td>
                                  <td>
                                 <form action="editarEnvioView.php" method="POST">
                                 <input type="hidden" id="linkFoto" name="idEnvio" value="' . $egreso['idEgresoCamionData'] . '" />

@@ -18,7 +18,22 @@ function listartipoegresocamion($con){
     return $usuarios;
 }
 
+function listartipoegresocamionbyid($con,$id){
+    $mensaje = "no hay tipos  registrados con el id '$id'";
+    $usuarios = [];
+    $sqlUsarios = "SELECT* from tipodeegresocamion WHERE idtipoDeEgresoCamion='$id';";
+    $resultUsuarios = $con->query($sqlUsarios);
 
+    if ($resultUsuarios->num_rows > 0) {
+        while ($rowUsuarios = $resultUsuarios->fetch_assoc()) {
+            $usuarios[] = $rowUsuarios;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $usuarios;
+}
 function listarEgresosCamiones($con){
     $mensaje = "no hay Egresos  registrados";
     $usuarios = [];
