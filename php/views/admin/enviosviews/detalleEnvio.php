@@ -7,7 +7,7 @@ include_once('../../../logic/camiones.php');
 include_once('../../../logic/envios.php');
 include_once('../../../logic/conductores.php');
 include_once('../../../logic/clientes.php');
-include_once('../../../logic/sucursalesSubClientes.php');
+include_once('../../../logic/sucursalesSubclientes.php');
 $envios=listarEnvioPorId($conexion,$idEnvio);
 $listadosucursalesporenvio=listarSubSucursalPorIdEnvio($conexion,$idEnvio);
 
