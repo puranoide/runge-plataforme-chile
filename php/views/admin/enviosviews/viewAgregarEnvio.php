@@ -6,6 +6,7 @@ include_once('../../../logic/conductores.php');
 include_once('../../../logic/clientes.php');
 include_once('../../../logic/camiones.php');
 include_once('../../../logic/tipoDeEnvio.php');
+
 $conductores = listarconductores($conexion);
 $camiones = listarCamiones($conexion);
 $clientes = listarClientes($conexion);

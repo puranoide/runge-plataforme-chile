@@ -89,7 +89,20 @@
                     </div>
                 </div>
             </li>
- 
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagespeonetas"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Peonetas</span>
+                </a>
+                <div id="collapsePagespeonetas" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="../peonetas/viewPeonetas.php">ver peonetas</a>
+                        <div class="collapse-divider"></div>
+                 
+                    </div>
+                </div>
+            </li>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
