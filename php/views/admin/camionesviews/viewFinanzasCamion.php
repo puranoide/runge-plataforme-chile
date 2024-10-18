@@ -6,10 +6,13 @@ include_once('../../../logic/envios.php');
 include_once('../../../logic/conductores.php');
 include_once('../../../logic/clientes.php');
 include_once('../../../logic/tipoDeEnvio.php');
+include_once('../../../logic/egresosCamiones.php');
 
 $idCamion=$_POST['idEnvio'];
 $listaEnvios=listarEnviosPorCamion($conexion,$idCamion);
 $ingresosdelcamion=sumarIngresosPorCamion($conexion,$idCamion);
+$egresosdelcamion=listarEgresosPorCamion($conexion,$idCamion);
+$sumatoriadeegresos=sumatoriaEgresosCamionesbyid($egresosdelcamion);
 
 ?>
 
@@ -60,7 +63,7 @@ $ingresosdelcamion=sumarIngresosPorCamion($conexion,$idCamion);
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
+                <div class="row">
                 <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
@@ -76,8 +79,25 @@ $ingresosdelcamion=sumarIngresosPorCamion($conexion,$idCamion);
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-danger shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                Egresos historicos</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($sumatoriadeegresos,2,'.',',');  ?></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <h1 class="text-aling-center">ingresos por envio del camion</h1>
                 <div class="table-responsive">
                     <table class="table" id="myTable">
                         <thead>
@@ -134,7 +154,10 @@ $ingresosdelcamion=sumarIngresosPorCamion($conexion,$idCamion);
                                 <td>' . $envio['fechaFinal'] . '</td>
                                 <td>' . $estadoString . '</td>
                                 <td>' . $envio['comentarioEnvio'] . '</td>
-                                <td>' . $envio['rutaFotoEnvio'] . '</td>
+                                <td>
+                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#imageModal" onclick="showImageModal(\'' . htmlspecialchars($envio['rutaFotoEnvio'], ENT_QUOTES) . '\')">Ver</button>
+                                </td>
+
                                 <td>$' . number_format($envio['montoViaje'], 2, '.', ',') . '</td>
                                 <td>' . number_format($envio['bonoConductor'], 2, '.', ',') . '</td>
                                 <td>' . number_format($envio['bonoPeoneta'], 2, '.', ',')  . '</td>
@@ -166,7 +189,59 @@ $ingresosdelcamion=sumarIngresosPorCamion($conexion,$idCamion);
                     </table>
 
                 </div>
+                <h1 class="text-aling-center">egresos del camion</h1>
+                <div class="table-responsive">
+                    <table class="table" id="myTable">
+                        <thead>
+                            <tr>
 
+                                <th scope="col">id</th>
+                                <th scope="col">detalle</th>
+                                <th scope="col">tipo de egreso</th>
+                                <th scope="col">monto</th>
+                                <th scope="col">fecha</th>
+                                <th scope="col">imagen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+
+                            $tipodeRespuesta = gettype($egresosdelcamion);
+                            if ($tipodeRespuesta == 'array') {
+                                foreach ($egresosdelcamion as $egreso) {
+                                    $tipodeegreso = listartipoegresocamionbyid($conexion, $egreso['FKtipoDeIngresoCamion']);
+                                    echo '
+                                
+                                <tr>
+                                <td>' . $egreso['idEgresoCamionData'] . '</td>
+                                <td>' . $egreso['detalle'] . '</td>
+                                <td>' . $tipodeegreso[0]['descripcionTipoEgresoCamion'] . '</td>
+                                <td>' . number_format($egreso['montoEgresoCamion'],2,'.',',') . '</td>
+                                <td>' . $egreso['fechaEgresoCamion'] . '</td>
+                                <td>
+                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#imageModal" onclick="showImageModal(\'' . htmlspecialchars($egreso['linkEgresoCamionImagen'], ENT_QUOTES) . '\')">Ver</button>
+                                </td>
+                                </td>
+                                 <td>
+                                <form action="editarEnvioView.php" method="POST">
+                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $envio['idEnvio'] . '" />
+                                <button type="submit" class="btn btn-warning">editar</button>
+                                </form>
+                                </td>
+                                 </tr>
+                                
+                                ';
+                                }
+                            } else if ($tipodeRespuesta == 'string') {
+                                echo $listaEnvios;
+                            }
+                            ?>
+
+
+                        </tbody>
+                    </table>
+
+                </div>
       
                 <!-- /.container-fluid -->
 
@@ -261,3 +336,31 @@ $ingresosdelcamion=sumarIngresosPorCamion($conexion,$idCamion);
 </body>
 
 </html>
+
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageModalLabel">Imagen del Envío</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img id="modalImage" src="" alt="Imagen de Envío" class="img-fluid">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showImageModal(imageUrl) {
+    // Establece la URL de la imagen en el modal
+    document.getElementById('modalImage').src = imageUrl;
+    console.log(imageUrl)
+}
+</script>

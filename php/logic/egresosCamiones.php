@@ -17,6 +17,39 @@ function listartipoegresocamion($con){
 
     return $usuarios;
 }
+function listarEgresosPorCamion($con,$id){
+    $mensaje = "no hay egresos  relacionado al camion con el id '$id'";
+    $usuarios = [];
+    $sqlUsarios = "SELECT* from egresoscamiondata e WHERE e.FKcamion ='$id';";
+    $resultUsuarios = $con->query($sqlUsarios);
+
+    if ($resultUsuarios->num_rows > 0) {
+        while ($rowUsuarios = $resultUsuarios->fetch_assoc()) {
+            $usuarios[] = $rowUsuarios;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $usuarios;
+}
+
+function sumatoriaEgresosCamionesbyid($listarEgresoscamionesbyid){
+    $total = 0;
+    $resultados = $listarEgresoscamionesbyid;
+    $tipoderepuesta = gettype($resultados);
+    if ($tipoderepuesta == "array") {
+        $total = 0;
+        foreach ($resultados as $egreso) {
+            # code...
+            $total += $egreso['montoEgresoCamion'];
+        }
+    } else if ($tipoderepuesta == "string") {
+        $total = 0;
+    }
+
+    return $total;
+}
 
 function listartipoegresocamionbyid($con,$id){
     $mensaje = "no hay tipos  registrados con el id '$id'";
