@@ -27,6 +27,78 @@ function postApiImagenEnvio($imagenmetadata)
     return $responseArr->data->link;
 
 }
+function listarEnviosDelAño($con){
+    $mensaje = "no hay envios registrados";
+    $gestores = [];
+    $sqlconductores = "SELECT * from envios  WHERE YEAR(fechaRegistrada) = YEAR(NOW())";
+    $resultConductores = $con->query($sqlconductores);
+
+    if ($resultConductores->num_rows > 0) {
+        while ($rowConductores = $resultConductores->fetch_assoc()) {
+            $gestores[] = $rowConductores;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $gestores;
+};
+function listarEnviosDelMes($con){
+    $mensaje = "no hay envios registrados";
+    $gestores = [];
+    $sqlconductores = "SELECT * from envios  WHERE YEAR(fechaRegistrada) = YEAR(NOW())
+    AND MONTH(fechaRegistrada) = MONTH(NOW())";
+    $resultConductores = $con->query($sqlconductores);
+
+    if ($resultConductores->num_rows > 0) {
+        while ($rowConductores = $resultConductores->fetch_assoc()) {
+            $gestores[] = $rowConductores;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $gestores;
+};
+function sumatoriaIngresosPorenvio($listadeenvios){
+    
+    $total=0;
+    $resultados=$listadeenvios;
+    $tipoderepuesta=gettype($resultados);
+    if($tipoderepuesta=="array"){
+        $total=0;
+        foreach ($resultados as $envio) { 
+            # code...
+            $total+=$envio['montoViaje'];
+    
+        }
+    }else if($tipoderepuesta=="string"){
+        $total=0;
+    }
+   
+    return $total;
+
+}
+function sumatoriaegresosPorenvio($listadeenvios){
+    
+    $total=0;
+    $resultados=$listadeenvios;
+    $tipoderepuesta=gettype($resultados);
+    if($tipoderepuesta=="array"){
+        $total=0;
+        foreach ($resultados as $envio) { 
+            # code...
+            $total+=$envio['bonoConductor'];
+            $total+=$envio['bonoPeoneta'];
+    
+        }
+    }else if($tipoderepuesta=="string"){
+        $total=0;
+    }
+   
+    return $total;
+
+}
 
 function listEnvios($con)
 {
@@ -488,6 +560,27 @@ $year = 2024;
 echo "Total de sábados en $month/$year: " . totalSaturdaysInMonth($month, $year);
 /*
 
+$resultados=listarEnviosDelMes($conexion);
+
+echo '<pre>';
+print_r ($resultados);
+echo '</pre>';
+
+$resultadossumna=sumatoriaegresosPorenvio($resultados);
+
+echo '<pre>';
+print_r ($resultadossumna);
+echo '</pre>';
+
+echo '<pre>';
+print_r ($resultados);
+echo '</pre>';
+
+$resultadossumna=sumatoriaIngresosPorenvio($resultados);
+
+echo '<pre>';
+print_r ($resultadossumna);
+echo '</pre>';
 
 $resultados=listEnvios($conexion);
 

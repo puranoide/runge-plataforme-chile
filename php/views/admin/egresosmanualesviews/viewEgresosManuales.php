@@ -78,7 +78,7 @@ $total = sumatoriaEgresosManuales($egresos);
                                     echo '
                                 
                                 <tr>
-                                <th scope="row">' . $egreso['idEgresosManuales'] . '</th>
+                                <td scope="row">' . $egreso['idEgresosManuales'] . '</td>
                                 <td>' . $egreso['descripcionEgresosManuales'] . '</td>
                                  <td>$' . number_format($egreso['montoEgresosManuales'], 2, '.', ',') . '</td>
                                  <td>' . $egreso['fechaRegistrada'] . '</td>
@@ -99,7 +99,7 @@ $total = sumatoriaEgresosManuales($egresos);
                                 ';
                                 }
                             } else if ($tipodeRespuesta == 'string') {
-                                echo '<tr><td colspan="5">No se encontraron ingresos manuales.</td></tr>';
+                                echo '<tr><td colspan="6">No se encontraron ingresos manuales.</td></tr>';
                             }
 
 

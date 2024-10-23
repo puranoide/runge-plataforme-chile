@@ -59,8 +59,8 @@ $camiones=listarCamiones($conexion);
                             <tr>
                                 <th scope="col">id</th>
                                 <th scope="col">descripcion</th>
-                                <th scope="col">plata</th>
-                                <th scope="col">cublicaje</th>
+                                <th scope="col">placa</th>
+                                <th scope="col">cubicaje</th>
                                 <th scope="col">acciones</th>
 
                             </tr>
@@ -75,7 +75,7 @@ $camiones=listarCamiones($conexion);
                                 <tr>
                                 <th scope="row">' . $camion['camionId'] . '</th>
                                 <td>' . $camion['descripcionCamion'] . '</td>
-                                <td>$' . $camion['placaCamion'] . '</td>
+                                <td>' . $camion['placaCamion'] . '</td>
                                  <td>' . $camion['cubicajeCamion'] . '</td>
                                  <td>
                                 <form action="viewFinanzasCamion.php" method="POST">
