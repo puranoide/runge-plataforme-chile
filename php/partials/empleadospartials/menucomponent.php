@@ -91,20 +91,19 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagespeonetas"
-                    aria-expanded="true" aria-controls="collapsePages">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePagesempleados"
+                    aria-expanded="true" aria-controls="collapsePagesingresosManuales">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>Peonetas</span>
+                    <span>Personal</span>
                 </a>
-                <div id="collapsePagespeonetas" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div id="collapsePagesempleados" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="viewPeonetas.php">ver peonetas</a>
-                        <div class="collapse-divider"></div>
-                 
+                        <h6 class="collapse-header">manejo de ingresos</h6>
+                        <a class="collapse-item" href="listempleadosViews.php">Ver personal</a>
+                     
                     </div>
                 </div>
             </li>
- 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

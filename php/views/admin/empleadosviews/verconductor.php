@@ -1,10 +1,12 @@
 <?php
 include_once('../../../config/rutaprotegida.php');
 include_once('../../../config/conection.php');
-include_once('../../../logic/peonetas.php');
-
-$peonetas = listarpeonetas($conexion);
-
+include_once('../../../logic/conductores.php');
+$idconductor=$_POST['idconductor'];
+$conductor=listarconductoresPorId($conexion,$idconductor);
+echo'<pre>';
+print_r($conductor);
+echo'</pre>';
 ?>
 
 
@@ -23,14 +25,17 @@ $peonetas = listarpeonetas($conexion);
     <title>SB Admin 2 - Dashboard</title>
 
     <!-- Custom fonts for this template-->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous" />
     <link href="../../../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="../../../../css/sb-admin-2.min.css" rel="stylesheet">
-    <style>
 
-    </style>
 </head>
 
 <body id="page-top">
@@ -40,7 +45,7 @@ $peonetas = listarpeonetas($conexion);
 
         <!-- Sidebar -->
         <?php
-        include_once('../../../partials/peonetas/menucomponent.php');
+        include_once('../../../partials/empleadospartials/menucomponent.php');
         ?>
         <!-- End of Sidebar -->
 
@@ -51,58 +56,14 @@ $peonetas = listarpeonetas($conexion);
             <div id="content">
 
                 <!-- Topbar -->
-                <?php include_once('../../../partials/peonetas/usercomponent.php'); ?>
+                <?php include_once('../../../partials/empleadospartials/usercomponent.php'); ?>
                 <!-- End of Topbar -->
 
+
                 <!-- Begin Page Content -->
-                <div class="table-responsive">
-                    <table class="table" id="myTable">
-                        <thead>
-                            <tr>
-                                <th scope="col">id</th>
-                                <th scope="col">nombre y apellidos</th>
-                                <th scope="col">rut</th>
-                                <th scope="col">ingreso</th>
-                                <th scope="col">correo</th>
-                                <th scope="col">editar</th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
+                
 
-                            $tipodeRespuesta = gettype($peonetas);
-                            if ($tipodeRespuesta == 'array') {
-                                foreach ($peonetas as $peoneta) {
-
-                                    echo '
-                                
-                                <tr>
-                                <td>' . $peoneta['idPeoneta'] . '</td>
-                                <td>' .$peoneta['nombresyapellidoscompletos']. '</td>
-                                <td>' . $peoneta['rut']. '</td>
-                                <td>' . $peoneta['fechadeingresopeoneta'] . '</td>
-                                <td>' . $peoneta['correopeoneta']. '</td>
-                                 <td>
-                                <form action="editarEnvioView.php" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $peoneta['idPeoneta']  . '" />
-                                <button type="submit" class="btn btn-warning">editar</button>
-                                </form>
-                                </td>
-                                 </tr>
-                                
-                                ';
-                                }
-                            } else if ($tipodeRespuesta == 'string') {
-                                echo $envios;
-                            }
-                            ?>
-
-
-                        </tbody>
-                    </table>
-
-                </div>
+                
                 <!-- /.container-fluid -->
 
                 <!-- End of Main Content -->
@@ -117,11 +78,6 @@ $peonetas = listarpeonetas($conexion);
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
-
-        <!-- Logout Modal-->
-        <div class="modal fade" id="logoutModalimgpedido" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-        </div>
 
         <!-- Logout Modal-->
         <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -141,7 +97,12 @@ $peonetas = listarpeonetas($conexion);
                 </div>
             </div>
         </div>
+
         <!-- Bootstrap core JavaScript-->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
         <script src="../../../../vendor/jquery/jquery.min.js"></script>
         <script src="../../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -154,10 +115,10 @@ $peonetas = listarpeonetas($conexion);
         <!-- Page level plugins -->
         <script src="../../../../vendor/chart.js/Chart.min.js"></script>
 
-        <!-- Page level custom scripts -->
-        <script src="../../js/demo/chart-area-demo.js"></script>
-        <script src="../../js/demo/chart-bar-demo.js"></script>
 
+        <!-- Page level custom scripts -->
+        <script src="../../../../js/demo/chart-area-demo.js"></script>
+        <script src="../../../../js/demo/chart-bar-demo.js"></script>
         <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
         <script>
@@ -208,30 +169,3 @@ $peonetas = listarpeonetas($conexion);
 </body>
 
 </html>
-
-<!-- Modal -->
-<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="imageModalLabel">Imagen del Envío</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <img id="modalImage" src="" alt="Imagen de Envío" class="img-fluid">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    function showImageModal(imageUrl) {
-        // Establece la URL de la imagen en el modal
-        document.getElementById('modalImage').src = imageUrl;
-    }
-</script>

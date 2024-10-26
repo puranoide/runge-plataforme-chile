@@ -1,10 +1,12 @@
 <?php
 include_once('../../../config/rutaprotegida.php');
 include_once('../../../config/conection.php');
-include_once('../../../logic/egresosCamiones.php');
-include_once('../../../logic/camiones.php');
-$egresos = listarEgresosCamiones($conexion);
-$total = sumatoriaEgresosCamiones($egresos);
+include_once('../../../logic/peonetas.php');
+$idpeoneta=$_POST['idpeoneta'];
+$peonetta=listarpeonetaporid($conexion,$idpeoneta);
+echo'<pre>';
+print_r($peonetta);
+echo'</pre>';
 ?>
 
 
@@ -23,6 +25,11 @@ $total = sumatoriaEgresosCamiones($egresos);
     <title>SB Admin 2 - Dashboard</title>
 
     <!-- Custom fonts for this template-->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous" />
     <link href="../../../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
@@ -38,8 +45,8 @@ $total = sumatoriaEgresosCamiones($egresos);
 
         <!-- Sidebar -->
         <?php
-              include_once('../../../partials/camiones/menucomponent.php');
-            ?>
+        include_once('../../../partials/empleadospartials/menucomponent.php');
+        ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -49,81 +56,14 @@ $total = sumatoriaEgresosCamiones($egresos);
             <div id="content">
 
                 <!-- Topbar -->
-                <?php include_once('../../../partials/camiones/usercomponent.php');?>
+                <?php include_once('../../../partials/empleadospartials/usercomponent.php'); ?>
                 <!-- End of Topbar -->
 
+
                 <!-- Begin Page Content -->
-                <div class="table-responsive">
-                    <form action="egresosfiltrados.php" method="POST">
-                        Desde:<input type="date" name="desde" id="">
-                        Hasta:<input type="date" name="hasta" id="">
-                        <button type="submit">buscar</button>
-                    </form>
-                    <table class="table" id="myTable">
-                        <thead>
-                            <tr>
-                                <th scope="col">id</th>
-                                <th scope="col">descripcion</th>
-                                <th scope="col">monto</th>
-                                <th scope="col">fechaRegistrada</th>
-                                <th scope="col">imagen</th>
-                                <th scope="col">tipo de ingreso</th>
-                                <th scope="col">camion</th>
-                                
-                                <th scope="col">editar</th>
+                
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $tipodeRespuesta = gettype($egresos);
-                            if ($tipodeRespuesta == 'array') {
-                                foreach ($egresos as $egreso) {
-                                $tipodeegreso=listartipoegresocamionbyid($conexion,$egreso['FKtipoDeIngresoCamion']);
-                                $camion = listarCamionesPorId($conexion, $egreso['FKcamion']);
-                                    echo '
-                                
-                                <tr>
-                                <th scope="row">' . $egreso['idEgresoCamionData'] . '</th>
-                                <td>' . $egreso['detalle'] . '</td>
-                                <td>$' . number_format($egreso['montoEgresoCamion'], 2, '.', ',') . '</td>
-                                 <td>' . $egreso['fechaEgresoCamion'] . '</td>
-                                  <td>' . $egreso['linkEgresoCamionImagen'] . '</td>
-                                  <td>' . $tipodeegreso[0]['descripcionTipoEgresoCamion'] . '</td>
-                                  <td>' . $camion[0]['placaCamion'] . '</td>
-                                 <td>
-                                <form action="editarEnvioView.php" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $egreso['idEgresoCamionData'] . '" />
-                                <button type="submit" class="btn btn-warning">editar</button>
-                                </form>
-                                </td>
-                                 </tr>
-                                
-                                ';
-                                }
-                            } else if ($tipodeRespuesta == 'string') {
-                                echo '<tr>
-                                <td >No data.</td>
-                                <td >No data.</td>
-                                <td >No data.</td>                                
-                                <td >No data.</td>
-                                <td >No data.</td>
-                                <td >No data.</td>
-                                <td >No data.</td>
-                                <td >No data.</td>
-                               
-                                </tr>';
-                            }
-
-
-
-                            ?>
-
-
-                        </tbody>
-                    </table>
-                    <h2><?php echo '$' . number_format($total, 2, '.', ',') ?></h2>
-                </div>
+                
                 <!-- /.container-fluid -->
 
                 <!-- End of Main Content -->
@@ -159,6 +99,10 @@ $total = sumatoriaEgresosCamiones($egresos);
         </div>
 
         <!-- Bootstrap core JavaScript-->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
         <script src="../../../../vendor/jquery/jquery.min.js"></script>
         <script src="../../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

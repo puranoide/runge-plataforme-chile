@@ -88,7 +88,7 @@ $camiones=listarCamiones($conexion);
                                 ';
                                 }
                             } else if ($tipodeRespuesta == 'string') {
-                                echo '<tr><td colspan="5">No se encontraron ingresos manuales.</td></tr>';
+                                echo $camiones;
                             }
 
 
