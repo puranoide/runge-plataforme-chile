@@ -74,9 +74,6 @@ $envios = listEnvios($conexion);
                                 <th scope="col">comentario</th>
                                 <th scope="col">foto</th>
                                 <th scope="col">monto</th>
-                                <th scope="col">bono conductor</th>
-                                <th scope="col">bono peoneta</th>
-                                <th scope="col">tipo de viaje</th>
                                 <th scope="col">sobrecargo</th>
                                 <th scope="col">detalles</th>
                                 <th scope="col">editar</th>
@@ -118,9 +115,6 @@ $envios = listEnvios($conexion);
                                     <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#imageModal" onclick="showImageModal(\'' . htmlspecialchars($envio['rutaFotoEnvio'], ENT_QUOTES) . '\')">Ver</button>
                                 </td>
                                 <td>$' . number_format($envio['montoViaje'], 2, '.', ',') . '</td>
-                                <td>' . number_format($envio['bonoConductor'], 2, '.', ',') . '</td>
-                                <td>' . number_format($envio['bonoPeoneta'], 2, '.', ',')  . '</td>
-                                <td>tipo de envio</td>
                                  <td>' . number_format($envio['sobreCargo'], 2, '.', ',') . '</td>
                                 <td>
                                 <form action="detalleEnvio.php" method="POST">
