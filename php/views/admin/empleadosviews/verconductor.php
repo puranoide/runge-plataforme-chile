@@ -4,9 +4,6 @@ include_once('../../../config/conection.php');
 include_once('../../../logic/conductores.php');
 $idconductor=$_POST['idconductor'];
 $conductor=listarconductoresPorId($conexion,$idconductor);
-echo'<pre>';
-print_r($conductor);
-echo'</pre>';
 ?>
 
 

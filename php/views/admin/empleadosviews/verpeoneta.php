@@ -4,9 +4,7 @@ include_once('../../../config/conection.php');
 include_once('../../../logic/peonetas.php');
 $idpeoneta=$_POST['idpeoneta'];
 $peonetta=listarpeonetaporid($conexion,$idpeoneta);
-echo'<pre>';
-print_r($peonetta);
-echo'</pre>';
+
 ?>
 
 

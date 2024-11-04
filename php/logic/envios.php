@@ -2,6 +2,86 @@
 
 include_once('camiones.php');
 
+function obtenerRegiones($con){
+    $mensaje = "no hay regiones registradas";
+    $gestores = [];
+    $sqlconductores = "SELECT * from regiones";
+    $resultConductores = $con->query($sqlconductores);
+
+    if ($resultConductores->num_rows > 0) {
+        while ($rowConductores = $resultConductores->fetch_assoc()) {
+            $gestores[] = $rowConductores;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $gestores;
+}
+function obteneregionesporid($con,$id){
+    $mensaje = "no hay regiones complemetarias registradas con ese id de region";
+    $gestores = [];
+    $sqlconductores = "SELECT * FROM regiones WHERE idregiones='$id' ;";
+    $resultConductores = $con->query($sqlconductores);
+
+    if ($resultConductores->num_rows > 0) {
+        while ($rowConductores = $resultConductores->fetch_assoc()) {
+            $gestores[] = $rowConductores;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $gestores;
+}
+function obteneregionescomplementariasporid($con,$id){
+    $mensaje = "no hay regiones complemetarias registradas con ese id de region";
+    $gestores = [];
+    $sqlconductores = "SELECT * FROM regionescomplementarias WHERE idregioncomplementaria='$id' ;";
+    $resultConductores = $con->query($sqlconductores);
+
+    if ($resultConductores->num_rows > 0) {
+        while ($rowConductores = $resultConductores->fetch_assoc()) {
+            $gestores[] = $rowConductores;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $gestores;
+}
+function obtenerRegionesComplementariasfiltradas($con,$regionnumero,$nombrelocal){
+    $mensaje = "no hay regiones complemetarias registradas con ese numero de region";
+    $gestores = [];
+    $sqlconductores = "SELECT * FROM regionescomplementarias r WHERE regionnumero = (SELECT regionnumero FROM regionescomplementarias WHERE nombrelocal = '$nombrelocal' ) AND nombrelocal !='$nombrelocal' ;";
+    $resultConductores = $con->query($sqlconductores);
+
+    if ($resultConductores->num_rows > 0) {
+        while ($rowConductores = $resultConductores->fetch_assoc()) {
+            $gestores[] = $rowConductores;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $gestores;
+}
+
+
+function insertarpeonetasaenvio($idenvio, $idpeoneta, $con)
+{
+
+    $sqlAddenvios = "INSERT INTO trbonosapeonetas (fkpeoneta,fkenvio)
+                    VALUES('$idpeoneta','$idenvio')";
+    $ejecutar = mysqli_query($con, $sqlAddenvios);
+
+    if ($ejecutar) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function postApiImagenEnvio($imagenmetadata)
 {
     $IMGUR_CLIENT_ID = "73facb2bf4d3a7a";
@@ -25,9 +105,9 @@ function postApiImagenEnvio($imagenmetadata)
     $responseArr = json_decode($response);
 
     return $responseArr->data->link;
-
 }
-function listarEnviosDelAño($con){
+function listarEnviosDelAño($con)
+{
     $mensaje = "no hay envios registrados";
     $gestores = [];
     $sqlconductores = "SELECT * from envios  WHERE YEAR(fechaRegistrada) = YEAR(NOW())";
@@ -43,7 +123,8 @@ function listarEnviosDelAño($con){
 
     return $gestores;
 };
-function listarEnviosDelMes($con){
+function listarEnviosDelMes($con)
+{
     $mensaje = "no hay envios registrados";
     $gestores = [];
     $sqlconductores = "SELECT * from envios  WHERE YEAR(fechaRegistrada) = YEAR(NOW())
@@ -60,44 +141,42 @@ function listarEnviosDelMes($con){
 
     return $gestores;
 };
-function sumatoriaIngresosPorenvio($listadeenvios){
-    
-    $total=0;
-    $resultados=$listadeenvios;
-    $tipoderepuesta=gettype($resultados);
-    if($tipoderepuesta=="array"){
-        $total=0;
-        foreach ($resultados as $envio) { 
-            # code...
-            $total+=$envio['montoViaje'];
-    
-        }
-    }else if($tipoderepuesta=="string"){
-        $total=0;
-    }
-   
-    return $total;
+function sumatoriaIngresosPorenvio($listadeenvios)
+{
 
+    $total = 0;
+    $resultados = $listadeenvios;
+    $tipoderepuesta = gettype($resultados);
+    if ($tipoderepuesta == "array") {
+        $total = 0;
+        foreach ($resultados as $envio) {
+            # code...
+            $total += $envio['montoViaje'];
+        }
+    } else if ($tipoderepuesta == "string") {
+        $total = 0;
+    }
+
+    return $total;
 }
-function sumatoriaegresosPorenvio($listadeenvios){
-    
-    $total=0;
-    $resultados=$listadeenvios;
-    $tipoderepuesta=gettype($resultados);
-    if($tipoderepuesta=="array"){
-        $total=0;
-        foreach ($resultados as $envio) { 
-            # code...
-            $total+=$envio['bonoConductor'];
-            $total+=$envio['bonoPeoneta'];
-    
-        }
-    }else if($tipoderepuesta=="string"){
-        $total=0;
-    }
-   
-    return $total;
+function sumatoriaegresosPorenvio($listadeenvios)
+{
 
+    $total = 0;
+    $resultados = $listadeenvios;
+    $tipoderepuesta = gettype($resultados);
+    if ($tipoderepuesta == "array") {
+        $total = 0;
+        foreach ($resultados as $envio) {
+            # code...
+            $total += $envio['bonoConductor'];
+            $total += $envio['bonoPeoneta'];
+        }
+    } else if ($tipoderepuesta == "string") {
+        $total = 0;
+    }
+
+    return $total;
 }
 
 function listEnvios($con)
@@ -157,14 +236,14 @@ function listarEnvioPorId($con, $id)
     return $usuarios;
 }
 
-function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente, $codigoEnvio, $tipodeviaje, $fechaRegistrada, $sobreCargo,$urlimg)
+function agregarEnviosParteUno($con, $conductor, $idCamion, $idCliente, $codigoEnvio, $tipodeviaje, $fechaRegistrada, $sobreCargo, $urlimg,$rutacomplemen)
 {
     $date = new DateTime();
     $date->modify('-7 hours');
     $dateFormat = $date->format('Y-m-d H:i:s');
     $mensaje = '';
-    $sqlAddenvios = "INSERT INTO envios (fechaRegistrada,estadoEnvio,idConductorFk,idCamionFk,idClienteFk,codigoEnvio,tipoDeViajeFK,sobreCargo,rutaFotoEnvio)
-                    VALUES('$fechaRegistrada',1,'$conductor','$idCamion','$idCliente','$codigoEnvio','$tipodeviaje','$sobreCargo','$urlimg')";
+    $sqlAddenvios = "INSERT INTO envios (fechaRegistrada,estadoEnvio,idConductorFk,idCamionFk,idClienteFk,codigoEnvio,tipoDeViajeFK,sobreCargo,rutaFotoEnvio,rutacomplementariaid)
+                    VALUES('$fechaRegistrada',1,'$conductor','$idCamion','$idCliente','$codigoEnvio','$tipodeviaje','$sobreCargo','$urlimg','$rutacomplemen')";
     $ejecutar = mysqli_query($con, $sqlAddenvios);
 
     if ($ejecutar) {
@@ -182,8 +261,8 @@ function insertarMontoDeEnvio($con, $id)
     $montoEnvio = calcularMontoDelEnvio($con, $id);
     var_dump($montoEnvio);
     $tipoderespuesta = gettype($montoEnvio);
-    if ($tipoderespuesta == 'integer' or $tipoderespuesta=='double') {
-       
+    if ($tipoderespuesta == 'integer' or $tipoderespuesta == 'double') {
+
         $sqlupdateConductor = "UPDATE envios SET montoViaje='$montoEnvio'
         WHERE idEnvio=$id;";
 
@@ -204,46 +283,37 @@ function calcularMontoDelEnvio($con, $id)
 {
     $envio = listarEnvioPorId($con, $id);
     $tipoderespuesta = gettype($envio);
-
+    echo '<pre>';
+    print_r($envio);
+    echo '</pre>';
     if ($tipoderespuesta == 'array') {
+        $rutacomplementariatraida=obteneregionescomplementariasporid($con,$envio[0]['rutacomplementariaid']);
+        $rutatraida=obteneregionesporid($con,$envio[0]['tipoDeViajeFK']);
+        echo '<pre>';
+        print_r($rutatraida);
+        echo '</pre>';
         $camion = listarCamionesPorId($con, $envio[0]['idCamionFk']);
-        if ($envio[0]['idClienteFk'] == 4 && $envio[0]['tipoDeViajeFK'] == 1) {
-            if ($camion[0]['cubicajeCamion'] == 30) {
-                $sobrecargo = $envio[0]['sobreCargo'];
-                return 120000 + $sobrecargo;
-            }
-            if ($camion[0]['cubicajeCamion'] == 50) {
-                $sobrecargo = $envio[0]['sobreCargo'];
-                return 140000 + $sobrecargo;
-            }
-        } elseif ($envio[0]['idClienteFk'] == 4 && $envio[0]['tipoDeViajeFK'] == 2) {
-            if ($camion[0]['cubicajeCamion'] == 30) {
-                $sobrecargo = $envio[0]['sobreCargo'];
-                return 60000 + $sobrecargo;
-            }
-            if ($camion[0]['cubicajeCamion'] == 50) {
-                $sobrecargo = $envio[0]['sobreCargo'];
-                return 70000 + $sobrecargo;
-            }
-        } elseif ($envio[0]['idClienteFk'] == 4 && $envio[0]['tipoDeViajeFK'] == 3) {
-            if ($camion[0]['cubicajeCamion'] == 30) {
-                $sobrecargo = $envio[0]['sobreCargo'];
-                return 100000 + $sobrecargo;
-            }
-            if ($camion[0]['cubicajeCamion'] == 50) {
-                $sobrecargo = $envio[0]['sobreCargo'];
-                return 120000 + $sobrecargo;
-            }
-        } elseif ($envio[0]['idClienteFk'] == 4 && $envio[0]['tipoDeViajeFK'] == 4) {
-            if ($camion[0]['cubicajeCamion'] == 30) {
-                $sobrecargo = $envio[0]['sobreCargo'];
-                return 170000 + $sobrecargo;
-            }
-        } elseif ($envio[0]['idClienteFk'] == 4 && $envio[0]['tipoDeViajeFK'] == 5) {
-            if ($camion[0]['cubicajeCamion'] == 30) {
-                $sobrecargo = $envio[0]['sobreCargo'];
-                return 170000 + $sobrecargo;
-            }
+        if ($envio[0]['idClienteFk'] == 4) {
+            echo $envio[0]['rutacomplementariaid'];
+                if($envio[0]['rutacomplementariaid']!=='0'){
+                    if($camion[0]['cubicajeCamion'] == 30){
+                        $sobrecargo = $envio[0]['sobreCargo'];
+                        return $rutacomplementariatraida[0]["precio30"]+$sobrecargo;
+                    }
+                    if ($camion[0]['cubicajeCamion'] == 50) {
+                        $sobrecargo = $envio[0]['sobreCargo'];
+                        return $rutacomplementariatraida[0]["precio50"]+$sobrecargo;
+                    }
+                }elseif($envio[0]['rutacomplementariaid']=='0'){
+                    if($camion[0]['cubicajeCamion'] == 30){
+                        $sobrecargo = $envio[0]['sobreCargo'];
+                        return $rutatraida[0]["precio30"]+$sobrecargo;
+                    }
+                    if ($camion[0]['cubicajeCamion'] == 50) {
+                        $sobrecargo = $envio[0]['sobreCargo'];
+                        return $rutatraida[0]["precio50"]+$sobrecargo;
+                    }
+                }
         } elseif ($envio[0]['idClienteFk'] == 5 && $envio[0]['tipoDeViajeFK'] == 6) {
             if ($camion[0]['cubicajeCamion'] == 30) {
                 $sobrecargo = $envio[0]['sobreCargo'];

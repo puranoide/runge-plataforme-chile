@@ -36,3 +36,4 @@ function listarpeonetaporid($con,$id)
 }
 
 ?>
+

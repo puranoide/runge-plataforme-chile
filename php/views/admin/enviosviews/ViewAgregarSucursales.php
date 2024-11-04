@@ -4,6 +4,7 @@
     include_once('../../../logic/clientes.php');
     include_once('../../../logic/envios.php');
     include_once('../../../logic/sucursalesSubclientes.php');
+  
     $archivo=$_FILES['archivo'];
     $conductor = $_POST['conductorSeleccionado'];
     $camion = $_POST['camionSeleccionado'];
@@ -12,14 +13,24 @@
     $tipoDeViaje = $_POST['ruta'];
     $fechaRegistro = $_POST['fechaRegistro'];
     $sobrecargo=$_POST['sobrecargo'];
+    $peonetas=$_POST['peonetas'];
+    $rutacomplementaria=0;
     $urlimagen=postApiImagenEnvio($archivo);
+    
+    if(isset($_POST['haycomplementariavalor'])){
+        $rutacomplementaria=$_POST['rutacomplementaria'];
+        
+    }
 
-    $idEnvio = agregarEnviosParteUno($conexion, $conductor, $camion, $cliente, $codigoEnvio,$tipoDeViaje,$fechaRegistro,$sobrecargo,$urlimagen);
+    
+    $idEnvio = agregarEnviosParteUno($conexion, $conductor, $camion, $cliente, $codigoEnvio,$tipoDeViaje,$fechaRegistro,$sobrecargo,$urlimagen,$rutacomplementaria);
 
+    foreach ($peonetas as $peoneta) {
+        $respuesta=insertarpeonetasaenvio($idEnvio,$peoneta,$conexion);
+    }
 
     $subSucursales = listarSubSucursalPorIdEnvio($conexion, $idEnvio);
     $clientes = listarClientes($conexion);
-
     ?>
 
 

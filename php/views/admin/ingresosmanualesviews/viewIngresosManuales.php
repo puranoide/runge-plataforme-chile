@@ -82,7 +82,7 @@ $total = sumatoriaIngresosManuales($ingresos);
                                 <tr>
                                 <th scope="row">' . $ingreso['idIngresosManuales'] . '</th>
                                 <td>' . $ingreso['descripcionIngresosManuales'] . '</td>
-                                <td>$' . number_format($ingreso['monto'], 2, '.', ',') . '</td>
+                                <td>$' . number_format($ingreso['monto']) . '</td>
 
                                 <td>' . $ingreso['fechaIngresoManual'] . '</td>
                                 <td>
@@ -112,7 +112,7 @@ $total = sumatoriaIngresosManuales($ingresos);
 
                         </tbody>
                     </table>
-                    <h2><?php echo '$' . number_format($total, 2, '.', ','); ?></h2>
+                    <h2><?php echo '$' . number_format($total); ?></h2>
 
                 </div>
                 <!-- /.container-fluid -->

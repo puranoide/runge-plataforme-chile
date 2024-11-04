@@ -80,7 +80,7 @@ $total = sumatoriaEgresosManuales($egresos);
                                 <tr>
                                 <td scope="row">' . $egreso['idEgresosManuales'] . '</td>
                                 <td>' . $egreso['descripcionEgresosManuales'] . '</td>
-                                 <td>$' . number_format($egreso['montoEgresosManuales'], 2, '.', ',') . '</td>
+                                 <td>$' . number_format($egreso['montoEgresosManuales']) . '</td>
                                  <td>' . $egreso['fechaRegistrada'] . '</td>
                                 <td>
                                 <form action="detalleEnvio.php" method="POST">
@@ -109,7 +109,7 @@ $total = sumatoriaEgresosManuales($egresos);
 
                         </tbody>
                     </table>
-                    <h2><?php echo '$' . number_format($total, 2, '.', ',') ?></h2>
+                    <h2><?php echo '$' . number_format($total) ?></h2>
                 </div>
                 <!-- /.container-fluid -->
 

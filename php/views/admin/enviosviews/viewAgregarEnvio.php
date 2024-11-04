@@ -6,9 +6,13 @@ include_once('../../../logic/conductores.php');
 include_once('../../../logic/clientes.php');
 include_once('../../../logic/camiones.php');
 include_once('../../../logic/tipoDeEnvio.php');
+include_once('../../../logic/peonetas.php');
+include_once('../../../logic/envios.php');
 $conductores = listarconductores($conexion);
 $camiones = listarCamiones($conexion);
 $clientes = listarClientes($conexion);
+$peonetas = listarpeonetas($conexion);
+$regiones = obtenerRegiones($conexion);
 ?>
 
 <!DOCTYPE html>
@@ -40,8 +44,8 @@ $clientes = listarClientes($conexion);
 
         <!-- Sidebar -->
         <?php
-            include_once('../../../partials/enviospartials/menucomponent.php');
-            ?>
+        include_once('../../../partials/enviospartials/menucomponent.php');
+        ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -52,8 +56,8 @@ $clientes = listarClientes($conexion);
 
                 <!-- Topbar -->
                 <?php
-            include_once('../../../partials/enviospartials/usercomponent.php');
-            ?>
+                include_once('../../../partials/enviospartials/usercomponent.php');
+                ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -61,7 +65,7 @@ $clientes = listarClientes($conexion);
 
                     <form action="ViewAgregarSucursales.php" method="POST" enctype="multipart/form-data">
 
-                    <div data-mdb-input-init class="form-outline form-white mb-4">
+                        <div data-mdb-input-init class="form-outline form-white mb-4">
                             <label class="form-label text-dark" for="linkFoto">foto de pedido</label>
                             <input type="file" class="form-control-file" id="archivo" name="archivo" accept=".png, .jpg, .jpeg, .webp" required>
 
@@ -83,6 +87,17 @@ $clientes = listarClientes($conexion);
 
                                 ?>
                             </select>
+                        </div>
+                        <div data-mdb-input-init class="form-outline form-white mb-4">
+                            <label class="form-label text-dark" for="linkFoto">Peonetas</label><br>
+                            <?php
+                            foreach ($peonetas as $peoneta) {
+                                echo '
+                                    <input type="checkbox" name="peonetas[]" value="' . $peoneta['idPeoneta'] . '"> ' . $peoneta['nombresyapellidoscompletos'] . '<br>
+                                    ';
+                            }
+                            ?>
+
                         </div>
                         <div data-mdb-input-init class="form-outline form-white mb-4">
                             <label class="form-label text-dark" for="linkFoto">Camiones</label>
@@ -112,6 +127,12 @@ $clientes = listarClientes($conexion);
 
 
                         <div data-mdb-input-init class="form-outline form-white mb-4" id="rutas">
+
+                        </div>
+                        <div data-mdb-input-init class="form-outline form-white mb-4" id="haycomplementaria">
+
+                        </div>
+                        <div data-mdb-input-init class="form-outline form-white mb-4" id="listadocomplementaria">
 
                         </div>
                         <div data-mdb-input-init class="form-outline form-white mb-4">
@@ -216,21 +237,19 @@ $clientes = listarClientes($conexion);
             });
 
             function actualizarForm() {
+                const checkbox = document.getElementById("complementaria");
                 var clienteSeleccionado = document.getElementById("cliente").value
                 var conteinerRutas = document.getElementById("rutas");
-
+                var conteinerComplementaria = document.getElementById("haycomplementaria");
                 var formularioCanontex = `
-                 <label class="form-label text-dark" for="linkFoto">rutas para el cliente</label>
-                            <select class="form-select" aria-label="Default select example" name="ruta" id="rutas" required>
-                                <option value="0" >Selecciona un cliente</option>
-                <option value="1" >viaje 1</option>
-                <option value="2" >viaje 2</option>
-                <option value="3" >viaje 3</option>
-                <option value="4" >viaje 2-ruta colchon</option>
-                <option value="5" >viaje 3-ruta colchon</option>
-                </select>
-               
-                `
+                    <label class="form-label text-dark" for="linkFoto">rutas para el cliente</label>
+                    <select class="form-select" aria-label="Default select example" name="ruta" id="regiones"  required>
+                    <option value="0">Selecciona un cliente</option>
+                    <?php foreach ($regiones as $region): ?>
+                     <option value="<?= $region['idregiones'] ?>" ><?= $region['nombreLocal'] ?></option>
+                    <?php endforeach; ?>
+                    </select>
+                    `;
 
                 var formularioAlicomer = `
                     <label class="form-label text-dark" for="linkFoto">rutas para el cliente</label>
@@ -252,12 +271,63 @@ $clientes = listarClientes($conexion);
                 conteinerRutas.innerHTML = ""; // Limpiar el formulario
                 if (clienteSeleccionado === "4") {
                     conteinerRutas.innerHTML = formularioCanontex;
+                    conteinerComplementaria.innerHTML = '<input type="checkbox" name="haycomplementariavalor" id="complementaria" onchange="haycomplementaria()">complementaria</input>'
+
                 } else if (clienteSeleccionado === "5") {
                     conteinerRutas.innerHTML = formularioAlicomer;
                 } else if (clienteSeleccionado === "6" || clienteSeleccionado === "7") {
                     conteinerRutas.innerHTML = formularionutriscocastaño;
                 } else {
                     console.warn("Cliente no identificado o no hay formulario disponible.");
+                }
+            }
+
+            function haycomplementaria() {
+                const checkbox = document.getElementById("complementaria");
+                const rutaseleccionada = document.getElementById("regiones");
+                const conteinerListComplementaria = document.getElementById("listadocomplementaria");
+
+                if (checkbox.checked) {
+                    // Enviar valor a PHP usando fetch
+                    fetch("../../../logic/regionescomplementariasajax.php", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                ruta: rutaseleccionada.value,
+                                nombre: rutaseleccionada.options[rutaseleccionada.selectedIndex].text
+                            }),
+                        })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            console.log("Respuesta del servidor:", data);
+
+                            // Limpiar el contenido de listadocomplementaria
+                            conteinerListComplementaria.innerHTML = "";
+
+                            // Crear un elemento <select>
+                            const select = document.createElement("select");
+                            select.classList.add("form-select", "mb-4"); // Agrega las clases que necesites
+                            select.name="rutacomplementaria";
+                            // Llenar el <select> con opciones a partir del JSON
+                            data.forEach((direccion) => {
+                                const option = document.createElement("option");
+                                option.value = direccion.idregioncomplementaria; // Asumiendo que el JSON tiene un campo `id`
+                                option.textContent = direccion.nombrelocal; // Asumiendo que el JSON tiene un campo `nombre`
+                                select.appendChild(option);
+                            });
+
+                            // Insertar el <select> en el contenedor listadocomplementaria
+                            conteinerListComplementaria.appendChild(select);
+                        })
+                        .catch((error) => console.error("Error:", error));
+
+                    console.log("Checkbox seleccionado");
+                } else {
+                    // Limpiar el contenido de listadocomplementaria si el checkbox no está seleccionado
+                    conteinerListComplementaria.innerHTML = "";
+                    console.log("Checkbox no seleccionado");
                 }
             }
         </script>
