@@ -101,7 +101,7 @@ $regiones = obtenerRegiones($conexion);
                         </div>
                         <div data-mdb-input-init class="form-outline form-white mb-4">
                             <label class="form-label text-dark" for="linkFoto">Camiones</label>
-                            <select class="form-select" aria-label="Default select example" name="camionSeleccionado" required>
+                            <select class="form-select" aria-label="Default select example" onchange="obtenerDataDeCamion(this.value)" name="camionSeleccionado" required>
                                 <option value="" selected>Selecciona un camion</option>
                                 <?php
                                 foreach ($camiones as $camion) {
@@ -127,6 +127,9 @@ $regiones = obtenerRegiones($conexion);
 
 
                         <div data-mdb-input-init class="form-outline form-white mb-4" id="rutas">
+                                
+                        </div>
+                        <div data-mdb-input-init class="form-outline form-white mb-4" id="listadodirecciones">
 
                         </div>
                         <div data-mdb-input-init class="form-outline form-white mb-4" id="haycomplementaria">
@@ -236,52 +239,213 @@ $regiones = obtenerRegiones($conexion);
                 },
             });
 
+            
+            function fetchDataDeCamion(valorSeleccionado){
+                return fetch("../../../logic/camionporidajax.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        id: parseInt(valorSeleccionado)
+                    })
+                }) 
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                });
+            }
+            function fetchDirecciones(ruta){
+                var conteinerListDirecciones = document.getElementById("listadodirecciones");
+                conteinerListDirecciones.innerHTML = "";
+                console.log(ruta);
+                
+                    // Corregir el path - asegúrate que esta ruta es correcta
+                    fetch("../../../logic/direccionesAjax.php", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            ruta: parseInt(ruta) // Convertir a número
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log("Respuesta completa:", data);
+                        if(data.success) {
+                            // Crear el select con las direcciones
+                            const select = document.createElement("select");
+                            select.classList.add("form-select");
+                            select.name = "direccion";
+                            select.required = true;
+
+                            // Agregar una opción por defecto
+                            const defaultOption = document.createElement("option");
+                            defaultOption.value = "";
+                            defaultOption.textContent = "Seleccione una dirección";
+                            defaultOption.selected = true;
+                            select.appendChild(defaultOption);
+                           
+                            // Verificar que data.data existe y es un array
+                            if (Array.isArray(data.data)) {
+                                console.log("Datos a procesar:", data.data);
+                                data.data.forEach(direccion => {
+                                    console.log("Procesando dirección:", direccion);
+                                    const option = document.createElement("option");
+                                    // Asegúrate que estos campos coincidan con la estructura de tu respuesta
+                                    option.value = direccion.id || direccion.idregiones || '';
+                                    option.textContent = direccion.tipoViaje || direccion.nombreLocal || direccion.tipodeviaje ||direccion.empresa || direccion.zona || '';
+                                    select.appendChild(option);
+                                });
+                            } else {
+                                console.error("data.data no es un array:", data.data);
+                            }
+
+                            
+
+                            select.onchange = function() {
+                                const objetoSeleccionado = data.data.find(dir => dir.id||dir.idregiones == this.value);
+                                console.log("Dirección seleccionada:", objetoSeleccionado);
+                                localStorage.setItem("direccionSeleccionada", JSON.stringify(objetoSeleccionado));
+                                procesarDatos();
+                            }
+
+                            // Limpiar el contenedor antes de agregar el nuevo select
+                            conteinerListDirecciones.innerHTML = "";
+                            conteinerListDirecciones.appendChild(select);
+                        } else {
+                            console.error("Error en la respuesta:", data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error en la petición:', error);
+                        conteinerListDirecciones.innerHTML = "Error al cargar las direcciones";
+                    });
+            }
             function actualizarForm() {
                 const checkbox = document.getElementById("complementaria");
                 var clienteSeleccionado = document.getElementById("cliente").value
                 var conteinerRutas = document.getElementById("rutas");
                 var conteinerComplementaria = document.getElementById("haycomplementaria");
-                var formularioCanontex = `
-                    <label class="form-label text-dark" for="linkFoto">rutas para el cliente</label>
-                    <select class="form-select" aria-label="Default select example" name="ruta" id="regiones"  required>
-                    <option value="0">Selecciona un cliente</option>
-                    <?php foreach ($regiones as $region): ?>
-                     <option value="<?= $region['idregiones'] ?>" ><?= $region['nombreLocal'] ?></option>
-                    <?php endforeach; ?>
-                    </select>
-                    `;
 
-                var formularioAlicomer = `
-                    <label class="form-label text-dark" for="linkFoto">rutas para el cliente</label>
-                            <select class="form-select" aria-label="Default select example" name="ruta" id="rutas" required>
-                                <option value="0" >Selecciona un cliente</option>
-                
-                <option value="6" >entregar de pan</option>
-                <option value="7" >retiro de harina</option>
-                <option value="8" >retiro de cajas de carton</option>
-                <option value="9" >retiro de cajas plasticas</option>
-                </select>
-                `
-                var formularionutriscocastaño = `
-                <input type="hidden" value="10" id="" class="form-control form-control-lg" name="ruta" onlyread pattern="\S.*" />
-                 
-               
-                `
+                const coberturasRunge = [{
+                        "id": 1,
+                        "nombre": "TUBOPACK"
+                    },
+                    {
+                        "id": 2,
+                        "nombre": "ENTREGAS RM"
+                    },
+                    {
+                        "id": 3,
+                        "nombre": "REGIONES"
+                    },
+                    {
+                        "id": 4,
+                        "nombre": "ENTREGAS RETAUL ORIGEN LO BOZA"
+                    },
+                    {
+                        "id": 5,
+                        "nombre": "RUTA COLCHOL"
+                    }
+                ];
 
-                conteinerRutas.innerHTML = ""; // Limpiar el formulario
-                if (clienteSeleccionado === "4") {
-                    conteinerRutas.innerHTML = formularioCanontex;
-                    conteinerComplementaria.innerHTML = '<input type="checkbox" name="haycomplementariavalor" id="complementaria" onchange="haycomplementaria()">complementaria</input>'
+                // Primero limpiamos el contenedor
+                conteinerRutas.innerHTML = "";
+                const label = document.createElement("label");
+                label.classList.add("form-label", "text-dark");
+                label.textContent = "Cobertura ";
+                conteinerRutas.appendChild(label);
 
-                } else if (clienteSeleccionado === "5") {
-                    conteinerRutas.innerHTML = formularioAlicomer;
-                } else if (clienteSeleccionado === "6" || clienteSeleccionado === "7") {
-                    conteinerRutas.innerHTML = formularionutriscocastaño;
-                } else {
-                    console.warn("Cliente no identificado o no hay formulario disponible.");
+                const select = document.createElement("select");
+                select.classList.add("form-select", "mb-4"); // Agrega las clases que necesites
+                select.name="ruta";
+                select.id="rutas";
+                select.required = true;
+                select.onchange = function(){
+                    evaluarCobertura(this.value);
                 }
+                const defaultOption = document.createElement("option");
+                defaultOption.value = "0";
+                defaultOption.textContent = "Selecciona una cobertura";
+                defaultOption.selected = true;
+                select.appendChild(defaultOption);
+                coberturasRunge.forEach(cobertura => {
+                    const option = document.createElement("option");
+                    option.value = cobertura.id;
+                    option.textContent = cobertura.nombre;
+                    select.appendChild(option);
+                });
+                conteinerRutas.appendChild(select);
+            }
+            function evaluarCobertura(valorSeleccionado){
+                console.log(valorSeleccionado);
+                var conteinerListDirecciones = document.getElementById("listadodirecciones");
+                if(valorSeleccionado == 1){
+                    conteinerListDirecciones.innerHTML = "";
+                    console.log("TUBOPACK");
+                    fetchDirecciones(valorSeleccionado);
+
+                }
+                if(valorSeleccionado == 2){
+                    console.log("ENTREGAS RM");
+                    fetchDirecciones(valorSeleccionado);
+                }
+                if(valorSeleccionado == 3){
+                    console.log("REGIONES");
+                    fetchDirecciones(valorSeleccionado);
+                }
+                if(valorSeleccionado == 4){
+                    console.log("ENTREGAS RETAUL ORIGEN LO BOZA");
+                    fetchDirecciones(valorSeleccionado);
+                }
+                if(valorSeleccionado == 5){
+                    console.log("RUTA COLCHOL");
+                    fetchDirecciones(valorSeleccionado);
+                }   
             }
 
+            function obtenerDataDeCamion(valorSeleccionado){
+                fetchDataDeCamion(valorSeleccionado)
+                    .then(data => {
+                        console.log("Datos del camión:", data);
+                        localStorage.setItem("camionSeleccionado", JSON.stringify(data));
+                        // Aquí puedes usar los datos del camión
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                    });
+            }
+         
+            function procesarDatos(){
+                var objetoDireccion = JSON.parse(localStorage.getItem("direccionSeleccionada"));
+                var objetoCamion = JSON.parse(localStorage.getItem("camionSeleccionado"));
+                
+                if (objetoDireccion && objetoCamion) {
+                    console.log("Datos dirección:", objetoDireccion);
+                    console.log("Datos camión:", objetoCamion);
+                    console.log("Tipo de cubicaje:", typeof objetoCamion[0].cubicajeCamion);
+                    console.log("Valor de cubicaje:", objetoCamion[0].cubicajeCamion);
+                    
+                    if (objetoCamion[0].cubicajeCamion == "30") {
+                        console.log("precio de 30:"+objetoDireccion.precio30);
+                    } else if (objetoCamion[0].cubicajeCamion == "50") {
+                        console.log("precio de 50:"+objetoDireccion.precio50);
+                    } else {
+                        console.log("Cubicaje no coincide con ningún valor esperado");
+                    }
+                } else {
+                    console.log("no hay datos");
+                }
+            }
             function haycomplementaria() {
                 const checkbox = document.getElementById("complementaria");
                 const rutaseleccionada = document.getElementById("regiones");
@@ -330,6 +494,7 @@ $regiones = obtenerRegiones($conexion);
                     console.log("Checkbox no seleccionado");
                 }
             }
+            
         </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 

@@ -1,0 +1,48 @@
+CREATE TABLE rungedatabasev3.TUBOPACK (
+	id INT auto_increment NOT NULL,
+	precio30 INT NOT NULL,
+	precio50 INT NOT NULL,
+	tipoViaje varchar(100) NOT NULL,
+	CONSTRAINT TUBOPACK_pk PRIMARY KEY (id)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE rungedatabasev3.`ENTREGAS RM` (
+	id INT auto_increment NOT NULL,
+	precio30 INT NOT NULL,
+	precio50 INT NOT NULL,
+	tipodeviaje varchar(255) NOT NULL,
+	CONSTRAINT ENTREGAS_RM_pk PRIMARY KEY (id)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE rungedatabasev3.ERorigenLoBoza (
+	id INT auto_increment NOT NULL,
+	region varchar(255) NOT NULL,
+	empresa varchar(255) NOT NULL,
+	direccion varchar(255) NOT NULL,
+	comuna varchar(100) NOT NULL,
+	precio30 INT NULL,
+	precio50 INT NULL,
+	CONSTRAINT ERorigenLoBoza_pk PRIMARY KEY (id)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE rungedatabasev3.rutaColchon (
+	id INT auto_increment NOT NULL,
+	zona varchar(100) NOT NULL,
+	precio30 INT NOT NULL,
+	CONSTRAINT rutaColchon_pk PRIMARY KEY (id)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
