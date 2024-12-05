@@ -10,13 +10,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input"), true);
 
     if (isset($data['ruta'])) {
-        $rutaseleccionada = $data['ruta'];
-        $rutaseleccionadanombre = $data['nombre'];
+        
 
+        switch ($data['ruta']) {
+            case '1':
+                $rutas=obtenerDireccionesEntregasRm($conexion);
+                echo  json_encode($rutas);
+                break;
+            case '2':
+                $rutas=obtenerDireccionesRegiones($conexion);
+                echo  json_encode($rutas);
+                break;
+            case '3':
+                $rutas=obtenerDireccionesRetaul($conexion);
+                echo  json_encode($rutas);
+                break;
+            case '4':
+                $rutas=obtenerDireccionesColchon($conexion);
+                echo  json_encode($rutas);
+                break;
+        }
         // Llamar a la función con el parámetro recibido
-        $listaderegionescomplementarias = obtenerRegionesComplementariasfiltradas($conexion, $rutaseleccionada, $rutaseleccionadanombre);
+        //$listaderegionescomplementarias = obtenerRegionesComplementariasfiltradas($conexion, $rutaseleccionada, $rutaseleccionadanombre);
 
         // Devolver la respuesta como JSON
-        echo json_encode($listaderegionescomplementarias);
+        //echo json_encode($listaderegionescomplementarias);
     }
 }

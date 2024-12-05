@@ -3,10 +3,11 @@ include_once('../../../config/rutaprotegida.php');
 include_once('../../../config/conection.php');
 include_once('../../../logic/camiones.php');
 include_once('../../../logic/envios.php');
+include_once('../../../logic/enviosv2.php');
 include_once('../../../logic/conductores.php');
 include_once('../../../logic/clientes.php');
 include_once('../../../logic/tipoDeEnvio.php');
-$envios = listEnvios($conexion);
+$envios = listEnviosv2($conexion);
 
 ?>
 
@@ -64,19 +65,14 @@ $envios = listEnvios($conexion);
                             <tr>
                             <th scope="col">id</th>
                                 <th scope="col">codigo</th>
-                                <th scope="col">camion</th>
                                 <th scope="col">conductor</th>
+                                <th scope="col">cammion</th>
                                 <th scope="col">cliente</th>
-                                <th scope="col">registrado</th>
-                                <th scope="col">inicio</th>
-                                <th scope="col">final</th>
-                                <th scope="col">estado</th>
-                                <th scope="col">comentario</th>
-                                <th scope="col">foto</th>
-                                <th scope="col">monto</th>
+                                <th scope="col">ruta</th>
+                                <th scope="col">direccion</th>
+                                <th scope="col">creado</th>
                                 <th scope="col">sobrecargo</th>
-                                <th scope="col">detalles</th>
-                                <th scope="col">editar</th>
+                                <th scope="col">precio</th>
 
                             </tr>
                         </thead>
@@ -86,48 +82,23 @@ $envios = listEnvios($conexion);
                             $tipodeRespuesta = gettype($envios);
                             if ($tipodeRespuesta == 'array') {
                                 foreach ($envios as $envio) {
-                                    $estadoString = '';
-                                    if ($envio['estadoEnvio'] == 1) {
-                                        $estadoString = 'Activo';
-                                    } else if ($envio['estadoEnvio'] == 2) {
-                                        $estadoString = 'iniciado';
-                                    } else if ($envio['estadoEnvio'] == 3) {
-                                        $estadoString = 'terminado';
-                                    }
+                                    /* 
                                     $camion = listarCamionesPorId($conexion, $envio['idCamionFk']);
                                     $conductor = listarconductoresPorId($conexion, $envio['idConductorFk']);
                                     $cliente = listarClientesPorId($conexion, $envio['idClienteFk']);
-                                    $tipodeenvio = listarTipoDeViajePorId($conexion, $envio['tipoDeViajeFK']);
+                                   */
                                     echo '
-                                
                                 <tr>
-                                <td>' . $envio['idEnvio'] . '</td>
-                                <td>' . $envio['codigoEnvio'] . '</td>
-                                <td>' . $camion[0]['placaCamion'] . '</td>
-                                <td>' . $conductor[0]['completenameconductor'] . '</td>
-                                <td>' . $cliente[0]['nombreCliente'] . '</td>
-                                <td>' . $envio['fechaRegistrada'] . '</td>
-                                <td>' . $envio['fechaInicio'] . '</td>
-                                <td>' . $envio['fechaFinal'] . '</td>
-                                <td>' . $estadoString . '</td>
-                                <td>' . $envio['comentarioEnvio'] . '</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#imageModal" onclick="showImageModal(\'' . htmlspecialchars($envio['rutaFotoEnvio'], ENT_QUOTES) . '\')">Ver</button>
-                                </td>
-                                <td>$' . number_format($envio['montoViaje'], 2, '.', ',') . '</td>
-                                 <td>' . number_format($envio['sobreCargo'], 2, '.', ',') . '</td>
-                                <td>
-                                <form action="detalleEnvio.php" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $envio['idEnvio'] . '" />
-                                <button type="submit" class="btn btn-success">Ver</button>
-                                </form>
-                                </td>
-                                 <td>
-                                <form action="editarEnvioView.php" method="POST">
-                                <input type="hidden" id="linkFoto" name="idEnvio" value="' . $envio['idEnvio'] . '" />
-                                <button type="submit" class="btn btn-warning">editar</button>
-                                </form>
-                                </td>
+                                <td>' . $envio['id'] . '</td>
+                                <td>' . $envio['codigoP'] . '</td>
+                                <td>' . $envio['conductor'] . '</td>
+                                <td>' . $envio['camion']. '</td>
+                                <td>' . $envio['proveedor']. '</td>
+                                <td>' . $envio['ruta'] . '</td>
+                                <td>' . $envio['direccion'] . '</td>
+                                <td>' . $envio['dateCreated'] . '</td>
+                                <td>' . $envio['sobrecargo'] . '</td>
+                                <td>' . number_format($envio['precio'],0,","). '</td>
                                  </tr>
                                 
                                 ';

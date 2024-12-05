@@ -624,6 +624,71 @@ function totalSaturdaysInMonth($month, $year)
 }
 
 
+function obtenerDireccionesEntregasRm($con){
+    $mensaje = "error al devolver las direcciones";
+    $direcciones = [];
+    $sqlconductores = "SELECT * FROM entregas_rm"; 
+    $resultConductores = $con->query($sqlconductores);
+
+    if ($resultConductores->num_rows > 0) {
+        while ($rowConductores = $resultConductores->fetch_assoc()) {
+            $direcciones[] = $rowConductores;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $direcciones;
+}
+
+function obtenerDireccionesRegiones($con){
+    $mensaje = "error al devolver las direcciones";
+    $direcciones = [];
+    $sqlconductores = "SELECT * FROM regiones"; 
+    $resultConductores = $con->query($sqlconductores);
+
+    if ($resultConductores->num_rows > 0) {
+        while ($rowConductores = $resultConductores->fetch_assoc()) {
+            $direcciones[] = $rowConductores;
+        }
+    } else {
+        return $mensaje;
+    }
+    return $direcciones;
+}
+function obtenerDireccionesRetaul($con){
+    $mensaje = "error al devolver las direcciones";
+    $direcciones = [];
+    $sqlconductores = "SELECT * FROM erorigenloboza"; 
+    $resultConductores = $con->query($sqlconductores);
+
+    if ($resultConductores->num_rows > 0) {
+        while ($rowConductores = $resultConductores->fetch_assoc()) {
+            $direcciones[] = $rowConductores;
+        }
+    } else {
+        return $mensaje;
+    }
+    return $direcciones;
+}
+function obtenerDireccionesColchon($con){
+    $mensaje = "error al devolver las direcciones";
+    $direcciones = [];
+    $sqlconductores = "SELECT * FROM rutacolchon"; 
+    $resultConductores = $con->query($sqlconductores);
+
+    if ($resultConductores->num_rows > 0) {
+        while ($rowConductores = $resultConductores->fetch_assoc()) {
+            $direcciones[] = $rowConductores;
+        }
+    } else {
+        return $mensaje;
+    }
+    return $direcciones;
+}
+
+
+
 /* Ejemplo de uso:
 $month = 8; // Agosto
 $year = 2024;

@@ -63,11 +63,11 @@ $regiones = obtenerRegiones($conexion);
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <form action="ViewAgregarSucursales.php" method="POST" enctype="multipart/form-data">
+                    <form action="../../../reroute/envios/addEnvios.php" method="POST" enctype="multipart/form-data">
 
                         <div data-mdb-input-init class="form-outline form-white mb-4">
                             <label class="form-label text-dark" for="linkFoto">foto de pedido</label>
-                            <input type="file" class="form-control-file" id="archivo" name="archivo" accept=".png, .jpg, .jpeg, .webp" required>
+                            <input type="file" class="form-control-file" id="archivo" name="archivo" accept=".png, .jpg, .jpeg, .webp">
 
                         </div>
                         <div data-mdb-input-init class="form-outline form-white mb-4">
@@ -101,7 +101,7 @@ $regiones = obtenerRegiones($conexion);
                         </div>
                         <div data-mdb-input-init class="form-outline form-white mb-4">
                             <label class="form-label text-dark" for="linkFoto">Camiones</label>
-                            <select class="form-select" aria-label="Default select example" name="camionSeleccionado" required>
+                            <select class="form-select" aria-label="Default select example" name="camionSeleccionado" id="camionselect" onchange="camionseleccionado()" required>
                                 <option value="" selected>Selecciona un camion</option>
                                 <?php
                                 foreach ($camiones as $camion) {
@@ -129,12 +129,25 @@ $regiones = obtenerRegiones($conexion);
                         <div data-mdb-input-init class="form-outline form-white mb-4" id="rutas">
 
                         </div>
+                        <div data-mdb-input-init class="form-outline form-white mb-4" id="listadoRutas">
+
+                        </div>
+                        <div data-mdb-input-init class="form-outline form-white mb-4" id="nombrederuta">
+
+                        </div>
+
+                        <div data-mdb-input-init class="form-outline form-white mb-4" id="listadoDirecciones">
+
+                        </div>
+
                         <div data-mdb-input-init class="form-outline form-white mb-4" id="haycomplementaria">
 
                         </div>
                         <div data-mdb-input-init class="form-outline form-white mb-4" id="listadocomplementaria">
 
                         </div>
+
+
                         <div data-mdb-input-init class="form-outline form-white mb-4">
                             <label class="form-label text-dark" for="linkFoto">fecha</label>
                             <input type="date" name="fechaRegistro" id="fechaRegistro">
@@ -142,7 +155,10 @@ $regiones = obtenerRegiones($conexion);
 
                         <div data-mdb-input-init class="form-outline form-white mb-4">
                             <label class="form-label text-dark" for="linkFoto">Sobrecargo</label>
-                            <input type="number" step=".01" id="linkFoto" class="form-control form-control-lg" name="sobrecargo" required pattern="\S.*" value="0.00" />
+                            <input type="number" step=".01" class="form-control form-control-lg" name="sobrecargo" id="sobrecargo" required pattern="\S.*" value="0.00" />
+
+                        </div>
+                        <div data-mdb-input-init class="form-outline form-white mb-4" id="precioEnvio">
 
                         </div>
                         <button type="submit" class="btn btn-success">Success</button>
@@ -243,11 +259,12 @@ $regiones = obtenerRegiones($conexion);
                 var conteinerComplementaria = document.getElementById("haycomplementaria");
                 var formularioCanontex = `
                     <label class="form-label text-dark" for="linkFoto">rutas para el cliente</label>
-                    <select class="form-select" aria-label="Default select example" name="ruta" id="regiones"  required>
-                    <option value="0">Selecciona un cliente</option>
-                    <?php foreach ($regiones as $region): ?>
-                     <option value="<?= $region['idregiones'] ?>" ><?= $region['nombreLocal'] ?></option>
-                    <?php endforeach; ?>
+                    <select class="form-select" aria-label="Default select example" name="ruta" id="coberturas" onchange="cargarDirecciones()"  required>
+                    <option value="0">Selecciona una cobertura</option>
+                    <option value="1">Entregas RM</option>
+                    <option value="2">Regiones</option>
+                    <option value="3">E.Retail origen LO BOZA</option>
+                    <option value="4">Ruta Colchon</option>
                     </select>
                     `;
 
@@ -255,12 +272,11 @@ $regiones = obtenerRegiones($conexion);
                     <label class="form-label text-dark" for="linkFoto">rutas para el cliente</label>
                             <select class="form-select" aria-label="Default select example" name="ruta" id="rutas" required>
                                 <option value="0" >Selecciona un cliente</option>
-                
-                <option value="6" >entregar de pan</option>
-                <option value="7" >retiro de harina</option>
-                <option value="8" >retiro de cajas de carton</option>
-                <option value="9" >retiro de cajas plasticas</option>
-                </select>
+                                <option value="6" >entregar de pan</option>
+                                <option value="7" >retiro de harina</option>
+                                <option value="8" >retiro de cajas de carton</option>
+                                <option value="9" >retiro de cajas plasticas</option>
+                                </select>
                 `
                 var formularionutriscocastaño = `
                 <input type="hidden" value="10" id="" class="form-control form-control-lg" name="ruta" onlyread pattern="\S.*" />
@@ -271,7 +287,7 @@ $regiones = obtenerRegiones($conexion);
                 conteinerRutas.innerHTML = ""; // Limpiar el formulario
                 if (clienteSeleccionado === "4") {
                     conteinerRutas.innerHTML = formularioCanontex;
-                    conteinerComplementaria.innerHTML = '<input type="checkbox" name="haycomplementariavalor" id="complementaria" onchange="haycomplementaria()">complementaria</input>'
+                    //conteinerComplementaria.innerHTML = '<input type="checkbox" name="haycomplementariavalor" id="complementaria" onchange="haycomplementaria()">complementaria</input>'
 
                 } else if (clienteSeleccionado === "5") {
                     conteinerRutas.innerHTML = formularioAlicomer;
@@ -309,7 +325,7 @@ $regiones = obtenerRegiones($conexion);
                             // Crear un elemento <select>
                             const select = document.createElement("select");
                             select.classList.add("form-select", "mb-4"); // Agrega las clases que necesites
-                            select.name="rutacomplementaria";
+                            select.name = "rutacomplementaria";
                             // Llenar el <select> con opciones a partir del JSON
                             data.forEach((direccion) => {
                                 const option = document.createElement("option");
@@ -330,6 +346,161 @@ $regiones = obtenerRegiones($conexion);
                     console.log("Checkbox no seleccionado");
                 }
             }
+
+            function cargarDirecciones() {
+                const listadoRutas = document.getElementById("listadoRutas");
+                const coberturaseleccionada = document.getElementById("coberturas").value;
+                const coberturaseleccionadaobj = document.getElementById("coberturas");
+                const textrutaseleccionada=coberturaseleccionadaobj.options[coberturaseleccionadaobj.selectedIndex];
+                const nombrerutaconteiner=document.getElementById("nombrederuta");
+
+
+                var inputnombreruta=document.createElement("input");
+                inputnombreruta.value=textrutaseleccionada.textContent;
+                inputnombreruta.name="nombreruta";
+                nombrerutaconteiner.appendChild(inputnombreruta);
+
+                if (coberturaseleccionada === "1") {
+                    fecthDirecciones(coberturaseleccionada);
+                } else if (coberturaseleccionada === "2") {
+                    fecthDirecciones(coberturaseleccionada);
+
+                } else if (coberturaseleccionada === "3") {
+                    fecthDirecciones(coberturaseleccionada);
+                } else if (coberturaseleccionada === "4") {
+                    fecthDirecciones(coberturaseleccionada);
+                }
+            };
+
+            function fecthDirecciones(listSelect) {
+                const conteinerListadoDirecciones = document.getElementById("listadoDirecciones");
+
+                fetch("../../../logic/regionescomplementariasajax.php", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            ruta: listSelect
+                        }),
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (!data || data.length === 0) {
+                            console.error("No se recibieron datos del servidor");
+                            return;
+                        }
+
+                        // Crear el select una sola vez
+                        const select = document.createElement("select");
+                        select.classList.add("form-select");
+                        select.name = "direccion";
+                        select.required = true;
+
+                        // Agregar opción por defecto
+                        const defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.textContent = "Seleccione una dirección";
+                        defaultOption.selected = true;
+                        select.appendChild(defaultOption);
+
+                        // Agregar las opciones del servidor
+                        data.forEach((direccion) => {
+                            const option = document.createElement("option");
+                            option.value = direccion.id || direccion.idregiones || "";
+                            option.textContent = direccion.tipoViaje || direccion.nombreLocal || direccion.tipodeviaje || direccion.empresa || direccion.zona || "";
+                            select.appendChild(option);
+                        });
+
+                        // Limpiar el contenedor y agregar el select
+                        conteinerListadoDirecciones.innerHTML = ""; // Limpia antes de agregar
+                        conteinerListadoDirecciones.appendChild(select);
+
+                        // Manejar el evento onchange
+                        select.onchange = function() {
+                            const objetoSeleccionado = data.find(dir => dir.id == this.value || dir.idregiones == this.value);
+                            console.log("Dirección seleccionada:", objetoSeleccionado);
+                            // Guardar en localStorage
+                            localStorage.setItem("direccionSeleccionada", JSON.stringify(objetoSeleccionado));
+                            inputnombre = document.getElementById("Direccionpickeada");
+
+                            if (!inputnombre) {
+                                // Crear el input solo si se selecciona algo
+                                inputnombre = document.createElement("input");
+                                inputnombre.type = "text";
+                                inputnombre.name = "nombre";
+                                inputnombre.id = "Direccionpickeada"
+                                inputnombre.value = objetoSeleccionado.direccion || objetoSeleccionado.tipodeviaje || objetoSeleccionado.zona; // Maneja null o undefined
+
+                                // Agregar el input al contenedor
+                                conteinerListadoDirecciones.appendChild(inputnombre);
+                            }
+                            // Actualizar el valor del input
+                            inputnombre.value = objetoSeleccionado.direccion || objetoSeleccionado.tipodeviaje || objetoSeleccionado.zona; // Maneja null o undefined
+                            console.log("Se seleccionó una nueva dirección.");
+                            procesarDatos();
+                        };
+                    })
+                    .catch((error) => console.error("Error:", error));
+            }
+
+
+            function camionseleccionado() {
+                const camionseleccionado = document.getElementById("camionselect").value;
+                console.log(camionseleccionado);
+                fetchCamiones(camionseleccionado);
+            }
+
+            function fetchCamiones(idCamion) {
+
+                fetch("../../../logic/camionporidajax.php", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            id: idCamion,
+
+                        }),
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+
+                        localStorage.setItem("camionseleccionado", JSON.stringify(data));
+
+                    })
+                    .catch((error) => console.error("Error:", error));
+            }
+
+            function procesarDatos() {
+                var camion = JSON.parse(localStorage.getItem("camionseleccionado"));
+                var direccion = JSON.parse(localStorage.getItem("direccionSeleccionada"));
+                const conteinerprecio = document.getElementById("precioEnvio");
+                var precio = 0;
+                console.log("camion:" + camion);
+                console.log("direccion:" + direccion);
+                console.log("camion cubicaje:" + camion[0].cubicajeCamion);
+                if (camion[0].cubicajeCamion === "30") {
+                    console.log("precio de 30:" + direccion.precio30)
+                    precio = direccion.precio30;
+                } else if (camion[0].cubicajeCamion === "50") {
+                    console.log("precio de 50:" + direccion.precio50)
+                    precio = direccion.precio50;
+                }
+                conteinerprecio.innerHTML = "";
+                const h1 = document.createElement("input");
+                h1.type = "text";
+                h1.name = "precio";
+                var sobrecargo = actualizarTotal();
+                h1.value = precio;
+                conteinerprecio.appendChild(h1);
+
+            }
+
+            function actualizarTotal() {
+                return document.getElementById("sobrecargo").value;
+            }
+            document.getElementById("sobrecargo").addEventListener("change", actualizarTotal);
         </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
