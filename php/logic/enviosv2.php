@@ -35,5 +35,14 @@ function listEnviosv2($con)
     return $gestores;
 }
 
+function sumTotales($con)
+{
+    $sql = "SELECT SUM(precio) as total FROM enviosv2";
+    $result = $con->query($sql);
+    $row = $result->fetch_assoc();
+    $total = $row['total'];
+    return $total;
+}
+
 
 ?>
