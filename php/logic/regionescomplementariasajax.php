@@ -29,6 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $rutas=obtenerDireccionesColchon($conexion);
                 echo  json_encode($rutas);
                 break;
+            case '8':  
+                $rutas=obtenerDireccionesEntregasTubopack($conexion);
+                echo  json_encode($rutas);
+                break;
         }
         // Llamar a la función con el parámetro recibido
         //$listaderegionescomplementarias = obtenerRegionesComplementariasfiltradas($conexion, $rutaseleccionada, $rutaseleccionadanombre);
