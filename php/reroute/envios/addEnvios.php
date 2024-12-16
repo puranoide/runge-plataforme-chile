@@ -1,10 +1,11 @@
 <?php
 include_once('../../config/conection.php');
 include_once('../../logic/enviosv2.php');
+/*
 echo"<pre>";
 print_r($_POST);
 echo"</pre>";
-
+*/
 if(!isset($_POST["nombreruta"]))
 {
 $_POST["nombreruta"] = "tubopack";
