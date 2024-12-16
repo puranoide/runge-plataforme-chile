@@ -1,8 +1,8 @@
 <?php 
 $servername = "localhost";
-$username = "root";
-$password = "";
-$database = "rungedatabasev3";
+$username = "u685818680_adminpurano";
+$password = "j6[Dy0p*S*";
+$database = "u685818680_rungeapp";
 $conexion = mysqli_connect($servername,$username,$password,$database);
 
 //header("location:../index");
