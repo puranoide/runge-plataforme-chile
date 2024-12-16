@@ -14,5 +14,5 @@ $envio=agregarEnviosV2($conexion,$_POST["codigoEnvio"],$_POST["conductorSeleccio
 
 echo '<script> alert("'.$envio.'");
                 window.location="../../views/admin/enviosviews/ViewEnvios.php";
-    </script>'
+    </script>';
 ?>
