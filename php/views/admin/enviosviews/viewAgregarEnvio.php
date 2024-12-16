@@ -284,6 +284,8 @@ $regiones = obtenerRegiones($conexion);
                
                 `
 
+                var formularioTubopack = ``;
+
                 conteinerRutas.innerHTML = ""; // Limpiar el formulario
                 if (clienteSeleccionado === "4") {
                     conteinerRutas.innerHTML = formularioCanontex;
@@ -293,6 +295,8 @@ $regiones = obtenerRegiones($conexion);
                     conteinerRutas.innerHTML = formularioAlicomer;
                 } else if (clienteSeleccionado === "6" || clienteSeleccionado === "7") {
                     conteinerRutas.innerHTML = formularionutriscocastaño;
+                }else if (clienteSeleccionado === "8"){
+                    fecthDirecciones("8");
                 } else {
                     console.warn("Cliente no identificado o no hay formulario disponible.");
                 }

@@ -624,6 +624,23 @@ function totalSaturdaysInMonth($month, $year)
 }
 
 
+function obtenerDireccionesEntregasTubopack($con){
+    $mensaje = "error al devolver las direcciones";
+    $direcciones = [];
+    $sqlconductores = "SELECT * FROM tubopack"; 
+    $resultConductores = $con->query($sqlconductores);
+
+    if ($resultConductores->num_rows > 0) {
+        while ($rowConductores = $resultConductores->fetch_assoc()) {
+            $direcciones[] = $rowConductores;
+        }
+    } else {
+        return $mensaje;
+    }
+
+    return $direcciones;
+}
+
 function obtenerDireccionesEntregasRm($con){
     $mensaje = "error al devolver las direcciones";
     $direcciones = [];
