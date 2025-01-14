@@ -352,7 +352,7 @@ $egresosAnualesTotales=$egresosanualesporenvio+$totalEgresosAnuales;
                 data: {
                     labels: ["ingresos", "egresos"],
                     datasets: [{
-                    data: [<?php echo $ingresosmensualesporenvios?>, <?php echo $egresosmensualesporenvios?>],
+                    data: [<?php echo $ingresosmensualesporenvios+$totaldeingresosmanualespormes?>, <?php echo $egresosmensualesporenvios+$totaldeegresosmanualespormes?>],
                     backgroundColor: ['#0ECB69', '#EC4B44'],
                     hoverBackgroundColor: ['#0ECB69', '#EC4B44'],
                     hoverBorderColor: "rgba(234, 236, 244, 1)",
