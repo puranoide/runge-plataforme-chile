@@ -9,11 +9,23 @@ include_once('../../logic//envios.php');
 $enviosdelmes=listarEnviosDelMesv2($conexion);
 $enviosdelAño=listarEnviosDelAñov2($conexion);
 
+$listadeingresosmanualesmensuales=ingresosMensuales($conexion);
+$listadeingresosmanualesanuales=ingresosanuales($conexion);
+
+$listadeegresosmanualesmensuales=egresosMensuales($conexion);
+$listadeegresosmanualesanuales=egresosanuales($conexion);
+
 $ingresosmensualesporenvios=sumatoriaIngresosPorenviov2($enviosdelmes);
 $ingresosanualesporenvios=sumatoriaIngresosPorenviov2($enviosdelAño);
 
+$totaldeingresosmanualespormes=sumatoriaIngresosManualesMensuales($listadeingresosmanualesmensuales);
+$totaldeingresosmanualesporaño=sumatoriaIngresosManualesAnuales($listadeingresosmanualesanuales);
+
 $egresosmensualesporenvios=sumatoriaEgresosPorenviov2($enviosdelmes);
 $egresosanualesporenvios=sumatoriaEgresosPorenviov2($enviosdelAño);
+
+$totaldeegresosmanualespormes=sumatoriaEgresosManualesMensuales($listadeegresosmanualesmensuales);
+$totaldeegresosmanualesporaño=sumatoriaEgresosManualesAnuales($listadeegresosmanualesanuales);
 //$egresosporbonos=sumatoriaegresosPorenvio($enviosdelmes);
 
 
@@ -111,7 +123,7 @@ $egresosAnualesTotales=$egresosanualesporenvio+$totalEgresosAnuales;
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Ingresos (Mensuales)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($ingresosmensualesporenvios);  ?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($ingresosmensualesporenvios+$totaldeingresosmanualespormes);  ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -129,7 +141,7 @@ $egresosAnualesTotales=$egresosanualesporenvio+$totalEgresosAnuales;
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Ingresos (anual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($ingresosanualesporenvios);?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($ingresosanualesporenvios+$totaldeingresosmanualesporaño);?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -147,7 +159,7 @@ $egresosAnualesTotales=$egresosanualesporenvio+$totalEgresosAnuales;
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                 Egresos (Mensual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($egresosmensualesporenvios);?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($egresosmensualesporenvios+$totaldeegresosmanualespormes);?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -164,7 +176,7 @@ $egresosAnualesTotales=$egresosanualesporenvio+$totalEgresosAnuales;
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                 Egresos (anual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($egresosanualesporenvios);?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($egresosanualesporenvios+$totaldeegresosmanualesporaño);?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -181,7 +193,7 @@ $egresosAnualesTotales=$egresosanualesporenvio+$totalEgresosAnuales;
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Utilidad (mensual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php $utilidadmensual=$ingresosmensualesporenvios-$egresosmensualesporenvios;echo number_format($utilidadmensual); ?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php $utilidadmensual=($ingresosmensualesporenvios+$totaldeingresosmanualespormes)-($egresosmensualesporenvios+$totaldeegresosmanualespormes);$ingresosmensualesporenvios-$egresosmensualesporenvios;echo number_format($utilidadmensual); ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
