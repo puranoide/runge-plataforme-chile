@@ -210,7 +210,7 @@ $egresosAnualesTotales=$egresosanualesporenvio+$totalEgresosAnuales;
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Utilidad (anual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php  $utilidadanual=$ingresosanualesporenvios-$egresosanualesporenvios;echo number_format($utilidadanual);?></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php  $utilidadanual=($ingresosanualesporenvios-$egresosanualesporenvios)+($totaldeingresosmanualesporaño-$totaldeegresosmanualesporaño);echo number_format($utilidadanual);?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
